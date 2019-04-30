@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://robin:aaA2pR4ndbY534fm@devconnector-q1nbm.mongodb.net/test?retryWrites=true",
+  "jwtSecret": ".}FA$Q(Q[rMb7$qt",
+  "githubClientId": "",
+  "githubSecret": ""
+}
