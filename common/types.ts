@@ -16,7 +16,7 @@ export interface TokenPayload {
 }
 export interface AuthRequest extends Request, TokenPayload {}
 
-export interface Profile {
+export interface ProfileSchema {
   userID: string
   company?: string
   website?: string
