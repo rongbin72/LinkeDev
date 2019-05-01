@@ -4,7 +4,7 @@ import { ProfileType } from '../common/types'
 export default mongoose.model<ProfileType & mongoose.Document>(
   'profile',
   new mongoose.Schema({
-    userID: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
     company: { type: String },
     website: { type: String },
     location: { type: String },

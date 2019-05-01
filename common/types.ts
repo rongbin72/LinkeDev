@@ -1,7 +1,7 @@
 import { Document } from 'mongoose'
 import { Request } from 'express'
 
-export interface UserModel extends Document {
+export interface UserType extends Document {
   name: string
   email: string
   password: string
@@ -17,7 +17,7 @@ export interface TokenPayload {
 export interface AuthRequest extends Request, TokenPayload {}
 
 export interface ProfileType {
-  userID: string
+  user: string
   company?: string
   website?: string
   location?: string
