@@ -9,14 +9,13 @@ const router = express.Router()
 
 /**
  * @route GET api/profile/me
- * @description Get current user's profile
+ * @description Get current user's
  * @access Private
  */
 router.get('/me', auth, async (req: AuthRequest, res) => {
   try {
-    const profile = await Profile.findOne({ userID: req.user!.id }).populate('user', [
-      'name, avatar'
-    ])
+    const user = req.user!.id
+    const profile = await Profile.findOne({ user }).populate('user', ['name', 'avatar'])
     if (!profile) return res.status(400).json({ msg: 'No profile for this user' })
     res.json(profile)
   } catch (err) {
@@ -43,7 +42,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() })
     }
 
-    const userID: string = req.user!.id
+    const user: string = req.user!.id
     const {
       company,
       website,
@@ -60,7 +59,7 @@ router.post(
     } = req.body
 
     // Fill profile field
-    const profileFields: ProfileType = { userID, website }
+    const profileFields: ProfileType = { user }
     if (company) profileFields.company = company
     if (website) profileFields.website = website
     if (location) profileFields.location = location
@@ -78,10 +77,10 @@ router.post(
     if (instagram) profileFields.social.instagram = instagram
 
     try {
-      let profile = await Profile.findOne({ userID })
+      let profile = await Profile.findOne({ user })
       if (profile) {
         // Update profile
-        profile = await Profile.findOneAndUpdate({ userID }, { $set: profileFields }, { new: true })
+        profile = await Profile.findOneAndUpdate({ user }, { $set: profileFields }, { new: true })
         return res.json(profile)
       }
 
@@ -95,5 +94,11 @@ router.post(
     }
   }
 )
+
+/**
+ * @route GET api/profile
+ * @description Get all profiles
+ * @access Public
+ */
 
 export default router
