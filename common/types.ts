@@ -25,8 +25,8 @@ export interface ProfileType {
   skills?: string[]
   bio?: string
   githubusername?: string
-  experience?: Experience
-  education?: Education
+  experience?: Experience[]
+  education?: Education[]
   social?: Social
   data?: string
 }
