@@ -2,7 +2,7 @@ import express from 'express'
 import Profile from '../../models/Profile'
 import auth from '../../middleware/auth'
 import User from '../../models/User'
-import { AuthRequest, ProfileFields } from '../../common/types'
+import { AuthRequest, ProfileType } from '../../common/types'
 import { check, validationResult } from 'express-validator/check'
 
 const router = express.Router()
@@ -60,7 +60,7 @@ router.post(
     } = req.body
 
     // Fill profile field
-    const profileFields: ProfileFields = { userID, website }
+    const profileFields: ProfileType = { userID, website }
     if (company) profileFields.company = company
     if (website) profileFields.website = website
     if (location) profileFields.location = location
@@ -70,6 +70,7 @@ router.post(
     if (skills) profileFields.skills = skills.split(',').map((skill: string) => skill.trim())
 
     // Fill social field
+    profileFields.social = {}
     if (youtube) profileFields.social.youtube = youtube
     if (twitter) profileFields.social.twitter = twitter
     if (facebook) profileFields.social.facebook = facebook
@@ -79,15 +80,18 @@ router.post(
     try {
       let profile = await Profile.findOne({ userID })
       if (profile) {
+        // Update profile
         profile = await Profile.findOneAndUpdate({ userID }, { $set: profileFields }, { new: true })
         return res.json(profile)
       }
 
       // Create profile
       profile = new Profile(profileFields)
+      await profile.save()
+      return res.json(profile)
     } catch (err) {
       console.error(err.message)
-      res.status(500).json('Server Error')
+      return res.status(500).json('Server Error')
     }
   }
 )
