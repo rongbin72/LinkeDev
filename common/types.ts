@@ -15,3 +15,46 @@ export interface TokenPayload {
   }
 }
 export interface AuthRequest extends Request, TokenPayload {}
+
+export interface Profile {
+  userID: string
+  company?: string
+  website?: string
+  location?: string
+  status?: string
+  skills?: string[]
+  bio?: string
+  githubusername?: string
+  experience?: Experience
+  education?: Education
+  social?: Social
+  data?: string
+}
+
+interface Experience {
+  title?: string
+  company?: string
+  location?: string
+  from?: string
+  to?: string
+  current?: string
+  description?: string
+}
+
+interface Education {
+  school?: string
+  degree?: string
+  fieldofstudy?: string
+  from?: string
+  to?: string
+  current?: string
+  description?: string
+}
+
+interface Social {
+  youtube?: string
+  twitter?: string
+  facebook?: string
+  linkedin?: string
+  instagram?: string
+}
