@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import { Profile } from '../common/types'
+import { ProfileType } from '../common/types'
 
-export default mongoose.model<Profile & mongoose.Document>(
+export default mongoose.model<ProfileType & mongoose.Document>(
   'profile',
   new mongoose.Schema({
     userID: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
