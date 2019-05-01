@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-import { UserModel } from '../common/types'
+import { UserType } from '../common/types'
 
-const User = mongoose.model<UserModel>(
+const User = mongoose.model<UserType>(
   'user',
   new mongoose.Schema({
     name: {
