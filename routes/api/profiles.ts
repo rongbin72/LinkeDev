@@ -2,7 +2,7 @@ import express from 'express'
 import Profile from '../../models/Profile'
 import auth from '../../middleware/auth'
 import User from '../../models/User'
-import { AuthRequest, ProfileType, Experience } from '../../common/types'
+import { AuthRequest, ProfileType, Experience, Education } from '../../common/types'
 import { check, validationResult } from 'express-validator/check'
 import mongoose from 'mongoose'
 
@@ -183,5 +183,24 @@ router.put(
     }
   }
 )
+
+/**
+ * @route DELETE api/profile/experience/:exp_id
+ * @description Delete experience from profile
+ * @access Private
+ */
+router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
+  const exp_id: string = req.params.exp_id
+  const user_id: string = req.user!.id
+  try {
+    const profile = await Profile.findOne({ user: user_id })
+    profile!.experience = profile!.experience!.filter(exp => exp._id != exp_id)
+    await profile!.save()
+    return res.json({ msg: 'Experience Deleted' })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json('Server Error')
+  }
+})
 
 export default router
