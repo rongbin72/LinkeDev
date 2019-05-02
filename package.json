@@ -14,14 +14,14 @@
   "author": "Bin Rong",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "config": "^3.1.0",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.5.1",
-    "request": "^2.88.0"
+    "mongoose": "^5.5.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
