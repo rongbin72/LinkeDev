@@ -66,10 +66,10 @@ router.get('/:post_id', auth, async (req, res) => {
   try {
     const post_id: string = req.params.post_id
     if (!mongoose.Types.ObjectId.isValid(post_id))
-      return res.status(500).json({ msg: 'post not Found' })
+      return res.status(404).json({ msg: 'post not Found' })
 
     const post = await Post.findById(post_id)
-    if (!post) return res.status(500).json({ msg: 'post not Found' })
+    if (!post) return res.status(404).json({ msg: 'post not Found' })
 
     return res.json(post)
   } catch (err) {
@@ -83,17 +83,21 @@ router.get('/:post_id', auth, async (req, res) => {
  * @description Delete post by id
  * @access private
  */
-router.get('/:post_id', auth, async (req: AuthRequest, res) => {
+router.delete('/:post_id', auth, async (req: AuthRequest, res) => {
   const user_id = req.user!.id
   const post_id: string = req.params.post_id
   try {
+    // check post_id
     if (!mongoose.Types.ObjectId.isValid(post_id))
-      return res.status(500).json({ msg: 'post not Found' })
+      return res.status(404).json({ msg: 'post not Found' })
 
     const post = await Post.findById(post_id)
-    if (!post) return res.status(500).json({ msg: 'post not Found' })
-    if (post.user !== user_id) return res.status(401).json({ msg: 'User Unauthorized' })
+    // check post and whether the post bel;ong to this user
+    if (!post) return res.status(404).json({ msg: 'post not Found' })
 
+    if (post.user.toString() !== user_id) return res.status(401).json({ msg: 'User Unauthorized' })
+
+    await post.remove()
     return res.json({ msg: 'post deleted' })
   } catch (err) {
     console.error(err)
