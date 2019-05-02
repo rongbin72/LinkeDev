@@ -10,9 +10,7 @@ export interface UserType extends Document {
 }
 
 export interface TokenPayload {
-  user?: {
-    id: string
-  }
+  user?: { id: string }
 }
 export interface AuthRequest extends Request, TokenPayload {}
 
@@ -59,4 +57,26 @@ interface Social {
   facebook?: string
   linkedin?: string
   instagram?: string
+}
+
+export interface PostType {
+  user: string
+  text?: string
+  name?: string
+  avatar?: string
+  likes?: LikeType[]
+  comments?: CommentType[]
+  date?: string
+}
+
+interface LikeType {
+  user: string
+}
+
+interface CommentType {
+  user: string
+  text: string
+  name: string
+  avatar: string
+  date: string
 }
