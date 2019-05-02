@@ -1,4 +1,4 @@
-import { Document } from 'mongoose'
+import { Document, Schema } from 'mongoose'
 import { Request } from 'express'
 
 export interface UserType extends Document {
@@ -10,12 +10,12 @@ export interface UserType extends Document {
 }
 
 export interface TokenPayload {
-  user?: { id: string }
+  user?: { id: Schema.Types.ObjectId }
 }
 export interface AuthRequest extends Request, TokenPayload {}
 
 export interface ProfileType {
-  user: string
+  user: Schema.Types.ObjectId
   company?: string
   website?: string
   location?: string
@@ -60,7 +60,7 @@ interface Social {
 }
 
 export interface PostType {
-  user: string
+  user: Schema.Types.ObjectId
   text?: string
   name?: string
   avatar?: string
@@ -70,11 +70,11 @@ export interface PostType {
 }
 
 interface LikeType {
-  user: string
+  user: Schema.Types.ObjectId
 }
 
 interface CommentType {
-  user: string
+  user: Schema.Types.ObjectId
   text: string
   name: string
   avatar: string
