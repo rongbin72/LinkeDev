@@ -10,12 +10,12 @@ export interface UserType extends Document {
 }
 
 export interface TokenPayload {
-  user?: { id: Schema.Types.ObjectId }
+  user?: { id: string }
 }
 export interface AuthRequest extends Request, TokenPayload {}
 
 export interface ProfileType {
-  user: Schema.Types.ObjectId
+  user: string
   company?: string
   website?: string
   location?: string
@@ -60,7 +60,7 @@ interface Social {
 }
 
 export interface PostType {
-  user: Schema.Types.ObjectId
+  user: string
   text?: string
   name?: string
   avatar?: string
@@ -70,11 +70,11 @@ export interface PostType {
 }
 
 interface LikeType {
-  user: Schema.Types.ObjectId
+  user: string
 }
 
 interface CommentType {
-  user: Schema.Types.ObjectId
+  user: string
   text: string
   name: string
   avatar: string
