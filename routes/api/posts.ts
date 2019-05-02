@@ -6,8 +6,6 @@ import Post from '../../models/Post'
 import { check, validationResult } from 'express-validator/check'
 import mongoose from 'mongoose'
 import { AuthRequest, PostType } from '../../common/types'
-import { UV_UDP_REUSEADDR } from 'constants'
-import { posix } from 'path'
 
 const router = express.Router()
 
@@ -98,7 +96,35 @@ router.delete('/:post_id', auth, async (req: AuthRequest, res) => {
     if (post.user.toString() !== user_id) return res.status(401).json({ msg: 'User Unauthorized' })
 
     await post.remove()
-    return res.json({ msg: 'post deleted' })
+    return res.json({ msg: 'post Deleted' })
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json('Server Error')
+  }
+})
+
+/**
+ * @route PUT api/posts/like/:post_id
+ * @description Like a post
+ * @access private
+ */
+router.put('/like/:post_id', auth, async (req: AuthRequest, res) => {
+  const post_id: string = req.params.post_id
+  const user_id = req.user!.id
+  try {
+    // check post_id and post existence
+    if (!mongoose.Types.ObjectId.isValid(post_id))
+      return res.status(404).json({ msg: 'post not Found' })
+    const post = await Post.findById(post_id)
+    if (!post) return res.status(404).json({ msg: 'post not Found' })
+    // check if user already liked this post
+    if (post.likes!.find(like => like.user.toString() === user_id))
+      return res.status(400).json({ msg: 'post Already Liked' })
+
+    post.likes!.unshift({ user: user_id })
+    await post.save()
+
+    return res.json(post.likes)
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
