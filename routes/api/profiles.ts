@@ -4,6 +4,7 @@ import auth from '../../middleware/auth'
 import User from '../../models/User'
 import { AuthRequest, ProfileType } from '../../common/types'
 import { check, validationResult } from 'express-validator/check'
+import mongoose from 'mongoose'
 
 const router = express.Router()
 
@@ -100,5 +101,55 @@ router.post(
  * @description Get all profiles
  * @access Public
  */
+router.get('/', async (req, res) => {
+  try {
+    const profiles = await Profile.find().populate('user', ['name', 'avatar'])
+    return res.json(profiles)
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json('Server Error')
+  }
+})
+
+/**
+ * @route GET api/profile/user/:user_id
+ * @description Get profile by user id
+ * @access Public
+ */
+router.get('/user/:user_id', async (req, res) => {
+  try {
+    const user: string = req.params.user_id
+    // check is the input id is valid
+    if (!mongoose.Types.ObjectId.isValid(user))
+      return res.status(400).json({ msg: 'Profile not Found' })
+
+    const profile = await Profile.findOne({ user }).populate('user', ['name', 'avatar'])
+
+    return profile ? res.json(profile) : res.status(400).json({ msg: 'Profile not Found' })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json('Server Error')
+  }
+})
+
+/**
+ * @route DELETE api/profile
+ * @description Delete user profile posts
+ * @access Private
+ */
+router.delete('/', auth, async (req: AuthRequest, res) => {
+  try {
+    const user = req.user!.id
+    // Remove Profile
+    await Profile.findOneAndDelete({ user })
+    // Remove User
+    await User.findOneAndDelete({ _id: user })
+
+    return res.json({ msg: 'User Deleted' })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json('Server Error')
+  }
+})
 
 export default router
