@@ -131,4 +131,31 @@ router.put('/like/:post_id', auth, async (req: AuthRequest, res) => {
   }
 })
 
+/**
+ * @route DELETE api/posts/like/:post_id
+ * @description unlike a post
+ * @access private
+ */
+router.delete('/like/:post_id', auth, async (req: AuthRequest, res) => {
+  const post_id: string = req.params.post_id
+  const user_id = req.user!.id
+  try {
+    // check post_id and post existence
+    if (!mongoose.Types.ObjectId.isValid(post_id))
+      return res.status(404).json({ msg: 'post not Found' })
+    const post = await Post.findById(post_id)
+    if (!post) return res.status(404).json({ msg: 'post not Found' })
+    // check if user has not liked this post
+    if (!post.likes!.find(like => like.user.toString() === user_id))
+      return res.status(400).json({ msg: 'post has not been liked' })
+
+    post.likes = post.likes!.filter(like => like.user.toString() !== user_id)
+    await post.save()
+
+    return res.json(post.likes)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json('Server Error')
+  }
+})
 export default router
