@@ -11,7 +11,7 @@ import { UV_UDP_REUSEADDR } from 'constants'
 const router = express.Router()
 
 /**
- * @route post api/posts
+ * @route POST api/posts
  * @description Create a post
  * @access private
  */
@@ -35,10 +35,25 @@ router.post(
       await post.save()
       res.json(post)
     } catch (err) {
-      console.error(err.message)
+      console.error(err)
       return res.status(500).json('Server Error')
     }
   }
 )
+
+/**
+ * @route GET api/posts
+ * @description Get all posts
+ * @access private
+ */
+router.get('/', auth, async (_, res) => {
+  try {
+    const posts = await Post.find().sort({ date: -1 })
+    return res.json(posts)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json('Server Error')
+  }
+})
 
 export default router
