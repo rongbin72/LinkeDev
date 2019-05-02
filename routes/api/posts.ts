@@ -7,6 +7,7 @@ import { check, validationResult } from 'express-validator/check'
 import mongoose from 'mongoose'
 import { AuthRequest, PostType } from '../../common/types'
 import { UV_UDP_REUSEADDR } from 'constants'
+import { posix } from 'path'
 
 const router = express.Router()
 
@@ -50,6 +51,27 @@ router.get('/', auth, async (_, res) => {
   try {
     const posts = await Post.find().sort({ date: -1 })
     return res.json(posts)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json('Server Error')
+  }
+})
+
+/**
+ * @route GET api/posts/:post_id
+ * @description Get post by id
+ * @access private
+ */
+router.get('/:post_id', auth, async (req, res) => {
+  try {
+    const post_id: string = req.params.post_id
+    if (!mongoose.Types.ObjectId.isValid(post_id))
+      return res.status(500).json({ msg: 'post not Found' })
+
+    const post = await Post.findById(post_id)
+    if (!post) return res.status(500).json({ msg: 'post not Found' })
+
+    return res.json(post)
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
