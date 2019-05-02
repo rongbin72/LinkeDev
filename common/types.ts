@@ -70,10 +70,12 @@ export interface PostType {
 }
 
 interface LikeType {
+  _id?: string
   user: string
 }
 
 interface CommentType {
+  _id?: string
   user: string
   text: string
   name: string
