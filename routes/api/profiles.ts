@@ -45,7 +45,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() })
     }
 
-    const user: string = req.user!.id
+    const user = req.user!.id
     const {
       company,
       website,
@@ -171,7 +171,7 @@ router.put(
     const errors = validationResult(req)
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
 
-    const user: string = req.user!.id
+    const user = req.user!.id
     const exp: Experience = req.body
     try {
       const profile = await Profile.findOne({ user })
@@ -194,7 +194,7 @@ router.put(
  */
 router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
   const exp_id: string = req.params.exp_id
-  const user_id: string = req.user!.id
+  const user_id = req.user!.id
   try {
     const profile = await Profile.findOne({ user: user_id })
     if (!profile) return res.json({ msg: 'Profile not Found' })
@@ -225,7 +225,7 @@ router.put(
     const errors = validationResult(req)
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
 
-    const user: string = req.user!.id
+    const user = req.user!.id
     const edu: Education = req.body
     try {
       const profile = await Profile.findOne({ user })
@@ -248,7 +248,7 @@ router.put(
  */
 router.delete('/education/:edu_id', auth, async (req: AuthRequest, res) => {
   const edu_id: string = req.params.edu_id
-  const user_id: string = req.user!.id
+  const user_id = req.user!.id
   try {
     const profile = await Profile.findOne({ user: user_id })
     if (!profile) return res.json({ msg: 'Profile not Found' })

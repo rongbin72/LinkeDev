@@ -24,7 +24,7 @@ router.post(
     const errors = validationResult(req)
     if (!errors.isEmpty()) return res.status(400).json(errors.array())
 
-    const user_id: string = req.user!.id
+    const user_id = req.user!.id
     try {
       const user = await User.findById(user_id).select('-password')
       const post = new Post({
@@ -72,6 +72,29 @@ router.get('/:post_id', auth, async (req, res) => {
     if (!post) return res.status(500).json({ msg: 'post not Found' })
 
     return res.json(post)
+  } catch (err) {
+    console.error(err)
+    return res.status(500).json('Server Error')
+  }
+})
+
+/**
+ * @route DELETE api/posts/:post_id
+ * @description Delete post by id
+ * @access private
+ */
+router.get('/:post_id', auth, async (req: AuthRequest, res) => {
+  const user_id = req.user!.id
+  const post_id: string = req.params.post_id
+  try {
+    if (!mongoose.Types.ObjectId.isValid(post_id))
+      return res.status(500).json({ msg: 'post not Found' })
+
+    const post = await Post.findById(post_id)
+    if (!post) return res.status(500).json({ msg: 'post not Found' })
+    if (post.user !== user_id) return res.status(401).json({ msg: 'User Unauthorized' })
+
+    return res.json({ msg: 'post deleted' })
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
