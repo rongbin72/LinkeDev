@@ -32,6 +32,7 @@ export interface ProfileType {
 }
 
 export interface Experience {
+  _id?: string
   title?: string
   company?: string
   location?: string
@@ -41,7 +42,8 @@ export interface Experience {
   description?: string
 }
 
-interface Education {
+export interface Education {
+  _id?: string
   school?: string
   degree?: string
   fieldofstudy?: string
