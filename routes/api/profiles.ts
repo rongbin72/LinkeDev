@@ -5,6 +5,8 @@ import User from '../../models/User'
 import { AuthRequest, ProfileType, Experience, Education } from '../../common/types'
 import { check, validationResult } from 'express-validator/check'
 import mongoose from 'mongoose'
+import axios from 'axios'
+import config from 'config'
 
 const router = express.Router()
 
@@ -258,4 +260,27 @@ router.delete('/education/:edu_id', auth, async (req: AuthRequest, res) => {
     return res.status(500).json('Server Error')
   }
 })
+
+/**
+ * @route GET api/profile/github/:username
+ * @description Get user repo from profile
+ * @access Public
+ */
+router.get('/github/:username', async (req, res) => {
+  const url = `https://api.github.com/users/${
+    req.params.username
+  }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+    'githubClientId'
+  )}&client_secret=${config.get('githubSecret')}`
+  try {
+    const response = await axios.get(url, { headers: { 'user-agent': 'node.js' } })
+    if (response.status != 200) return res.status(404).json({ msg: 'Github Profile not Found' })
+
+    return res.json(response.data)
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json('Server Error')
+  }
+})
+
 export default router
