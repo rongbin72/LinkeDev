@@ -173,8 +173,9 @@ router.put(
     const exp: Experience = req.body
     try {
       const profile = await Profile.findOne({ user })
-      profile!.experience!.unshift(exp)
-      await profile!.save()
+      if (!profile) return res.json({ msg: 'Profile not Found' })
+      profile.experience!.unshift(exp)
+      await profile.save()
 
       return res.json(profile)
     } catch (err) {
@@ -194,8 +195,9 @@ router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
   const user_id: string = req.user!.id
   try {
     const profile = await Profile.findOne({ user: user_id })
-    profile!.experience = profile!.experience!.filter(exp => exp._id != exp_id)
-    await profile!.save()
+    if (!profile) return res.json({ msg: 'Profile not Found' })
+    profile.experience = profile.experience!.filter(exp => exp._id != exp_id)
+    await profile.save()
     return res.json({ msg: 'Experience Deleted' })
   } catch (err) {
     console.error(err.message)
@@ -203,4 +205,57 @@ router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
   }
 })
 
+/**
+ * @route PUT api/profile/education
+ * @description Add education to profile
+ * @access Private
+ */
+router.put(
+  '/education',
+  auth,
+  [
+    check('school', 'school is Required').exists({ checkFalsy: true }),
+    check('degree', 'degree is Required').exists({ checkFalsy: true }),
+    check('fieldofstudy', 'fieldofstudy is Required').exists({ checkFalsy: true }),
+    check('from', 'from is Required').exists({ checkFalsy: true })
+  ],
+  async (req: AuthRequest, res: express.Response) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+    const user: string = req.user!.id
+    const edu: Education = req.body
+    try {
+      const profile = await Profile.findOne({ user })
+      if (!profile) return res.json({ msg: 'Profile not Found' })
+      profile.education!.unshift(edu)
+      await profile.save()
+
+      return res.json(profile)
+    } catch (err) {
+      console.error(err.message)
+      return res.status(500).json('Server Error')
+    }
+  }
+)
+
+/**
+ * @route DELETE api/profile/education/:edu_id
+ * @description Delete education from profile
+ * @access Private
+ */
+router.delete('/education/:edu_id', auth, async (req: AuthRequest, res) => {
+  const edu_id: string = req.params.edu_id
+  const user_id: string = req.user!.id
+  try {
+    const profile = await Profile.findOne({ user: user_id })
+    if (!profile) return res.json({ msg: 'Profile not Found' })
+    profile.education = profile.education!.filter(edu => edu._id != edu_id)
+    await profile.save()
+    return res.json({ msg: 'Education Deleted' })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json('Server Error')
+  }
+})
 export default router
