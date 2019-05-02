@@ -2,7 +2,7 @@ import express from 'express'
 import Profile from '../../models/Profile'
 import auth from '../../middleware/auth'
 import User from '../../models/User'
-import { AuthRequest, ProfileType } from '../../common/types'
+import { AuthRequest, ProfileType, Experience } from '../../common/types'
 import { check, validationResult } from 'express-validator/check'
 import mongoose from 'mongoose'
 
@@ -151,5 +151,37 @@ router.delete('/', auth, async (req: AuthRequest, res) => {
     return res.status(500).json('Server Error')
   }
 })
+
+/**
+ * @route PUT api/profile/experience
+ * @description Add experience to profile
+ * @access Private
+ */
+router.put(
+  '/experience',
+  auth,
+  [
+    check('title', 'title is Required').exists({ checkFalsy: true }),
+    check('company', 'company is Required').exists({ checkFalsy: true }),
+    check('from', 'from is Required').exists({ checkFalsy: true })
+  ],
+  async (req: AuthRequest, res: express.Response) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+
+    const user: string = req.user!.id
+    const exp: Experience = req.body
+    try {
+      const profile = await Profile.findOne({ user })
+      profile!.experience!.unshift(exp)
+      await profile!.save()
+
+      return res.json(profile)
+    } catch (err) {
+      console.error(err.message)
+      return res.status(500).json('Server Error')
+    }
+  }
+)
 
 export default router
