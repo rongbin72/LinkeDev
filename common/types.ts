@@ -31,7 +31,7 @@ export interface ProfileType {
   data?: string
 }
 
-interface Experience {
+export interface Experience {
   title?: string
   company?: string
   location?: string
