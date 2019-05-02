@@ -92,7 +92,7 @@ router.post(
       await profile.save()
       return res.json(profile)
     } catch (err) {
-      console.error(err.message)
+      console.error(err)
       return res.status(500).json('Server Error')
     }
   }
@@ -108,7 +108,7 @@ router.get('/', async (req, res) => {
     const profiles = await Profile.find().populate('user', ['name', 'avatar'])
     return res.json(profiles)
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
     return res.status(500).json('Server Error')
   }
 })
@@ -129,7 +129,7 @@ router.get('/user/:user_id', async (req, res) => {
 
     return profile ? res.json(profile) : res.status(400).json({ msg: 'Profile not Found' })
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
     return res.status(500).json('Server Error')
   }
 })
@@ -149,7 +149,7 @@ router.delete('/', auth, async (req: AuthRequest, res) => {
 
     return res.json({ msg: 'User Deleted' })
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
     return res.status(500).json('Server Error')
   }
 })
@@ -181,7 +181,7 @@ router.put(
 
       return res.json(profile)
     } catch (err) {
-      console.error(err.message)
+      console.error(err)
       return res.status(500).json('Server Error')
     }
   }
@@ -202,7 +202,7 @@ router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
     await profile.save()
     return res.json({ msg: 'Experience Deleted' })
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
     return res.status(500).json('Server Error')
   }
 })
@@ -235,7 +235,7 @@ router.put(
 
       return res.json(profile)
     } catch (err) {
-      console.error(err.message)
+      console.error(err)
       return res.status(500).json('Server Error')
     }
   }
@@ -256,7 +256,7 @@ router.delete('/education/:edu_id', auth, async (req: AuthRequest, res) => {
     await profile.save()
     return res.json({ msg: 'Education Deleted' })
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
     return res.status(500).json('Server Error')
   }
 })
@@ -278,7 +278,7 @@ router.get('/github/:username', async (req, res) => {
 
     return res.json(response.data)
   } catch (err) {
-    console.error(err.message)
+    console.error(err)
     return res.status(500).json('Server Error')
   }
 })
