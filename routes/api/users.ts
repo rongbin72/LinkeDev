@@ -1,11 +1,11 @@
-import express, { Response, Request } from 'express'
-import { check, validationResult } from 'express-validator/check'
-import User from '../../models/User'
-import gravatar from 'gravatar'
-import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
-import config from 'config'
-import { TokenPayload } from '../../common/types'
+import bcrypt from 'bcryptjs';
+import config from 'config';
+import express, { Request, Response } from 'express';
+import { check, validationResult } from 'express-validator/check';
+import gravatar from 'gravatar';
+import jwt from 'jsonwebtoken';
+import { TokenPayload } from '../../common/types';
+import User from '../../models/User';
 
 const router = express.Router()
 

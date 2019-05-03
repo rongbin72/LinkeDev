@@ -1,5 +1,5 @@
-import { Document, Schema } from 'mongoose'
-import { Request } from 'express'
+import { Request } from 'express';
+import { Document } from 'mongoose';
 
 export interface UserType extends Document {
   name: string

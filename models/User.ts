@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import { UserType } from '../common/types'
+import mongoose from 'mongoose';
+import { UserType } from '../common/types';
 
 const User = mongoose.model<UserType>(
   'user',

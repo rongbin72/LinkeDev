@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken'
-import config from 'config'
-import { Request, Response, NextFunction } from 'express'
-import { TokenPayload, AuthRequest } from '../common/types'
+import config from 'config';
+import { NextFunction, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { AuthRequest, TokenPayload } from '../common/types';
 
 export default function(req: AuthRequest, res: Response, next: NextFunction) {
   // get token from header

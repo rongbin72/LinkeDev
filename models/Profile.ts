@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-import { ProfileType } from '../common/types'
+import mongoose from 'mongoose';
+import { ProfileType } from '../common/types';
 
 export default mongoose.model<ProfileType & mongoose.Document>(
   'profile',

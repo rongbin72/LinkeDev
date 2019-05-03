@@ -1,5 +1,5 @@
-import mongoose, { Schema } from 'mongoose'
-import { PostType } from '../common/types'
+import mongoose, { Schema } from 'mongoose';
+import { PostType } from '../common/types';
 
 export default mongoose.model<PostType & mongoose.Document>(
   'post',

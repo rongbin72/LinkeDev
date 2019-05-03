@@ -1,11 +1,11 @@
-import express, { Response } from 'express'
-import auth from '../../middleware/auth'
-import User from '../../models/User'
-import { AuthRequest, TokenPayload } from '../../common/types'
-import jwt from 'jsonwebtoken'
-import { check, validationResult } from 'express-validator/check'
-import config from 'config'
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
+import config from 'config';
+import express, { Response } from 'express';
+import { check, validationResult } from 'express-validator/check';
+import jwt from 'jsonwebtoken';
+import { AuthRequest, TokenPayload } from '../../common/types';
+import auth from '../../middleware/auth';
+import User from '../../models/User';
 
 const router = express.Router()
 

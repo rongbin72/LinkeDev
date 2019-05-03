@@ -1,12 +1,12 @@
-import express from 'express'
-import Profile from '../../models/Profile'
-import auth from '../../middleware/auth'
-import User from '../../models/User'
-import { AuthRequest, ProfileType, Experience, Education } from '../../common/types'
-import { check, validationResult } from 'express-validator/check'
-import mongoose from 'mongoose'
-import axios from 'axios'
-import config from 'config'
+import axios from 'axios';
+import config from 'config';
+import express from 'express';
+import { check, validationResult } from 'express-validator/check';
+import mongoose from 'mongoose';
+import { AuthRequest, Education, Experience, ProfileType } from '../../common/types';
+import auth from '../../middleware/auth';
+import Profile from '../../models/Profile';
+import User from '../../models/User';
 
 const router = express.Router()
 
