@@ -43,6 +43,7 @@
   },
   "proxy": "http://localhost:5000",
   "devDependencies": {
+    "@types/react-redux": "^7.0.8",
     "@types/react-router-dom": "^4.3.2"
   }
 }
