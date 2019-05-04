@@ -1,6 +1,5 @@
+import { AlertAction, AlertState } from '../../common/types'
 import { Alert } from '../actions/types'
-import { AlertState, AlertAction, StoreState } from '../../common/types'
-import { AnyAction } from 'redux'
 
 const initialState: AlertState = []
 export default function(state = initialState, action: AlertAction): AlertState {

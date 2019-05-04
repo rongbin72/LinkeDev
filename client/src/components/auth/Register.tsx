@@ -15,7 +15,7 @@ const Register: React.FC<RegisterProps> = ({ setAlert }) => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (password !== password2) setAlert('Passwords do not match', 'danger')
-    else console.log('success')
+    else console.log('Register Success')
   }
   return (
     <>

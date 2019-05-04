@@ -1,7 +1,7 @@
-import { Action } from 'redux'
+import { Action, ActionCreator } from 'redux'
+import { ThunkAction, ThunkDispatch } from 'redux-thunk'
 import { Alert } from '../src/actions/types'
 import { setAlert } from '../src/actions/alert'
-import { ThunkAction } from 'redux-thunk'
 
 interface AlertPayload {
   msg?: string
@@ -19,15 +19,16 @@ export interface RegisterProps {
 }
 
 export interface AlertProps {
-  alerts: AlertState
+  alerts?: AlertState
 }
 
 export type SetAlertAction = (
   msg: string,
-  alertType: string
-) => ThunkAction<any, AlertState, null, AlertAction>
+  alertType: string,
+  timeout?: number
+) => ThunkAction<void, AlertState, null, AlertAction> | void
 
 export interface StoreState {
-  alert: AlertState
+  alert?: AlertState
 }
 export type Actions = AlertAction
