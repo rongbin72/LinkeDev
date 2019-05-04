@@ -1,15 +1,20 @@
 import React, { useState } from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { setAlert } from '../../actions/alert'
+import { RegisterProps } from '../../../common/types'
 
-const Register: React.FC = () => {
+const Register: React.FC<RegisterProps> = ({ setAlert }) => {
   // TODO define RegisterForm for useState<RegisterForm>
   const [formData, setFormData] = useState({ name: '', email: '', password: '', password2: '' })
   const { name, email, password, password2 } = formData
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (password !== password2) console.log('passwords do not match')
+    if (password !== password2) setAlert('Passwords do not match', 'danger')
     else console.log('success')
   }
   return (
@@ -72,4 +77,7 @@ const Register: React.FC = () => {
   )
 }
 
-export default Register
+export default connect(
+  null,
+  { setAlert }
+)(Register)
