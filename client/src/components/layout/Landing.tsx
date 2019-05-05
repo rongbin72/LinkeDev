@@ -1,8 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { StoreState } from '../../../common/types'
 
-const Landing: React.FC = () => {
-  return (
+const Landing: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
+  return isAuth ? (
+    <Redirect to='/dashboard' />
+  ) : (
     <section className='landing'>
       <div className='dark-overlay'>
         <div className='landing-inner'>
@@ -24,4 +28,8 @@ const Landing: React.FC = () => {
   )
 }
 
-export default Landing
+const mapStateToProps = (state: StoreState) => ({
+  isAuth: state.auth!.isAuth
+})
+
+export default connect(mapStateToProps)(Landing)
