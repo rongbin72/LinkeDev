@@ -27,6 +27,13 @@ export default function(
         error: payload.error,
         loading: false
       }
+    case ProfileStatus.CLEAR_PROFILE:
+      return {
+        ...state,
+        profile: null,
+        repos: [],
+        loading: false
+      }
     default:
       return state
   }
