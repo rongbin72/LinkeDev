@@ -1,5 +1,5 @@
+import { AuthPayload, AuthState, TAction } from '../../common/types'
 import { AuthStatus } from '../actions/types'
-import { AuthState, TUser, TAction, AuthPayload } from '../../common/types'
 
 const initialState: AuthState = {
   token: localStorage.getItem('token'),
@@ -8,7 +8,7 @@ const initialState: AuthState = {
   user: null
 }
 
-export default function(state = initialState, action: TAction<AuthStatus, AuthPayload>) {
+export default function(state = initialState, action: TAction<AuthStatus, AuthPayload>): AuthState {
   const { type, payload } = action
   switch (type) {
     case AuthStatus.USER_LOADED:

@@ -1,8 +1,7 @@
 import React from 'react'
-import { PrivateRouteProps, StoreState, DashboardProps } from '../../../common/types'
 import { connect } from 'react-redux'
-import { Route, Link, Redirect } from 'react-router-dom'
-import Dashboard from '../dashboard/Dashboard'
+import { Redirect, Route } from 'react-router-dom'
+import { PrivateRouteProps, StoreState } from '../../../common/types'
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   isAuth,

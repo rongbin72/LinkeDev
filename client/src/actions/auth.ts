@@ -1,17 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
-import { AuthStatus } from '../actions/types'
-import { setAlert } from './alert'
 import {
-  RegisterAction,
   ErrorRes,
-  SetAlertAction,
-  AuthPayload,
   LoadUserAction,
-  TUser,
   LoginAction,
-  LogoutAction
+  LogoutAction,
+  RegisterAction,
+  TUser
 } from '../../common/types'
+import { AuthStatus } from '../actions/types'
 import setAuthToken from '../utils/setAuthToken'
+import { setAlert } from './alert'
 
 // Load User
 export const loadUser: LoadUserAction = () => async dispatch => {
