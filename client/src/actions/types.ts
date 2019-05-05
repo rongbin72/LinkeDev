@@ -15,5 +15,6 @@ export enum AuthStatus {
 
 export enum ProfileStatus {
   GET_PROFILE = 'GET_PROFILE',
-  PROFILE_ERROR = 'PROFILE_ERROR'
+  PROFILE_ERROR = 'PROFILE_ERROR',
+  CLEAR_PROFILE = 'CLEAR_PROFILE'
 }
