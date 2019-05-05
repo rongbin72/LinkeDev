@@ -1,17 +1,36 @@
 import { RouteProps } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
-import { AlertStatus, AuthStatus } from '../src/actions/types'
+import { AlertStatus, AuthStatus, ProfileStatus } from '../src/actions/types'
+import { AnyTxtRecord } from 'dns'
+
+export interface AuthPayload {
+  token?: string | null
+  user?: TUser | null
+}
 
 export interface AlertPayload {
   msg?: string
   alertType?: string
   id: Readonly<string>
 }
+
+export interface ProfilePayload {
+  error?: { msg: string; status: number } | null
+  profile?: ProfileType | null
+}
+
 export type AlertState = AlertPayload[]
 
-export interface TAction<T, P> extends Action<T> {
-  payload: P
+export interface AuthState extends AuthPayload {
+  isAuth: boolean
+  loading: boolean
+}
+
+export interface ProfileState extends ProfilePayload {
+  profiles: ProfileType[]
+  repos: any
+  loading: boolean
 }
 
 export interface RegisterProps {
@@ -33,7 +52,6 @@ export interface NavbarProps {
   loading: boolean
   logout: LogoutAction
 }
-export interface DashboardProps {}
 
 export interface PrivateRouteProps extends RouteProps {
   loading: boolean
@@ -41,23 +59,10 @@ export interface PrivateRouteProps extends RouteProps {
   component: React.ComponentType<any>
 }
 
-export interface AuthPayload {
-  token?: string | null
-  user?: TUser | null
-}
-
-export interface AuthState extends AuthPayload {
-  isAuth: boolean
-  loading: boolean
-}
-
-export interface TUser {
-  _id: string
-  name: string
-  email: string
-  avatar: string
-  date: string
-  __v: string
+export interface DashboardProps {
+  getCurrentProfile: GetCurrentProfile
+  auth: any
+  profile?: ProfileType | null
 }
 
 export type SetAlertAction = (
@@ -81,14 +86,78 @@ export type LoginAction = (
 
 export type LogoutAction = () => ThunkAction<any, States, undefined, Actions>
 
+export type GetCurrentProfile = () => ThunkAction<any, States, undefined, Actions>
+
 export interface StoreState {
   alert?: AlertState
   auth?: AuthState
+  profile?: ProfileState
 }
-export type Actions = TAction<AlertStatus, AlertPayload> | TAction<AuthStatus, AuthPayload>
 
-export type States = AuthState | AlertState
+export interface TAction<T, P> extends Action<T> {
+  payload: P
+}
+
+export type Actions =
+  | TAction<AlertStatus, AlertPayload>
+  | TAction<AuthStatus, AuthPayload>
+  | TAction<ProfileStatus, ProfilePayload>
+
+export type States = AuthState | AlertState | ProfileState
 
 export interface ErrorRes {
   msg: string
+}
+
+export interface TUser {
+  _id: string
+  name: string
+  email: string
+  avatar: string
+  date: string
+}
+
+export interface ProfileType {
+  user: string
+  company?: string
+  website?: string
+  location?: string
+  status?: string
+  skills?: string[]
+  bio?: string
+  githubusername?: string
+  experience?: Experience[]
+  education?: Education[]
+  social?: Social
+  data?: string
+}
+
+export interface Experience {
+  _id?: string
+  title?: string
+  company?: string
+  location?: string
+  from?: string
+  to?: string
+  current?: string
+  description?: string
+}
+
+export interface Education {
+  _id?: string
+  school?: string
+  degree?: string
+  fieldofstudy?: string
+  from?: string
+  to?: string
+  current?: string
+  description?: string
+}
+
+interface Social {
+  youtube?: string
+  twitter?: string
+  facebook?: string
+  linkedin?: string
+  instagram?: string
 }

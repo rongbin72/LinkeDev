@@ -12,3 +12,8 @@ export enum AuthStatus {
   LOGIN_FAIL = 'LOGIN_FAIL',
   LOGOUT = 'LOGOUT'
 }
+
+export enum ProfileStatus {
+  GET_PROFILE = 'GET_PROFILE',
+  PROFILE_ERROR = 'PROFILE_ERROR'
+}
