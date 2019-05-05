@@ -1,7 +1,7 @@
+import { RouteProps } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus } from '../src/actions/types'
-import { Route, RouteProps } from 'react-router'
 
 export interface AlertPayload {
   msg?: string
