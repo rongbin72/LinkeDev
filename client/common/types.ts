@@ -1,7 +1,7 @@
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus } from '../src/actions/types'
-import { logout } from '../src/actions/auth'
+import { Route, RouteProps } from 'react-router'
 
 export interface AlertPayload {
   msg?: string
@@ -32,6 +32,13 @@ export interface NavbarProps {
   isAuth: boolean
   loading: boolean
   logout: LogoutAction
+}
+export interface DashboardProps {}
+
+export interface PrivateRouteProps extends RouteProps {
+  loading: boolean
+  isAuth: boolean
+  component: React.ComponentType<any>
 }
 
 export interface AuthPayload {
