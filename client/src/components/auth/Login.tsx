@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../actions/auth'
-import { LoginProps, StoreState } from '../../../common/types'
+import { LoginProps, StoreState, LoginForm } from '../../../common/types'
 
 const Login: React.FC<LoginProps> = ({ login, isAuth }) => {
-  // TODO define LoginForm for useState<LoginForm>
-  const [formData, setFormData] = useState({ email: '', password: '' })
+  const [formData, setFormData] = useState<LoginForm>({ email: '', password: '' })
   const { email, password } = formData
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
