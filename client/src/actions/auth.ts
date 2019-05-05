@@ -7,7 +7,7 @@ import {
   RegisterAction,
   TUser
 } from '../../common/types'
-import { AuthStatus } from '../actions/types'
+import { AuthStatus, ProfileStatus } from '../actions/types'
 import setAuthToken from '../utils/setAuthToken'
 import { setAlert } from './alert'
 
@@ -82,6 +82,10 @@ export const login: LoginAction = (email, password) => async dispatch => {
 export const logout: LogoutAction = () => dispatch => {
   dispatch({
     type: AuthStatus.LOGOUT,
+    payload: {}
+  })
+  dispatch({
+    type: ProfileStatus.CLEAR_PROFILE,
     payload: {}
   })
 }
