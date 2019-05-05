@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { CreateProfileProps, StoreState, ProfileForm } from '../../../common/types'
 import { connect } from 'react-redux'
+import { createProfile } from '../../actions/profile'
+import { withRouter } from 'react-router'
 
-const CreateProfile: React.FC<CreateProfileProps> = () => {
+const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history }) => {
   const [formData, setFormData] = useState<ProfileForm>({
     company: '',
     website: '',
@@ -39,6 +41,26 @@ const CreateProfile: React.FC<CreateProfileProps> = () => {
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>
   ) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    createProfile(formData, history)
+    // clear state
+    setFormData({
+      company: '',
+      website: '',
+      location: '',
+      status: '',
+      skills: '',
+      githubusername: '',
+      bio: '',
+      twitter: '',
+      facebook: '',
+      linkedin: '',
+      youtube: '',
+      instagram: ''
+    })
+  }
+
   return (
     <>
       <h1 className='large text-primary'>Create Your Profile</h1>
@@ -46,7 +68,7 @@ const CreateProfile: React.FC<CreateProfileProps> = () => {
         <i className='fas fa-user' /> Let's get some information to make your profile stand out
       </p>
       <small>* = required field</small>
-      <form className='form'>
+      <form className='form' onSubmit={e => onSubmit(e)}>
         <div className='form-group'>
           <select name='status' value={status} onChange={e => onChange(e)}>
             <option value='0'>* Select Professional Status</option>
@@ -139,27 +161,57 @@ const CreateProfile: React.FC<CreateProfileProps> = () => {
           <>
             <div className='form-group social-input'>
               <i className='fab fa-twitter fa-2x' />
-              <input type='text' placeholder='Twitter URL' name='twitter' />
+              <input
+                type='text'
+                placeholder='Twitter URL'
+                name='twitter'
+                value={twitter}
+                onChange={e => onChange(e)}
+              />
             </div>
 
             <div className='form-group social-input'>
               <i className='fab fa-facebook fa-2x' />
-              <input type='text' placeholder='Facebook URL' name='facebook' />
+              <input
+                type='text'
+                placeholder='Facebook URL'
+                name='facebook'
+                value={facebook}
+                onChange={e => onChange(e)}
+              />
             </div>
 
             <div className='form-group social-input'>
               <i className='fab fa-youtube fa-2x' />
-              <input type='text' placeholder='YouTube URL' name='youtube' />
+              <input
+                type='text'
+                placeholder='YouTube URL'
+                name='youtube'
+                value={youtube}
+                onChange={e => onChange(e)}
+              />
             </div>
 
             <div className='form-group social-input'>
               <i className='fab fa-linkedin fa-2x' />
-              <input type='text' placeholder='Linkedin URL' name='linkedin' />
+              <input
+                type='text'
+                placeholder='Linkedin URL'
+                name='linkedin'
+                value={linkedin}
+                onChange={e => onChange(e)}
+              />
             </div>
 
             <div className='form-group social-input'>
               <i className='fab fa-instagram fa-2x' />
-              <input type='text' placeholder='Instagram URL' name='instagram' />
+              <input
+                type='text'
+                placeholder='Instagram URL'
+                name='instagram'
+                value={instagram}
+                onChange={e => onChange(e)}
+              />
             </div>
           </>
         )}
@@ -173,6 +225,7 @@ const CreateProfile: React.FC<CreateProfileProps> = () => {
   )
 }
 
-const mapStateToProps = (state: StoreState) => ({})
-
-export default connect(mapStateToProps)(CreateProfile)
+export default connect(
+  null,
+  { createProfile }
+)(withRouter(CreateProfile))
