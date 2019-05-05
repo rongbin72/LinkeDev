@@ -8,7 +8,8 @@ import {
   AuthPayload,
   LoadUserAction,
   TUser,
-  LoginAction
+  LoginAction,
+  LogoutAction
 } from '../../common/types'
 import setAuthToken from '../utils/setAuthToken'
 
@@ -77,4 +78,12 @@ export const login: LoginAction = (email, password) => async dispatch => {
       payload: {}
     })
   }
+}
+
+// Logout User / Clear Profile
+export const logout: LogoutAction = () => dispatch => {
+  dispatch({
+    type: AuthStatus.LOGOUT,
+    payload: {}
+  })
 }

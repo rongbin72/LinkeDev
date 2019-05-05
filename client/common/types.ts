@@ -1,6 +1,7 @@
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus } from '../src/actions/types'
+import { logout } from '../src/actions/auth'
 
 export interface AlertPayload {
   msg?: string
@@ -25,6 +26,12 @@ export interface AlertProps {
 export interface LoginProps {
   login: LoginAction
   isAuth: boolean
+}
+
+export interface NavbarProps {
+  isAuth: boolean
+  loading: boolean
+  logout: LogoutAction
 }
 
 export interface AuthPayload {
@@ -65,6 +72,8 @@ export type LoginAction = (
   password: string
 ) => ThunkAction<any, States, undefined, Actions>
 
+export type LogoutAction = () => ThunkAction<any, States, undefined, Actions>
+
 export interface StoreState {
   alert?: AlertState
   auth?: AuthState
@@ -72,6 +81,7 @@ export interface StoreState {
 export type Actions = TAction<AlertStatus, AlertPayload> | TAction<AuthStatus, AuthPayload>
 
 export type States = AuthState | AlertState
+
 export interface ErrorRes {
   msg: string
 }

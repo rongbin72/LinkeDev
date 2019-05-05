@@ -30,6 +30,7 @@ export default function(state = initialState, action: TAction<AuthStatus, AuthPa
     case AuthStatus.LOGIN_FAIL:
     case AuthStatus.REGISTER_FAIL:
     case AuthStatus.AUTH_ERROR:
+    case AuthStatus.LOGOUT:
       localStorage.removeItem('token')
       return {
         ...state,
