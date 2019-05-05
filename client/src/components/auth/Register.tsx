@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { setAlert } from '../../actions/alert'
 import { register } from '../../actions/auth'
-import { RegisterProps } from '../../../common/types'
+import { RegisterProps, StoreState } from '../../../common/types'
 
-const Register: React.FC<RegisterProps> = ({ setAlert, register }) => {
+const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
   // TODO define RegisterForm for useState<RegisterForm>
   const [formData, setFormData] = useState({ name: '', email: '', password: '', password2: '' })
   const { name, email, password, password2 } = formData
@@ -20,7 +20,10 @@ const Register: React.FC<RegisterProps> = ({ setAlert, register }) => {
     // clear after submission
     setFormData({ ...formData, name: '', email: '', password: '', password2: '' })
   }
-  return (
+
+  return isAuth ? (
+    <Redirect to='/dashboard' />
+  ) : (
     <>
       <section className='container'>
         <h1 className='large text-primary'>Sign Up</h1>
@@ -83,7 +86,11 @@ const Register: React.FC<RegisterProps> = ({ setAlert, register }) => {
   )
 }
 
+const mapStateToProps = (state: StoreState) => ({
+  isAuth: state.auth!.isAuth
+})
+
 export default connect(
-  null,
+  mapStateToProps,
   { setAlert, register }
 )(Register)

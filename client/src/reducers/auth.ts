@@ -19,6 +19,7 @@ export default function(state = initialState, action: TAction<AuthStatus, AuthPa
         user: payload.user
       }
     case AuthStatus.REGISTER_SUCCESS:
+    case AuthStatus.LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token as string)
       return {
         ...state,
@@ -26,6 +27,7 @@ export default function(state = initialState, action: TAction<AuthStatus, AuthPa
         isAuth: true,
         loading: false
       }
+    case AuthStatus.LOGIN_FAIL:
     case AuthStatus.REGISTER_FAIL:
     case AuthStatus.AUTH_ERROR:
       localStorage.removeItem('token')
@@ -35,7 +37,6 @@ export default function(state = initialState, action: TAction<AuthStatus, AuthPa
         isAuth: false,
         loading: false
       }
-
     default:
       return state
   }

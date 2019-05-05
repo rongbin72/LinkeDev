@@ -1,22 +1,32 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { login } from '../../actions/auth'
+import { LoginProps, StoreState } from '../../../common/types'
 
-const Login: React.FC = () => {
+const Login: React.FC<LoginProps> = ({ login, isAuth }) => {
   // TODO define LoginForm for useState<LoginForm>
   const [formData, setFormData] = useState({ email: '', password: '' })
   const { email, password } = formData
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    login(email, password)
     console.log('success')
   }
-  return (
+
+  // Redirect if logged in, else show login page
+  return isAuth ? (
+    <Redirect to='/dashboard' />
+  ) : (
     <>
       <section className='container'>
         <h1 className='large text-primary'>Sign In</h1>
         <p className='lead'>
-          <i className='fas fa-user' /> Sign into Your Accout
+          <i className='fas fa-user' /> Sign into Your Account
         </p>
         <form className='form' action='create-profile.html' onSubmit={e => onSubmit(e)}>
           <div className='form-group'>
@@ -47,5 +57,10 @@ const Login: React.FC = () => {
     </>
   )
 }
-
-export default Login
+const mapStateToProps = (state: StoreState) => ({
+  isAuth: state.auth!.isAuth
+})
+export default connect(
+  mapStateToProps,
+  { login }
+)(Login)

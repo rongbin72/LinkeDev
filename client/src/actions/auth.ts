@@ -7,7 +7,8 @@ import {
   SetAlertAction,
   AuthPayload,
   LoadUserAction,
-  TUser
+  TUser,
+  LoginAction
 } from '../../common/types'
 import setAuthToken from '../utils/setAuthToken'
 
@@ -49,6 +50,30 @@ export const register: RegisterAction = (name, email, password) => async dispatc
 
     dispatch({
       type: AuthStatus.REGISTER_FAIL,
+      payload: {}
+    })
+  }
+}
+
+// Login User
+export const login: LoginAction = (email, password) => async dispatch => {
+  try {
+    const res: AxiosResponse<{ token: string }> = await axios.post('/api/auth', {
+      email,
+      password
+    })
+
+    dispatch({
+      type: AuthStatus.LOGIN_SUCCESS,
+      payload: { token: res.data.token }
+    })
+    dispatch(loadUser())
+  } catch (error) {
+    const errors: ErrorRes[] = error.response.data.errors
+    if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+
+    dispatch({
+      type: AuthStatus.LOGIN_FAIL,
       payload: {}
     })
   }
