@@ -1,21 +1,21 @@
-import { Action, ActionCreator } from 'redux'
-import { ThunkAction, ThunkDispatch } from 'redux-thunk'
-import { Alert } from '../src/actions/types'
-import { setAlert } from '../src/actions/alert'
+import { Action } from 'redux'
+import { ThunkAction } from 'redux-thunk'
+import { AlertStatus, AuthStatus } from '../src/actions/types'
 
-interface AlertPayload {
+export interface AlertPayload {
   msg?: string
   alertType?: string
   id: Readonly<string>
 }
 export type AlertState = AlertPayload[]
 
-export interface AlertAction extends Action<Alert> {
-  payload: AlertPayload
+export interface TAction<T, P> extends Action<T> {
+  payload: P
 }
 
 export interface RegisterProps {
-  setAlert: SetAlertAction
+  setAlert: SetAlertAction | ((msg: string, alertType: string, timeout?: number) => void)
+  register: RegisterAction
 }
 
 export interface AlertProps {
@@ -26,9 +26,31 @@ export type SetAlertAction = (
   msg: string,
   alertType: string,
   timeout?: number
-) => ThunkAction<void, AlertState, null, AlertAction> | void
+) => ThunkAction<void, States, null, Actions>
+
+export interface AuthPayload {
+  token?: string | null
+}
+
+export interface AuthState extends AuthPayload {
+  isAuth: boolean
+  loading: boolean
+  user: any
+}
+
+export type RegisterAction = (
+  name: string,
+  email: string,
+  password: string
+) => ThunkAction<any, States, null, Actions>
 
 export interface StoreState {
   alert?: AlertState
+  auth?: AuthState
 }
-export type Actions = AlertAction
+export type Actions = TAction<AlertStatus, AlertPayload> | TAction<AuthStatus, AuthPayload>
+
+export type States = AuthState | AlertState
+export interface ErrorRes {
+  msg: string
+}

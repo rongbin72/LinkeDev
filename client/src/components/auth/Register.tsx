@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { setAlert } from '../../actions/alert'
+import { register } from '../../actions/auth'
 import { RegisterProps } from '../../../common/types'
 
-const Register: React.FC<RegisterProps> = ({ setAlert }) => {
+const Register: React.FC<RegisterProps> = ({ setAlert, register }) => {
   // TODO define RegisterForm for useState<RegisterForm>
   const [formData, setFormData] = useState({ name: '', email: '', password: '', password2: '' })
   const { name, email, password, password2 } = formData
@@ -15,7 +16,9 @@ const Register: React.FC<RegisterProps> = ({ setAlert }) => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (password !== password2) setAlert('Passwords do not match', 'danger')
-    else console.log('Register Success')
+    else register(name, email, password)
+    // clear after submission
+    setFormData({ ...formData, name: '', email: '', password: '', password2: '' })
   }
   return (
     <>
@@ -42,6 +45,7 @@ const Register: React.FC<RegisterProps> = ({ setAlert }) => {
               name='email'
               value={email}
               onChange={e => onChange(e)}
+              required
             />
             <small className='form-text'>
               This site uses Gravatar so if you want a profile image, use a Gravatar email
@@ -52,9 +56,10 @@ const Register: React.FC<RegisterProps> = ({ setAlert }) => {
               type='password'
               placeholder='Password'
               name='password'
-              minLength={6}
               value={password}
               onChange={e => onChange(e)}
+              minLength={7}
+              required
             />
           </div>
           <div className='form-group'>
@@ -62,9 +67,10 @@ const Register: React.FC<RegisterProps> = ({ setAlert }) => {
               type='password'
               placeholder='Confirm Password'
               name='password2'
-              minLength={6}
               value={password2}
               onChange={e => onChange(e)}
+              minLength={7}
+              required
             />
           </div>
           <input type='submit' className='btn btn-primary' value='Register' />
@@ -79,5 +85,5 @@ const Register: React.FC<RegisterProps> = ({ setAlert }) => {
 
 export default connect(
   null,
-  { setAlert }
+  { setAlert, register }
 )(Register)
