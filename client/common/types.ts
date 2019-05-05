@@ -65,6 +65,8 @@ export interface DashboardProps {
   loading: boolean
 }
 
+export interface CreateProfileProps {}
+
 export type SetAlertAction = (
   msg: string,
   alertType: string,
@@ -160,4 +162,31 @@ interface Social {
   facebook?: string
   linkedin?: string
   instagram?: string
+}
+
+export interface ProfileForm {
+  company: string
+  website: string
+  location: string
+  status: string
+  skills: string
+  githubusername: string
+  bio: string
+  twitter: string
+  facebook: string
+  linkedin: string
+  youtube: string
+  instagram: string
+}
+
+export interface LoginForm {
+  email: string
+  password: string
+}
+
+export interface RegisterForm {
+  name: string
+  email: string
+  password: string
+  password2: string
 }
