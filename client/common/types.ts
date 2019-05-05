@@ -1,6 +1,7 @@
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus } from '../src/actions/types'
+import { string } from 'prop-types'
 
 export interface AlertPayload {
   msg?: string
@@ -14,7 +15,7 @@ export interface TAction<T, P> extends Action<T> {
 }
 
 export interface RegisterProps {
-  setAlert: SetAlertAction | ((msg: string, alertType: string, timeout?: number) => void)
+  setAlert: SetAlertAction
   register: RegisterAction
 }
 
@@ -26,23 +27,34 @@ export type SetAlertAction = (
   msg: string,
   alertType: string,
   timeout?: number
-) => ThunkAction<void, States, null, Actions>
+) => ThunkAction<any, States, undefined, Actions>
 
 export interface AuthPayload {
   token?: string | null
+  user?: TUser | null
 }
 
 export interface AuthState extends AuthPayload {
   isAuth: boolean
   loading: boolean
-  user: any
+}
+
+export interface TUser {
+  _id: string
+  name: string
+  email: string
+  avatar: string
+  date: string
+  __v: string
 }
 
 export type RegisterAction = (
   name: string,
   email: string,
   password: string
-) => ThunkAction<any, States, null, Actions>
+) => ThunkAction<any, States, undefined, Actions>
+
+export type LoadUserAction = () => ThunkAction<any, States, undefined, Actions>
 
 export interface StoreState {
   alert?: AlertState

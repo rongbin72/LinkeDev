@@ -1,5 +1,5 @@
 import { AuthStatus } from '../actions/types'
-import { AuthState, TAction, AuthPayload } from '../../common/types'
+import { AuthState, TUser, TAction, AuthPayload } from '../../common/types'
 
 const initialState: AuthState = {
   token: localStorage.getItem('token'),
@@ -11,6 +11,13 @@ const initialState: AuthState = {
 export default function(state = initialState, action: TAction<AuthStatus, AuthPayload>) {
   const { type, payload } = action
   switch (type) {
+    case AuthStatus.USER_LOADED:
+      return {
+        ...state,
+        isAuth: true,
+        loading: false,
+        user: payload.user
+      }
     case AuthStatus.REGISTER_SUCCESS:
       localStorage.setItem('token', payload.token as string)
       return {
@@ -20,6 +27,7 @@ export default function(state = initialState, action: TAction<AuthStatus, AuthPa
         loading: false
       }
     case AuthStatus.REGISTER_FAIL:
+    case AuthStatus.AUTH_ERROR:
       localStorage.removeItem('token')
       return {
         ...state,
