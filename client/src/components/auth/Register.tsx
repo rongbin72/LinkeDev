@@ -3,11 +3,15 @@ import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { setAlert } from '../../actions/alert'
 import { register } from '../../actions/auth'
-import { RegisterProps, StoreState } from '../../../common/types'
+import { RegisterProps, StoreState, RegisterForm } from '../../../common/types'
 
 const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
-  // TODO define RegisterForm for useState<RegisterForm>
-  const [formData, setFormData] = useState({ name: '', email: '', password: '', password2: '' })
+  const [formData, setFormData] = useState<RegisterForm>({
+    name: '',
+    email: '',
+    password: '',
+    password2: ''
+  })
   const { name, email, password, password2 } = formData
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) =>
