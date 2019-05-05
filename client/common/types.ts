@@ -2,7 +2,6 @@ import { RouteProps } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus, ProfileStatus } from '../src/actions/types'
-import { AnyTxtRecord } from 'dns'
 
 export interface AuthPayload {
   token?: string | null
@@ -61,8 +60,9 @@ export interface PrivateRouteProps extends RouteProps {
 
 export interface DashboardProps {
   getCurrentProfile: GetCurrentProfile
-  auth: any
-  profile?: ProfileType | null
+  user: TUser | null
+  profile: ProfileType | null
+  loading: boolean
 }
 
 export type SetAlertAction = (
