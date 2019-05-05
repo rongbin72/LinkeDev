@@ -1,7 +1,8 @@
-import { RouteProps } from 'react-router'
+import { RouteProps, RouteComponentProps, StaticContext } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus, ProfileStatus } from '../src/actions/types'
+import { History } from 'history'
 
 export interface AuthPayload {
   token?: string | null
@@ -59,13 +60,15 @@ export interface PrivateRouteProps extends RouteProps {
 }
 
 export interface DashboardProps {
-  getCurrentProfile: GetCurrentProfile
+  getCurrentProfile: GetCurrentProfileAction
   user: TUser | null
   profile: ProfileType | null
   loading: boolean
 }
 
-export interface CreateProfileProps {}
+export interface CreateProfileProps extends RouteComponentProps<any, StaticContext, any> {
+  createProfile: CreateProfileAction
+}
 
 export type SetAlertAction = (
   msg: string,
@@ -88,7 +91,13 @@ export type LoginAction = (
 
 export type LogoutAction = () => ThunkAction<any, States, undefined, Actions>
 
-export type GetCurrentProfile = () => ThunkAction<any, States, undefined, Actions>
+export type GetCurrentProfileAction = () => ThunkAction<any, States, undefined, Actions>
+
+export type CreateProfileAction = (
+  formData: ProfileForm,
+  history: History,
+  edit?: boolean
+) => ThunkAction<any, States, undefined, Actions>
 
 export interface StoreState {
   alert?: AlertState
