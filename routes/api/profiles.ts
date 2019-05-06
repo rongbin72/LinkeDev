@@ -7,11 +7,12 @@ import { AuthRequest, Education, Experience, ProfileType } from '../../common/ty
 import auth from '../../middleware/auth'
 import Profile from '../../models/Profile'
 import User from '../../models/User'
+import Post from '../../models/Post'
 
 const router = express.Router()
 
 /**
- * @route GET api/profile/me
+ * @route GET api/profiles/me
  * @description Get current user's
  * @access Private
  */
@@ -28,7 +29,7 @@ router.get('/me', auth, async (req: AuthRequest, res) => {
 })
 
 /**
- * @route POST api/profile
+ * @route POST api/profiles
  * @description Create or update a user profile
  * @access Private
  */
@@ -99,7 +100,7 @@ router.post(
 )
 
 /**
- * @route GET api/profile
+ * @route GET api/profiles
  * @description Get all profiles
  * @access Public
  */
@@ -114,7 +115,7 @@ router.get('/', async (req, res) => {
 })
 
 /**
- * @route GET api/profile/user/:user_id
+ * @route GET api/profiles/user/:user_id
  * @description Get profile by user id
  * @access Public
  */
@@ -135,13 +136,15 @@ router.get('/user/:user_id', async (req, res) => {
 })
 
 /**
- * @route DELETE api/profile
+ * @route DELETE api/profiles
  * @description Delete user profile posts
  * @access Private
  */
 router.delete('/', auth, async (req: AuthRequest, res) => {
   try {
     const user = req.user!.id
+    // Remove User Posts
+    await Post.deleteMany({ user })
     // Remove Profile
     await Profile.findOneAndDelete({ user })
     // Remove User
@@ -155,7 +158,7 @@ router.delete('/', auth, async (req: AuthRequest, res) => {
 })
 
 /**
- * @route PUT api/profile/experience
+ * @route PUT api/profiles/experience
  * @description Add experience to profile
  * @access Private
  */
@@ -188,7 +191,7 @@ router.put(
 )
 
 /**
- * @route DELETE api/profile/experience/:exp_id
+ * @route DELETE api/profiles/experience/:exp_id
  * @description Delete experience from profile
  * @access Private
  */
@@ -200,7 +203,7 @@ router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
     if (!profile) return res.status(404).json({ msg: 'Profile not Found' })
     profile.experience = profile.experience!.filter(exp => exp._id != exp_id)
     await profile.save()
-    return res.json({ msg: 'Experience Deleted' })
+    return res.json(profile)
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
@@ -208,7 +211,7 @@ router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
 })
 
 /**
- * @route PUT api/profile/education
+ * @route PUT api/profiles/education
  * @description Add education to profile
  * @access Private
  */
@@ -242,7 +245,7 @@ router.put(
 )
 
 /**
- * @route DELETE api/profile/education/:edu_id
+ * @route DELETE api/profiles/education/:edu_id
  * @description Delete education from profile
  * @access Private
  */
@@ -254,7 +257,7 @@ router.delete('/education/:edu_id', auth, async (req: AuthRequest, res) => {
     if (!profile) return res.status(404).json({ msg: 'Profile not Found' })
     profile.education = profile.education!.filter(edu => edu._id != edu_id)
     await profile.save()
-    return res.json({ msg: 'Education Deleted' })
+    return res.json(profile)
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
@@ -262,7 +265,7 @@ router.delete('/education/:edu_id', auth, async (req: AuthRequest, res) => {
 })
 
 /**
- * @route GET api/profile/github/:username
+ * @route GET api/profiles/github/:username
  * @description Get user repo from profile
  * @access Public
  */
