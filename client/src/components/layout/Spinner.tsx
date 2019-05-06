@@ -1,4 +1,3 @@
-import spinner from './spinner.gif'
 import React from 'react'
 export default () => (
   <>
