@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import {
-  CreateProfileProps,
-  StoreState,
-  ProfileForm,
-  EditProfileProps,
-  ProfileType
-} from '../../../common/types'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { createProfile, getCurrentProfile } from '../../actions/profile'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
+import { EditProfileProps, ProfileForm, StoreState } from '../../../common/types'
+import { createProfile, getCurrentProfile } from '../../actions/profile'
 
 const EditProfile: React.FC<EditProfileProps> = ({
   profile,
@@ -53,7 +47,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
         instagram: loading || !profile.social ? '' : profile.social.instagram!
       })
     else console.error('profile not exist')
-  }, [loading, getCurrentProfile])
+  }, [loading, getCurrentProfile, profile])
 
   const {
     company,

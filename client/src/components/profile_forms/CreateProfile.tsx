@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { CreateProfileProps, StoreState, ProfileForm } from '../../../common/types'
 import { connect } from 'react-redux'
-import { createProfile } from '../../actions/profile'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
+import { CreateProfileProps, ProfileForm } from '../../../common/types'
+import { createProfile } from '../../actions/profile'
 
 const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history }) => {
   const [formData, setFormData] = useState<ProfileForm>({
