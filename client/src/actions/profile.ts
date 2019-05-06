@@ -8,7 +8,10 @@ import {
   GetCurrentProfileAction,
   ProfileType,
   DeleteEducationAction,
-  DeleteAccountAction
+  DeleteAccountAction,
+  GetProfilesAction,
+  GetProfileByIdAction,
+  GetGithubReposAction
 } from '../../common/types'
 import { setAlert } from './alert'
 import { ProfileStatus, AuthStatus } from './types'
@@ -20,6 +23,74 @@ export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch =
     dispatch({
       type: ProfileStatus.GET_PROFILE,
       payload: { profile: res.data }
+    })
+  } catch (error) {
+    dispatch({
+      type: ProfileStatus.PROFILE_ERROR,
+      payload: {
+        error: {
+          msg: (error.response.data.msg || error.response.statusText) as string,
+          status: error.response.status as number
+        }
+      }
+    })
+  }
+}
+
+// Get all profiles
+export const getProfiles: GetProfilesAction = () => async dispatch => {
+  dispatch({
+    type: ProfileStatus.CLEAR_PROFILE,
+    payload: {}
+  })
+
+  try {
+    const res = await axios.get<ProfileType[]>('/api/profiles')
+    dispatch({
+      type: ProfileStatus.GET_PROFILES,
+      payload: { profiles: res.data }
+    })
+  } catch (error) {
+    dispatch({
+      type: ProfileStatus.PROFILE_ERROR,
+      payload: {
+        error: {
+          msg: (error.response.data.msg || error.response.statusText) as string,
+          status: error.response.status as number
+        }
+      }
+    })
+  }
+}
+
+// Get Profile by id
+export const getProfileById: GetProfileByIdAction = userId => async dispatch => {
+  try {
+    const res = await axios.get<ProfileType>(`/api/profiles/user/${userId}`)
+    dispatch({
+      type: ProfileStatus.GET_PROFILE,
+      payload: { profile: res.data }
+    })
+  } catch (error) {
+    dispatch({
+      type: ProfileStatus.PROFILE_ERROR,
+      payload: {
+        error: {
+          msg: (error.response.data.msg || error.response.statusText) as string,
+          status: error.response.status as number
+        }
+      }
+    })
+  }
+}
+
+// Get github repos
+export const getGithubRepos: GetGithubReposAction = username => async dispatch => {
+  try {
+    const res = await axios.get<any[]>(`/api/profiles/github/${username}`)
+    dispatch({
+      type: ProfileStatus.GET_REPOS,
+      payload: { repos: res.data }
     })
   } catch (error) {
     dispatch({
