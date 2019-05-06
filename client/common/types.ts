@@ -76,7 +76,14 @@ export interface EditProfileProps extends RouteComponentProps<any, StaticContext
   loading: boolean
   createProfile: CreateProfileAction
   getCurrentProfile: GetCurrentProfileAction
-  // history: History
+}
+
+export interface AddExperienceProps extends RouteComponentProps<any, StaticContext, any> {
+  addExperience: AddExperienceAction
+}
+
+export interface AddEducationProps extends RouteComponentProps<any, StaticContext, any> {
+  addEducation: AddEducationAction
 }
 
 export type SetAlertAction = (
@@ -106,6 +113,16 @@ export type CreateProfileAction = (
   formData: ProfileForm,
   history: History,
   edit?: boolean
+) => ThunkAction<any, States, undefined, Actions>
+
+export type AddExperienceAction = (
+  formData: Experience,
+  history: History
+) => ThunkAction<any, States, undefined, Actions>
+
+export type AddEducationAction = (
+  formData: Education,
+  history: History
 ) => ThunkAction<any, States, undefined, Actions>
 
 export interface StoreState {
@@ -153,25 +170,23 @@ export interface ProfileType {
 }
 
 export interface Experience {
-  _id?: string
-  title?: string
-  company?: string
-  location?: string
-  from?: string
-  to?: string
-  current?: string
-  description?: string
+  title: string
+  company: string
+  location: string
+  from: string
+  to: string
+  current: boolean
+  description: string
 }
 
 export interface Education {
-  _id?: string
-  school?: string
-  degree?: string
-  fieldofstudy?: string
-  from?: string
-  to?: string
-  current?: string
-  description?: string
+  school: string
+  degree: string
+  fieldofstudy: string
+  from: string
+  to: string
+  current: boolean
+  description: string
 }
 
 interface Social {
