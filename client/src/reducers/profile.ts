@@ -16,6 +16,7 @@ export default function(
   const { type, payload } = action
   switch (type) {
     case ProfileStatus.GET_PROFILE:
+    case ProfileStatus.UPDATE_PROFILE:
       return {
         ...state,
         profile: payload.profile,
