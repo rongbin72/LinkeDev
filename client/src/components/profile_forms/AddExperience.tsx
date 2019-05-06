@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { AddExperienceProps, Experience } from '../../../common/types'
 import { addExperience } from '../../actions/profile'
 import { withRouter } from 'react-router'
+import { Link } from 'react-router-dom'
 
 const AddExperience: React.FC<AddExperienceProps> = ({ addExperience, history }) => {
   const [formData, setFormData] = useState<Experience>({
+    _id: '',
     title: '',
     company: '',
     location: '',
@@ -104,9 +106,9 @@ const AddExperience: React.FC<AddExperienceProps> = ({ addExperience, history })
           />
         </div>
         <input type='submit' className='btn btn-primary my-1' />
-        <a className='btn btn-light my-1' href='dashboard.html'>
+        <Link className='btn btn-light my-1' to='/dashboard'>
           Go Back
-        </a>
+        </Link>
       </form>
     </>
   )

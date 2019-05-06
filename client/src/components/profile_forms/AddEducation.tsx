@@ -3,9 +3,11 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { AddEducationProps, Education } from '../../../common/types'
 import { addEducation } from '../../actions/profile'
+import { Link } from 'react-router-dom'
 
 const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) => {
   const [formData, setFormData] = useState<Education>({
+    _id: '',
     school: '',
     degree: '',
     fieldofstudy: '',
@@ -103,9 +105,9 @@ const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) =>
           />
         </div>
         <input type='submit' className='btn btn-primary my-1' />
-        <a className='btn btn-light my-1' href='dashboard.html'>
+        <Link className='btn btn-light my-1' to='/dashboard'>
           Go Back
-        </a>
+        </Link>
       </form>
     </>
   )
