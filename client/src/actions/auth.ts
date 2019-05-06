@@ -33,7 +33,8 @@ export const loadUser: LoadUserAction = () => async dispatch => {
 // Register User
 export const register: RegisterAction = (name, email, password) => async dispatch => {
   try {
-    const res: AxiosResponse<{ token: string }> = await axios.post('/api/users', {
+    // register & get token
+    const res = await axios.post<{ token: string }>('/api/users', {
       name,
       email,
       password
@@ -43,6 +44,7 @@ export const register: RegisterAction = (name, email, password) => async dispatc
       type: AuthStatus.REGISTER_SUCCESS,
       payload: { token: res.data.token }
     })
+    dispatch(loadUser())
   } catch (error) {
     const errors: ErrorRes[] = error.response.data.errors
     if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
