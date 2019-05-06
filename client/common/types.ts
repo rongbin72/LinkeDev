@@ -3,7 +3,6 @@ import { RouteComponentProps, RouteProps, StaticContext } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus, ProfileStatus } from '../src/actions/types'
-import { deleteExperience, deleteEducation, deleteAccount } from '../src/actions/profile'
 
 export interface AuthPayload {
   token?: string | null
@@ -19,6 +18,8 @@ export interface AlertPayload {
 export interface ProfilePayload {
   error?: { msg: string; status: number } | null
   profile?: ProfileType | null
+  profiles?: ProfileType[]
+  repos?: any[]
 }
 
 export type AlertState = AlertPayload[]
@@ -29,8 +30,6 @@ export interface AuthState extends AuthPayload {
 }
 
 export interface ProfileState extends ProfilePayload {
-  profiles: ProfileType[]
-  repos: any
   loading: boolean
 }
 
@@ -97,6 +96,16 @@ export interface EducationProps {
   deleteEducation: DeleteEducationAction
 }
 
+export interface ProfilesProps {
+  getProfiles: GetProfilesAction
+  profiles?: ProfileType[]
+  loading: boolean
+}
+
+export interface ProfileItemProps {
+  profile: ProfileType
+}
+
 export type SetAlertAction = (
   msg: string,
   alertType: string,
@@ -119,6 +128,14 @@ export type LoginAction = (
 export type LogoutAction = () => ThunkAction<any, States, undefined, Actions>
 
 export type GetCurrentProfileAction = () => ThunkAction<any, States, undefined, Actions>
+
+export type GetProfilesAction = () => ThunkAction<any, States, undefined, Actions>
+
+export type GetProfileByIdAction = (userId: string) => ThunkAction<any, States, undefined, Actions>
+
+export type GetGithubReposAction = (
+  username: string
+) => ThunkAction<any, States, undefined, Actions>
 
 export type CreateProfileAction = (
   formData: ProfileForm,
@@ -172,7 +189,8 @@ export interface TUser {
 }
 
 export interface ProfileType {
-  user: string
+  _id?: string
+  user: { _id: string; name: string; avatar: string }
   company?: string
   website?: string
   location?: string
