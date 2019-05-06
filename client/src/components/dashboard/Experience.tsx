@@ -1,8 +1,10 @@
 import React from 'react'
 import Moment from 'react-moment'
 import { ExperienceProps } from '../../../common/types'
+import { deleteExperience } from '../../actions/profile'
+import { connect } from 'react-redux'
 
-const Experience: React.FC<ExperienceProps> = ({ experience }) => {
+const Experience: React.FC<ExperienceProps> = ({ experience, deleteExperience }) => {
   const experiences = !experience ? (
     <></>
   ) : (
@@ -15,7 +17,9 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
           {exp.to ? <Moment format='YYYY/MM/DD'>{exp.to}</Moment> : 'Now'}
         </td>
         <td>
-          <button className='btn btn-danger'>Delete</button>
+          <button className='btn btn-danger' onClick={() => deleteExperience(exp._id!)}>
+            Delete
+          </button>
         </td>
       </tr>
     ))
@@ -39,4 +43,7 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
   )
 }
 
-export default Experience
+export default connect(
+  null,
+  { deleteExperience }
+)(Experience)

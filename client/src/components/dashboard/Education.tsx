@@ -1,8 +1,10 @@
 import React from 'react'
-import { EducationProps, StoreState } from '../../../common/types'
 import Moment from 'react-moment'
+import { EducationProps } from '../../../common/types'
+import { connect } from 'react-redux'
+import { deleteEducation } from '../../actions/profile'
 
-const Education: React.FC<EducationProps> = ({ education }) => {
+const Education: React.FC<EducationProps> = ({ education, deleteEducation }) => {
   const educations = !education ? (
     <></>
   ) : (
@@ -15,7 +17,9 @@ const Education: React.FC<EducationProps> = ({ education }) => {
           {edu.to ? <Moment format='YYYY/MM/DD'>{edu.to}</Moment> : 'Now'}
         </td>
         <td>
-          <button className='btn btn-danger'>Delete</button>
+          <button className='btn btn-danger' onClick={() => deleteEducation(edu._id!)}>
+            Delete
+          </button>
         </td>
       </tr>
     ))
@@ -39,4 +43,7 @@ const Education: React.FC<EducationProps> = ({ education }) => {
   )
 }
 
-export default Education
+export default connect(
+  null,
+  { deleteEducation }
+)(Education)
