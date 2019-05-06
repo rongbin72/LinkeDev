@@ -1,12 +1,12 @@
-import axios from 'axios';
-import config from 'config';
-import express from 'express';
-import { check, validationResult } from 'express-validator/check';
-import mongoose from 'mongoose';
-import { AuthRequest, Education, Experience, ProfileType } from '../../common/types';
-import auth from '../../middleware/auth';
-import Profile from '../../models/Profile';
-import User from '../../models/User';
+import axios from 'axios'
+import config from 'config'
+import express from 'express'
+import { check, validationResult } from 'express-validator/check'
+import mongoose from 'mongoose'
+import { AuthRequest, Education, Experience, ProfileType } from '../../common/types'
+import auth from '../../middleware/auth'
+import Profile from '../../models/Profile'
+import User from '../../models/User'
 
 const router = express.Router()
 
@@ -19,7 +19,7 @@ router.get('/me', auth, async (req: AuthRequest, res) => {
   try {
     const user = req.user!.id
     const profile = await Profile.findOne({ user }).populate('user', ['name', 'avatar'])
-    if (!profile) return res.status(400).json({ msg: 'No profile for this user' })
+    if (!profile) return res.status(404).json({ msg: 'No profile for this user' })
     res.json(profile)
   } catch (err) {
     console.error(err.message)
@@ -127,7 +127,7 @@ router.get('/user/:user_id', async (req, res) => {
 
     const profile = await Profile.findOne({ user }).populate('user', ['name', 'avatar'])
 
-    return profile ? res.json(profile) : res.status(400).json({ msg: 'Profile not Found' })
+    return profile ? res.json(profile) : res.status(404).json({ msg: 'Profile not Found' })
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
@@ -175,7 +175,7 @@ router.put(
     const exp: Experience = req.body
     try {
       const profile = await Profile.findOne({ user })
-      if (!profile) return res.json({ msg: 'Profile not Found' })
+      if (!profile) return res.status(404).json({ msg: 'Profile not Found' })
       profile.experience!.unshift(exp)
       await profile.save()
 
@@ -197,7 +197,7 @@ router.delete('/experience/:exp_id', auth, async (req: AuthRequest, res) => {
   const user_id = req.user!.id
   try {
     const profile = await Profile.findOne({ user: user_id })
-    if (!profile) return res.json({ msg: 'Profile not Found' })
+    if (!profile) return res.status(404).json({ msg: 'Profile not Found' })
     profile.experience = profile.experience!.filter(exp => exp._id != exp_id)
     await profile.save()
     return res.json({ msg: 'Experience Deleted' })
@@ -229,7 +229,7 @@ router.put(
     const edu: Education = req.body
     try {
       const profile = await Profile.findOne({ user })
-      if (!profile) return res.json({ msg: 'Profile not Found' })
+      if (!profile) return res.status(404).json({ msg: 'Profile not Found' })
       profile.education!.unshift(edu)
       await profile.save()
 
@@ -251,7 +251,7 @@ router.delete('/education/:edu_id', auth, async (req: AuthRequest, res) => {
   const user_id = req.user!.id
   try {
     const profile = await Profile.findOne({ user: user_id })
-    if (!profile) return res.json({ msg: 'Profile not Found' })
+    if (!profile) return res.status(404).json({ msg: 'Profile not Found' })
     profile.education = profile.education!.filter(edu => edu._id != edu_id)
     await profile.save()
     return res.json({ msg: 'Education Deleted' })
