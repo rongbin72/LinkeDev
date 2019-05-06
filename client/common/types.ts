@@ -86,6 +86,14 @@ export interface AddEducationProps extends RouteComponentProps<any, StaticContex
   addEducation: AddEducationAction
 }
 
+export interface ExperienceProps {
+  experience?: Experience[]
+}
+
+export interface EducationProps {
+  education?: Education[]
+}
+
 export type SetAlertAction = (
   msg: string,
   alertType: string,
@@ -170,6 +178,7 @@ export interface ProfileType {
 }
 
 export interface Experience {
+  _id: string
   title: string
   company: string
   location: string
@@ -180,6 +189,7 @@ export interface Experience {
 }
 
 export interface Education {
+  _id: string
   school: string
   degree: string
   fieldofstudy: string
