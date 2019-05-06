@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { DashboardProps, StoreState } from '../../../common/types'
-import { getCurrentProfile } from '../../actions/profile'
+import { getCurrentProfile, deleteAccount } from '../../actions/profile'
 import Spinner from '../layout/Spinner'
 import { Link } from 'react-router-dom'
 import DashboardActions from './DashboardActions'
 import Experience from './Experience'
 import Education from './Education'
 
-const Dashboard: React.FC<DashboardProps> = ({ getCurrentProfile, user, profile, loading }) => {
+const Dashboard: React.FC<DashboardProps> = ({
+  getCurrentProfile,
+  deleteAccount,
+  user,
+  profile,
+  loading
+}) => {
   useEffect(() => {
     getCurrentProfile()
   }, [getCurrentProfile])
@@ -27,6 +33,11 @@ const Dashboard: React.FC<DashboardProps> = ({ getCurrentProfile, user, profile,
           <DashboardActions />
           <Experience experience={profile.experience} />
           <Education education={profile.education} />
+          <div className='my-2'>
+            <button className='btn btn-danger' onClick={() => deleteAccount()}>
+              Delete My Account
+            </button>
+          </div>
         </>
       ) : (
         <>
@@ -48,5 +59,5 @@ const mapStateToProps = (state: StoreState) => ({
 
 export default connect(
   mapStateToProps,
-  { getCurrentProfile }
+  { getCurrentProfile, deleteAccount }
 )(Dashboard)
