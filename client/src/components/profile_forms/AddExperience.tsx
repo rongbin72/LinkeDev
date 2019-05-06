@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 
 const AddExperience: React.FC<AddExperienceProps> = ({ addExperience, history }) => {
   const [formData, setFormData] = useState<Experience>({
-    _id: '',
     title: '',
     company: '',
     location: '',
@@ -67,7 +66,7 @@ const AddExperience: React.FC<AddExperienceProps> = ({ addExperience, history })
           />
         </div>
         <div className='form-group'>
-          <h4>From Date</h4>
+          <h4>* From Date</h4>
           <input type='date' name='from' value={from} onChange={e => onChange(e)} />
         </div>
         <div className='form-group'>

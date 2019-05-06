@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 
 const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) => {
   const [formData, setFormData] = useState<Education>({
-    _id: '',
     school: '',
     degree: '',
     fieldofstudy: '',
@@ -67,7 +66,7 @@ const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) =>
           />
         </div>
         <div className='form-group'>
-          <h4>From Date</h4>
+          <h4>* From Date</h4>
           <input type='date' name='from' value={from} onChange={e => onChange(e)} />
         </div>
         <div className='form-group'>
