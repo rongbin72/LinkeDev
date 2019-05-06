@@ -17,6 +17,7 @@ import CreateProfile from './components/profile_forms/CreateProfile'
 import EditProfile from './components/profile_forms/EditProfile'
 import AddExperience from './components/profile_forms/AddExperience'
 import AddEducation from './components/profile_forms/AddEducation'
+import Profiles from './components/profiles/Profiles'
 
 if (localStorage.token) setAuthToken(localStorage.token)
 
@@ -36,6 +37,7 @@ const App: React.FC = () => {
             <Switch>
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
+              <Route exact path='/profiles' component={Profiles} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/create_profile' component={CreateProfile} />
               <PrivateRoute exact path='/edit_profile' component={EditProfile} />
