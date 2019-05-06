@@ -1,8 +1,9 @@
 import { History } from 'history'
-import { RouteComponentProps, RouteProps, StaticContext } from 'react-router'
+import { RouteComponentProps, RouteProps, StaticContext, match } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus, ProfileStatus } from '../src/actions/types'
+import { getGithubRepos } from '../src/actions/profile'
 
 export interface AuthPayload {
   token?: string | null
@@ -19,7 +20,7 @@ export interface ProfilePayload {
   error?: { msg: string; status: number } | null
   profile?: ProfileType | null
   profiles?: ProfileType[]
-  repos?: any[]
+  repos?: GithubRepo[]
 }
 
 export type AlertState = AlertPayload[]
@@ -104,6 +105,34 @@ export interface ProfilesProps {
 
 export interface ProfileItemProps {
   profile: ProfileType
+}
+
+export interface ProfileProps extends RouteComponentProps<{ id: string }, StaticContext, any> {
+  getProfileById: GetProfileByIdAction
+  profile?: ProfileType | null
+  loading: boolean
+  auth?: AuthState
+}
+
+export interface ProfileTopProps {
+  profile: ProfileType
+}
+
+export interface ProfileAboutProps {
+  profile: ProfileType
+}
+export interface ProfileExperienceProps {
+  experience: Experience
+}
+
+export interface ProfileEducationProps {
+  education: Education
+}
+
+export interface ProfileGithubProps {
+  username: string
+  getGithubRepos: GetGithubReposAction
+  repos?: GithubRepo[]
 }
 
 export type SetAlertAction = (
@@ -259,4 +288,14 @@ export interface RegisterForm {
   email: string
   password: string
   password2: string
+}
+
+export interface GithubRepo {
+  _id: string
+  name: string
+  html_url: string
+  description: string
+  stargazers_count: number
+  watchers_count: number
+  forks_count: number
 }
