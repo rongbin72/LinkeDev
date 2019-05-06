@@ -4,6 +4,7 @@ import { DashboardProps, StoreState } from '../../../common/types'
 import { getCurrentProfile } from '../../actions/profile'
 import Spinner from '../layout/Spinner'
 import { Link } from 'react-router-dom'
+import DashboardActions from './DashboardActions'
 
 const Dashboard: React.FC<DashboardProps> = ({ getCurrentProfile, user, profile, loading }) => {
   useEffect(() => {
@@ -19,7 +20,9 @@ const Dashboard: React.FC<DashboardProps> = ({ getCurrentProfile, user, profile,
         <i className='fas fa-user' /> Welcome {user && user.name}{' '}
       </p>
       {profile ? (
-        <>has</>
+        <>
+          <DashboardActions />
+        </>
       ) : (
         <>
           <p>You have not yet setup profile, please add some info</p>
