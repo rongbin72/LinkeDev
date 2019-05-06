@@ -5,6 +5,8 @@ import { getCurrentProfile } from '../../actions/profile'
 import Spinner from '../layout/Spinner'
 import { Link } from 'react-router-dom'
 import DashboardActions from './DashboardActions'
+import Experience from './Experience'
+import Education from './Education'
 
 const Dashboard: React.FC<DashboardProps> = ({ getCurrentProfile, user, profile, loading }) => {
   useEffect(() => {
@@ -19,9 +21,12 @@ const Dashboard: React.FC<DashboardProps> = ({ getCurrentProfile, user, profile,
         {' '}
         <i className='fas fa-user' /> Welcome {user && user.name}{' '}
       </p>
+
       {profile ? (
         <>
           <DashboardActions />
+          <Experience experience={profile.experience} />
+          <Education education={profile.education} />
         </>
       ) : (
         <>
