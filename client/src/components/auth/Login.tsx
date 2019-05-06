@@ -14,7 +14,6 @@ const Login: React.FC<LoginProps> = ({ login, isAuth }) => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     login(email, password)
-    console.log('success')
   }
 
   // Redirect if logged in, else show login page
