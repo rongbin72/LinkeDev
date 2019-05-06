@@ -76,23 +76,23 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
             <option value='Developer'>Developer</option>
             <option value='Junior Developer'>Junior Developer</option>
             <option value='Senior Developer'>Senior Developer</option>
-            <option value='Manager'>Manager</option>
-            <option value='Student or Learning'>Student or Learning</option>
-            <option value='Instructor'>Instructor or Teacher</option>
+            <option value='Data Scientist'>Data Scientist</option>
+            <option value='Student'>Student</option>
+            <option value='Instructor'>Instructor</option>
             <option value='Intern'>Intern</option>
             <option value='Other'>Other</option>
           </select>
-          <small className='form-text'>Give us an idea of where you are at in your career</small>
+          <small className='form-text'>Give us an idea of your current status</small>
         </div>
         <div className='form-group'>
           <input
             type='text'
-            placeholder='Company'
+            placeholder='Company or School'
             name='company'
             value={company}
             onChange={e => onChange(e)}
           />
-          <small className='form-text'>Could be your own company or one you work for</small>
+          <small className='form-text'>Could be your company or school</small>
         </div>
         <div className='form-group'>
           <input
