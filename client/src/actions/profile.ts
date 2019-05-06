@@ -1,14 +1,17 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import {
+  AddEducationAction,
   AddExperienceAction,
   CreateProfileAction,
+  DeleteExperienceAction,
   ErrorRes,
   GetCurrentProfileAction,
   ProfileType,
-  AddEducationAction
+  DeleteEducationAction,
+  DeleteAccountAction
 } from '../../common/types'
 import { setAlert } from './alert'
-import { ProfileStatus } from './types'
+import { ProfileStatus, AuthStatus } from './types'
 
 // Get current users profile
 export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch => {
@@ -23,7 +26,7 @@ export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch =
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: error.response.data.msg as string,
+          msg: (error.response.data.msg || error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -55,7 +58,7 @@ export const createProfile: CreateProfileAction = (
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: error.response.data.msg as string,
+          msg: (error.response.data.msg || error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -83,7 +86,7 @@ export const addExperience: AddExperienceAction = (formData, history) => async d
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: error.response.data.msg as string,
+          msg: (error.response.data.msg || error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -110,10 +113,86 @@ export const addEducation: AddEducationAction = (formData, history) => async dis
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: error.response.data.msg as string,
+          msg: (error.response.data.msg || error.response.statusText) as string,
           status: error.response.status as number
         }
       }
     })
   }
+}
+
+// Delete Experience
+export const deleteExperience: DeleteExperienceAction = id => async dispatch => {
+  try {
+    const res: AxiosResponse<ProfileType> = await axios.delete(`/api/profiles/experience/${id}`)
+    dispatch({
+      type: ProfileStatus.UPDATE_PROFILE,
+      payload: { profile: res.data }
+    })
+
+    dispatch(setAlert('Experience Removed', 'success'))
+  } catch (error) {
+    dispatch({
+      type: ProfileStatus.PROFILE_ERROR,
+      payload: {
+        error: {
+          msg: (error.response.data.msg || error.response.statusText) as string,
+          status: error.response.status as number
+        }
+      }
+    })
+  }
+}
+
+// Delete Education
+export const deleteEducation: DeleteEducationAction = id => async dispatch => {
+  try {
+    const res: AxiosResponse<ProfileType> = await axios.delete(`/api/profiles/education/${id}`)
+    dispatch({
+      type: ProfileStatus.UPDATE_PROFILE,
+      payload: { profile: res.data }
+    })
+
+    dispatch(setAlert('Education Removed', 'success'))
+  } catch (error) {
+    dispatch({
+      type: ProfileStatus.PROFILE_ERROR,
+      payload: {
+        error: {
+          msg: (error.response.data.msg || error.response.statusText) as string,
+          status: error.response.status as number
+        }
+      }
+    })
+  }
+}
+
+// Delete Account and Profiles
+export const deleteAccount: DeleteAccountAction = () => async dispatch => {
+  if (window.confirm('Are you sure? This can Not be undone !'))
+    try {
+      await axios.delete('/api/profiles')
+
+      dispatch({
+        type: ProfileStatus.CLEAR_PROFILE,
+        payload: {}
+      })
+
+      dispatch({
+        type: AuthStatus.ACCOUNT_DELETED,
+        payload: {}
+      })
+
+      dispatch(setAlert('Your account has been permanently deleted', 'info'))
+    } catch (error) {
+      dispatch({
+        type: ProfileStatus.PROFILE_ERROR,
+        payload: {
+          error: {
+            msg: (error.response.data.msg || error.response.statusText) as string,
+            status: error.response.status as number
+          }
+        }
+      })
+    }
 }

@@ -1,9 +1,9 @@
-import { RouteProps, RouteComponentProps, StaticContext } from 'react-router'
+import { History } from 'history'
+import { RouteComponentProps, RouteProps, StaticContext } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus, ProfileStatus } from '../src/actions/types'
-import { History } from 'history'
-import { createProfile, getCurrentProfile } from '../src/actions/profile'
+import { deleteExperience, deleteEducation, deleteAccount } from '../src/actions/profile'
 
 export interface AuthPayload {
   token?: string | null
@@ -62,6 +62,7 @@ export interface PrivateRouteProps extends RouteProps {
 
 export interface DashboardProps {
   getCurrentProfile: GetCurrentProfileAction
+  deleteAccount: DeleteAccountAction
   user: TUser | null
   profile: ProfileType | null
   loading: boolean
@@ -88,10 +89,12 @@ export interface AddEducationProps extends RouteComponentProps<any, StaticContex
 
 export interface ExperienceProps {
   experience?: Experience[]
+  deleteExperience: DeleteExperienceAction
 }
 
 export interface EducationProps {
   education?: Education[]
+  deleteEducation: DeleteEducationAction
 }
 
 export type SetAlertAction = (
@@ -133,6 +136,12 @@ export type AddEducationAction = (
   history: History
 ) => ThunkAction<any, States, undefined, Actions>
 
+export type DeleteExperienceAction = (id: string) => ThunkAction<any, States, undefined, Actions>
+
+export type DeleteEducationAction = (id: string) => ThunkAction<any, States, undefined, Actions>
+
+export type DeleteAccountAction = () => ThunkAction<any, States, undefined, Actions>
+
 export interface StoreState {
   alert?: AlertState
   auth?: AuthState
@@ -171,14 +180,14 @@ export interface ProfileType {
   skills?: string[]
   bio?: string
   githubusername?: string
-  experience?: Experience[]
-  education?: Education[]
+  experience: Experience[]
+  education: Education[]
   social?: Social
   data?: string
 }
 
 export interface Experience {
-  _id: string
+  _id?: string
   title: string
   company: string
   location: string
@@ -189,7 +198,7 @@ export interface Experience {
 }
 
 export interface Education {
-  _id: string
+  _id?: string
   school: string
   degree: string
   fieldofstudy: string
