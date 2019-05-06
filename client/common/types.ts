@@ -3,6 +3,7 @@ import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AlertStatus, AuthStatus, ProfileStatus } from '../src/actions/types'
 import { History } from 'history'
+import { createProfile, getCurrentProfile } from '../src/actions/profile'
 
 export interface AuthPayload {
   token?: string | null
@@ -68,6 +69,14 @@ export interface DashboardProps {
 
 export interface CreateProfileProps extends RouteComponentProps<any, StaticContext, any> {
   createProfile: CreateProfileAction
+}
+
+export interface EditProfileProps extends RouteComponentProps<any, StaticContext, any> {
+  profile?: ProfileType | null
+  loading: boolean
+  createProfile: CreateProfileAction
+  getCurrentProfile: GetCurrentProfileAction
+  // history: History
 }
 
 export type SetAlertAction = (
