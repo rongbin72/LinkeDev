@@ -22,6 +22,18 @@ export default function(
         profile: payload.profile,
         loading: false
       }
+    case ProfileStatus.GET_PROFILES:
+      return {
+        ...state,
+        profiles: payload.profiles,
+        loading: false
+      }
+    case ProfileStatus.GET_REPOS:
+      return {
+        ...state,
+        repos: payload.repos,
+        loading: false
+      }
     case ProfileStatus.PROFILE_ERROR:
       return {
         ...state,
