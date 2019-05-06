@@ -14,6 +14,7 @@ import { loadUser } from './actions/auth'
 import Dashboard from './components/dashboard/Dashboard'
 import PrivateRoute from './components/routing/PrivateRoute'
 import CreateProfile from './components/profile_forms/CreateProfile'
+import EditProfile from './components/profile_forms/EditProfile'
 
 if (localStorage.token) setAuthToken(localStorage.token)
 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
               <Route exact path='/login' component={Login} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/create_profile' component={CreateProfile} />
+              <PrivateRoute exact path='/edit_profile' component={EditProfile} />
             </Switch>
           </section>
         </>
