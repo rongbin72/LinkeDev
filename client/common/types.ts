@@ -2,8 +2,13 @@ import { History } from 'history'
 import { RouteComponentProps, RouteProps, StaticContext } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
-import { AuthStatus, ProfileStatus } from '../src/actions/types'
+import { AuthStatus, ProfileStatus, PostStatus } from '../src/actions/types'
 
+/**
+ * * =======================
+ * * | Action Payload Type |
+ * * =======================
+ */
 export interface AuthPayload {
   token?: string | null
   user?: TUser | null
@@ -16,6 +21,17 @@ export interface ProfilePayload {
   repos?: GithubRepo[]
 }
 
+export interface PostPayload {
+  post?: PostType | null
+  posts?: PostType[]
+  error?: { msg: string; status: number } | null
+}
+
+/**
+ * * ======================
+ * * | Reducer State Type |
+ * * ======================
+ */
 export interface AuthState extends AuthPayload {
   isAuth: boolean
   loading: boolean
@@ -25,6 +41,18 @@ export interface ProfileState extends ProfilePayload {
   loading: boolean
 }
 
+export interface PostState extends PostPayload {
+  loading: boolean
+  post: PostType | null
+  posts: PostType[]
+  error: { msg: string; status: number } | null
+}
+
+/**
+ * * ========================
+ * * | Component Props Type |
+ * * ========================
+ */
 export interface RegisterProps {
   register: RegisterAction
   isAuth: boolean
@@ -122,6 +150,24 @@ export interface ProfileGithubProps {
   repos?: GithubRepo[]
 }
 
+// * Post
+export interface PostsProps {
+  getPosts: GetPostsAction
+  posts: PostType[]
+  loading: boolean
+}
+
+export interface PostItemProps {
+  post: PostType
+  auth: AuthState
+  showActions: boolean
+}
+
+/**
+ * * ========================
+ * * | Action Function Type |
+ * * ========================
+ */
 export type RegisterAction = (
   name: string,
   email: string,
@@ -169,19 +215,35 @@ export type DeleteEducationAction = (id: string) => ThunkAction<any, States, und
 
 export type DeleteAccountAction = () => ThunkAction<any, States, undefined, Actions>
 
+export type GetPostsAction = () => ThunkAction<any, States, undefined, Actions>
+
+/**
+ * * ========================
+ * * | Top Level Union Type |
+ * * ========================
+ */
 export interface StoreState {
   auth?: AuthState
   profile?: ProfileState
+  post?: PostState
 }
 
 export interface TAction<T, P> extends Action<T> {
   payload: P
 }
 
-export type Actions = TAction<AuthStatus, AuthPayload> | TAction<ProfileStatus, ProfilePayload>
+export type Actions =
+  | TAction<AuthStatus, AuthPayload>
+  | TAction<ProfileStatus, ProfilePayload>
+  | TAction<PostStatus, PostPayload>
 
-export type States = AuthState | ProfileState
+export type States = AuthState | ProfileState | PostState
 
+/**
+ * * =================
+ * * | App Data Type |
+ * * =================
+ */
 export interface ErrorRes {
   msg: string
 }
@@ -275,4 +337,29 @@ export interface GithubRepo {
   stargazers_count: number
   watchers_count: number
   forks_count: number
+}
+
+export interface PostType {
+  _id: string
+  user: string
+  text: string
+  name: string
+  avatar: string
+  likes: LikeType[]
+  comments: CommentType[]
+  date: string
+}
+
+interface LikeType {
+  id: string
+  user: string
+}
+
+export interface CommentType {
+  id?: string
+  user: string
+  text?: string
+  name?: string
+  avatar?: string
+  date?: string
 }
