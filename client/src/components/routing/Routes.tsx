@@ -13,6 +13,7 @@ import AddExperience from '../profile_forms/AddExperience'
 import CreateProfile from '../profile_forms/CreateProfile'
 import EditProfile from '../profile_forms/EditProfile'
 import PrivateRoute from './PrivateRoute'
+import Posts from '../posts/Posts'
 
 const Routes: React.FC = () => {
   return (
@@ -27,6 +28,8 @@ const Routes: React.FC = () => {
         <PrivateRoute exact path='/edit_profile' component={EditProfile} />
         <PrivateRoute exact path='/add_experience' component={AddExperience} />
         <PrivateRoute exact path='/add_education' component={AddEducation} />
+        <PrivateRoute exact path='/posts' component={Posts} />
+
         <Route component={NotFound} />
       </Switch>
       <ToastContainer />
