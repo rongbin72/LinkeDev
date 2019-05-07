@@ -1,8 +1,3 @@
-export enum AlertStatus {
-  SET_ALERT = 'SET_ALERT',
-  REMOVE_ALERT = 'REMOVE_ALERT'
-}
-
 export enum AuthStatus {
   REGISTER_SUCCESS = 'REGISTER_SUCCESS',
   REGISTER_FAIL = 'REGISTER_FAIL',
