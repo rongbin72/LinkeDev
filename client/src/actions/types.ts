@@ -17,3 +17,8 @@ export enum ProfileStatus {
   CLEAR_PROFILE = 'CLEAR_PROFILE',
   UPDATE_PROFILE = 'UPDATE_PROFILE'
 }
+
+export enum PostStatus {
+  GET_POSTS = 'GET_POSTS',
+  POST_ERROR = 'POST_ERROR'
+}
