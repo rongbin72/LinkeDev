@@ -166,9 +166,9 @@ router.put(
   '/experience',
   auth,
   [
-    check('title', 'title is Required').exists({ checkFalsy: true }),
-    check('company', 'company is Required').exists({ checkFalsy: true }),
-    check('from', 'from is Required').exists({ checkFalsy: true })
+    check('title', 'Title is Required').exists({ checkFalsy: true }),
+    check('company', 'Company is Required').exists({ checkFalsy: true }),
+    check('from', 'From Date s Required').exists({ checkFalsy: true })
   ],
   async (req: AuthRequest, res: express.Response) => {
     const errors = validationResult(req)
@@ -219,9 +219,9 @@ router.put(
   '/education',
   auth,
   [
-    check('school', 'school is Required').exists({ checkFalsy: true }),
-    check('degree', 'degree is Required').exists({ checkFalsy: true }),
-    check('fieldofstudy', 'fieldofstudy is Required').exists({ checkFalsy: true }),
+    check('school', 'School is Required').exists({ checkFalsy: true }),
+    check('degree', 'Degree is Required').exists({ checkFalsy: true }),
+    check('fieldofstudy', 'Field of Study is Required').exists({ checkFalsy: true }),
     check('from', 'from is Required').exists({ checkFalsy: true })
   ],
   async (req: AuthRequest, res: express.Response) => {
