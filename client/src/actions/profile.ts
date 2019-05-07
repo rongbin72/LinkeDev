@@ -13,9 +13,10 @@ import {
   GetProfileByIdAction,
   GetGithubReposAction
 } from '../../common/types'
-import { setAlert } from './alert'
 import { ProfileStatus, AuthStatus } from './types'
 import Swal from 'sweetalert2'
+import { toast } from 'react-toastify'
+import setAlert from '../utils/setAlert'
 
 // Get current users profile
 export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch => {
@@ -119,12 +120,12 @@ export const createProfile: CreateProfileAction = (
       payload: { profile: res.data }
     })
 
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created', 'success '))
+    setAlert(edit ? 'Profile Updated' : 'Profile Created', toast.TYPE.SUCCESS)
 
     if (!edit) history.push('/dashboard')
   } catch (error) {
     const errors: ErrorRes[] = error.response.data.errors
-    if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+    if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
@@ -147,12 +148,12 @@ export const addExperience: AddExperienceAction = (formData, history) => async d
       payload: { profile: res.data }
     })
 
-    dispatch(setAlert('Experience Added', 'success '))
+    setAlert('Experience Added', toast.TYPE.SUCCESS)
     history.push('/dashboard')
   } catch (error) {
     console.error(error)
     const errors: ErrorRes[] = error.response.data.errors
-    if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+    if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
@@ -175,11 +176,11 @@ export const addEducation: AddEducationAction = (formData, history) => async dis
       payload: { profile: res.data }
     })
 
-    dispatch(setAlert('Education Added', 'success '))
+    setAlert('Education Added', toast.TYPE.SUCCESS)
     history.push('/dashboard')
   } catch (error) {
     const errors: ErrorRes[] = error.response.data.errors
-    if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+    if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
@@ -202,7 +203,7 @@ export const deleteExperience: DeleteExperienceAction = id => async dispatch => 
       payload: { profile: res.data }
     })
 
-    dispatch(setAlert('Experience Removed', 'success'))
+    setAlert('Experience Removed', toast.TYPE.SUCCESS)
   } catch (error) {
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
@@ -225,7 +226,7 @@ export const deleteEducation: DeleteEducationAction = id => async dispatch => {
       payload: { profile: res.data }
     })
 
-    dispatch(setAlert('Education Removed', 'success'))
+    setAlert('Education Removed', toast.TYPE.SUCCESS)
   } catch (error) {
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
@@ -264,7 +265,7 @@ export const deleteAccount: DeleteAccountAction = () => async dispatch => {
           payload: {}
         })
 
-        dispatch(setAlert('Your account has been permanently deleted', 'info'))
+        setAlert('Your account has been permanently deleted', toast.TYPE.INFO)
       } catch (error) {
         dispatch({
           type: ProfileStatus.PROFILE_ERROR,

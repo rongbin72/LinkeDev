@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
-import { setAlert } from '../../actions/alert'
 import { register } from '../../actions/auth'
 import { RegisterProps, StoreState, RegisterForm } from '../../../common/types'
+import setAlert from '../../utils/setAlert'
+import { toast } from 'react-toastify'
 
-const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
+const Register: React.FC<RegisterProps> = ({ register, isAuth }) => {
   const [formData, setFormData] = useState<RegisterForm>({
     name: '',
     email: '',
@@ -19,7 +20,7 @@ const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (password !== password2) setAlert('Passwords do not match', 'danger')
+    if (password !== password2) setAlert('Passwords do not match', toast.TYPE.ERROR)
     else register(name, email, password)
     // clear after submission
     setFormData({ ...formData, name: '', email: '', password: '', password2: '' })
@@ -96,5 +97,5 @@ const mapStateToProps = (state: StoreState) => ({
 
 export default connect(
   mapStateToProps,
-  { setAlert, register }
+  { register }
 )(Register)

@@ -1,22 +1,23 @@
 import React from 'react'
-import Alert from '../layout/Alert'
-import { Switch, Route } from 'react-router'
-import PrivateRoute from './PrivateRoute'
-import Register from '../auth/Register'
+import { Route, Switch } from 'react-router'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Login from '../auth/Login'
-import Profiles from '../profiles/Profiles'
-import Profile from '../profile/Profile'
+import Register from '../auth/Register'
 import Dashboard from '../dashboard/Dashboard'
+import NotFound from '../layout/NotFound'
+import Profile from '../profile/Profile'
+import Profiles from '../profiles/Profiles'
+import AddEducation from '../profile_forms/AddEducation'
+import AddExperience from '../profile_forms/AddExperience'
 import CreateProfile from '../profile_forms/CreateProfile'
 import EditProfile from '../profile_forms/EditProfile'
-import AddExperience from '../profile_forms/AddExperience'
-import AddEducation from '../profile_forms/AddEducation'
-import NotFound from '../layout/NotFound'
+import PrivateRoute from './PrivateRoute'
 
 const Routes: React.FC = () => {
   return (
     <section className='container'>
-      <Alert />
+      <ToastContainer />
       <Switch>
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />

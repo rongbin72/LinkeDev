@@ -9,7 +9,8 @@ import {
 } from '../../common/types'
 import { AuthStatus, ProfileStatus } from '../actions/types'
 import setAuthToken from '../utils/setAuthToken'
-import { setAlert } from './alert'
+import { toast } from 'react-toastify'
+import setAlert from '../utils/setAlert'
 
 // Load User
 export const loadUser: LoadUserAction = () => async dispatch => {
@@ -47,7 +48,7 @@ export const register: RegisterAction = (name, email, password) => async dispatc
     dispatch(loadUser())
   } catch (error) {
     const errors: ErrorRes[] = error.response.data.errors
-    if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+    if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
       type: AuthStatus.REGISTER_FAIL,
@@ -71,7 +72,7 @@ export const login: LoginAction = (email, password) => async dispatch => {
     dispatch(loadUser())
   } catch (error) {
     const errors: ErrorRes[] = error.response.data.errors
-    if (errors) errors.forEach(error => dispatch(setAlert(error.msg, 'danger')))
+    if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
       type: AuthStatus.LOGIN_FAIL,
