@@ -20,10 +20,10 @@ const ProfileTop: React.FC<ProfileTopProps> = ({
         <p className='lead'>
           {company ? (
             <span>
-              {name} @ {company}
+              {status} @ {company}
             </span>
           ) : (
-            name
+            status
           )}
         </p>
         <p>{location && <span>{location}</span>}</p>
