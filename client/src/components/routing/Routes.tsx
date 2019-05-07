@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer, Slide } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Login from '../auth/Login'
 import Register from '../auth/Register'
@@ -17,7 +17,6 @@ import PrivateRoute from './PrivateRoute'
 const Routes: React.FC = () => {
   return (
     <section className='container'>
-      <ToastContainer />
       <Switch>
         <Route exact path='/register' component={Register} />
         <Route exact path='/login' component={Login} />
@@ -30,6 +29,7 @@ const Routes: React.FC = () => {
         <PrivateRoute exact path='/add_education' component={AddEducation} />
         <Route component={NotFound} />
       </Switch>
+      <ToastContainer />
     </section>
   )
 }
