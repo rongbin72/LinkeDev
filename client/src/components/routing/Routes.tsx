@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router'
-import { ToastContainer, Slide } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Login from '../auth/Login'
 import Register from '../auth/Register'

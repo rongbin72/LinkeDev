@@ -1,6 +1,5 @@
 import React from 'react'
-import { ProfileAboutProps, StoreState } from '../../../common/types'
-import { connect } from 'react-redux'
+import { ProfileAboutProps } from '../../../common/types'
 
 const ProfileAbout: React.FC<ProfileAboutProps> = ({ profile: { bio, skills } }) => (
   <div className='profile-about bg-light p-2'>
