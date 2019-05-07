@@ -42,7 +42,7 @@ const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
               name='name'
               value={name}
               onChange={e => onChange(e)}
-              required
+              // required
             />
           </div>
           <div className='form-group'>
@@ -52,7 +52,7 @@ const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
               name='email'
               value={email}
               onChange={e => onChange(e)}
-              required
+              // required
             />
             <small className='form-text'>
               This site uses Gravatar so if you want a profile image, use a Gravatar email
@@ -66,7 +66,7 @@ const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
               value={password}
               onChange={e => onChange(e)}
               minLength={7}
-              required
+              // required
             />
           </div>
           <div className='form-group'>
@@ -77,7 +77,7 @@ const Register: React.FC<RegisterProps> = ({ setAlert, register, isAuth }) => {
               value={password2}
               onChange={e => onChange(e)}
               minLength={7}
-              required
+              // required
             />
           </div>
           <input type='submit' className='btn btn-primary' value='Register' />
