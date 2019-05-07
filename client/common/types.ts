@@ -268,7 +268,7 @@ export interface RegisterForm {
 }
 
 export interface GithubRepo {
-  _id: string
+  id: string
   name: string
   html_url: string
   description: string
