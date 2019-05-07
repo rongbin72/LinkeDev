@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
-import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import Spinner from '../layout/Spinner'
+import { ProfileGithubProps, StoreState } from '../../../common/types'
 import { getGithubRepos } from '../../actions/profile'
-import { StoreState, ProfileGithubProps } from '../../../common/types'
+import Spinner from '../layout/Spinner'
 
 const ProfileGithub: React.FC<ProfileGithubProps> = ({ username, getGithubRepos, repos }) => {
   useEffect(() => {
