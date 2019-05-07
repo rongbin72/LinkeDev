@@ -1,11 +1,11 @@
-import bcrypt from 'bcryptjs';
-import config from 'config';
-import express, { Request, Response } from 'express';
-import { check, validationResult } from 'express-validator/check';
-import gravatar from 'gravatar';
-import jwt from 'jsonwebtoken';
-import { TokenPayload } from '../../common/types';
-import User from '../../models/User';
+import bcrypt from 'bcryptjs'
+import config from 'config'
+import express, { Request, Response } from 'express'
+import { check, validationResult } from 'express-validator/check'
+import gravatar from 'gravatar'
+import jwt from 'jsonwebtoken'
+import { TokenPayload } from '../../common/types'
+import User from '../../models/User'
 
 const router = express.Router()
 
@@ -17,7 +17,7 @@ const router = express.Router()
 router.post(
   '/',
   [
-    check('name', 'name is required').exists({ checkFalsy: true }),
+    check('name', 'Name is required').exists({ checkFalsy: true }),
     check('email', 'Please include a valid email').isEmail(),
     check('password', 'Please enter a password with 7 or more chars').isLength({ min: 7 })
   ],
