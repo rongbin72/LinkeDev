@@ -8,7 +8,9 @@ const Navbar: React.FC<NavbarProps> = ({ isAuth, loading, logout }) => {
   const authLinks = (
     <ul>
       <li>
-        <Link to='/profiles'>Developers</Link>
+        <Link to='/profiles'>
+          <i className='fab fa-connectdevelop' /> <span className='hide-sm'>Developers</span>
+        </Link>
       </li>
       <li>
         <Link to='/dashboard'>
