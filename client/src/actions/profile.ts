@@ -15,6 +15,7 @@ import {
 } from '../../common/types'
 import { setAlert } from './alert'
 import { ProfileStatus, AuthStatus } from './types'
+import swal from 'sweetalert'
 
 // Get current users profile
 export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch => {
@@ -240,30 +241,44 @@ export const deleteEducation: DeleteEducationAction = id => async dispatch => {
 
 // Delete Account and Profiles
 export const deleteAccount: DeleteAccountAction = () => async dispatch => {
-  if (window.confirm('Are you sure? This can Not be undone !'))
-    try {
-      await axios.delete('/api/profiles')
+  swal({
+    title: 'Are you sure?',
+    text: 'This will permanently delete you account !',
+    icon: 'warning',
+    buttons: [true, true],
+    dangerMode: true
+  }).then(async willDelete => {
+    if (willDelete) {
+      try {
+        await axios.delete('/api/profiles')
 
-      dispatch({
-        type: ProfileStatus.CLEAR_PROFILE,
-        payload: {}
-      })
+        dispatch({
+          type: ProfileStatus.CLEAR_PROFILE,
+          payload: {}
+        })
 
-      dispatch({
-        type: AuthStatus.ACCOUNT_DELETED,
-        payload: {}
-      })
+        dispatch({
+          type: AuthStatus.ACCOUNT_DELETED,
+          payload: {}
+        })
 
-      dispatch(setAlert('Your account has been permanently deleted', 'info'))
-    } catch (error) {
-      dispatch({
-        type: ProfileStatus.PROFILE_ERROR,
-        payload: {
-          error: {
-            msg: (error.response.data.msg || error.response.statusText) as string,
-            status: error.response.status as number
+        dispatch(setAlert('Your account has been permanently deleted', 'info'))
+      } catch (error) {
+        dispatch({
+          type: ProfileStatus.PROFILE_ERROR,
+          payload: {
+            error: {
+              msg: (error.response.data.msg || error.response.statusText) as string,
+              status: error.response.status as number
+            }
           }
-        }
+        })
+      }
+      swal('Poof! Your account has been deleted !', {
+        icon: 'success'
       })
+    } else {
+      swal('Your account is safe !')
     }
+  })
 }
