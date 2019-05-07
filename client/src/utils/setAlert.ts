@@ -1,4 +1,4 @@
-import { toast, Slide, Flip, Zoom } from 'react-toastify'
+import { Slide, toast } from 'react-toastify'
 
 export default function(msg: string, type: string) {
   switch (type) {
