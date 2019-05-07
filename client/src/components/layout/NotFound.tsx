@@ -4,9 +4,9 @@ const NotFound: React.FC = () => {
   return (
     <>
       <h1 className='x-large text-primary'>
-        <i className='fas fa-exclamation-triangle' /> Page Not Found
+        <i className='fas fa-skull-crossbones' /> Danger Zone
       </h1>
-      <p className='large'>This Page Does Not Exist</p>
+      <p className='large'>Dangerous, Go Back</p>
     </>
   )
 }
