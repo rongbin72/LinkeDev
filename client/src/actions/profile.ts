@@ -15,7 +15,7 @@ import {
 } from '../../common/types'
 import { setAlert } from './alert'
 import { ProfileStatus, AuthStatus } from './types'
-import swal from 'sweetalert'
+import Swal from 'sweetalert2'
 
 // Get current users profile
 export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch => {
@@ -241,14 +241,16 @@ export const deleteEducation: DeleteEducationAction = id => async dispatch => {
 
 // Delete Account and Profiles
 export const deleteAccount: DeleteAccountAction = () => async dispatch => {
-  swal({
+  Swal.fire({
     title: 'Are you sure?',
-    text: 'This will permanently delete you account !',
-    icon: 'warning',
-    buttons: [true, true],
-    dangerMode: true
-  }).then(async willDelete => {
-    if (willDelete) {
+    text: 'This will permanently delete you account!',
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then(async result => {
+    if (result.value) {
       try {
         await axios.delete('/api/profiles')
 
@@ -274,11 +276,7 @@ export const deleteAccount: DeleteAccountAction = () => async dispatch => {
           }
         })
       }
-      swal('Poof! Your account has been deleted !', {
-        icon: 'success'
-      })
-    } else {
-      swal('Your account is safe !')
+      Swal.fire('Deleted!', 'Your account has been deleted.', 'success')
     }
   })
 }
