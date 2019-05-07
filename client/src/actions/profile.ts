@@ -40,10 +40,10 @@ export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch =
 
 // Get all profiles
 export const getProfiles: GetProfilesAction = () => async dispatch => {
-  dispatch({
-    type: ProfileStatus.CLEAR_PROFILE,
-    payload: {}
-  })
+  // dispatch({
+  //   type: ProfileStatus.CLEAR_PROFILE,
+  //   payload: {}
+  // })
 
   try {
     const res = await axios.get<ProfileType[]>('/api/profiles')
