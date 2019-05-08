@@ -1,7 +1,6 @@
 import React from 'react'
-import { ProfileItemProps, StoreState } from '../../../common/types'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { ProfileItemProps } from '../../../common/types'
 
 const ProfileItem: React.FC<ProfileItemProps> = ({ profile }) => {
   const {
@@ -37,6 +36,4 @@ const ProfileItem: React.FC<ProfileItemProps> = ({ profile }) => {
   )
 }
 
-const mapStateToProps = (state: StoreState) => ({})
-
-export default connect(mapStateToProps)(ProfileItem)
+export default ProfileItem
