@@ -4,7 +4,7 @@ import {
   AddExperienceAction,
   CreateProfileAction,
   DeleteExperienceAction,
-  ErrorRes,
+  ErrorMsg,
   GetCurrentProfileAction,
   ProfileType,
   DeleteEducationAction,
@@ -124,7 +124,7 @@ export const createProfile: CreateProfileAction = (
 
     if (!edit) history.push('/dashboard')
   } catch (error) {
-    const errors: ErrorRes[] = error.response.data.errors
+    const errors: ErrorMsg[] = error.response.data.errors
     if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
@@ -152,7 +152,7 @@ export const addExperience: AddExperienceAction = (formData, history) => async d
     history.push('/dashboard')
   } catch (error) {
     console.error(error)
-    const errors: ErrorRes[] = error.response.data.errors
+    const errors: ErrorMsg[] = error.response.data.errors
     if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
@@ -179,7 +179,7 @@ export const addEducation: AddEducationAction = (formData, history) => async dis
     setAlert('Education Added', toast.TYPE.SUCCESS)
     history.push('/dashboard')
   } catch (error) {
-    const errors: ErrorRes[] = error.response.data.errors
+    const errors: ErrorMsg[] = error.response.data.errors
     if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
