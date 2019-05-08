@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import {
-  ErrorRes,
+  ErrorMsg,
   LoadUserAction,
   LoginAction,
   LogoutAction,
@@ -47,7 +47,7 @@ export const register: RegisterAction = (name, email, password) => async dispatc
     })
     dispatch(loadUser())
   } catch (error) {
-    const errors: ErrorRes[] = error.response.data.errors
+    const errors: ErrorMsg[] = error.response.data.errors
     if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
@@ -71,7 +71,7 @@ export const login: LoginAction = (email, password) => async dispatch => {
     })
     dispatch(loadUser())
   } catch (error) {
-    const errors: ErrorRes[] = error.response.data.errors
+    const errors: ErrorMsg[] = error.response.data.errors
     if (errors) errors.forEach(error => setAlert(error.msg, toast.TYPE.ERROR))
 
     dispatch({
