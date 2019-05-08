@@ -1,10 +1,10 @@
-import express from 'express';
-import { check, validationResult } from 'express-validator/check';
-import mongoose from 'mongoose';
-import { AuthRequest, CommentType } from '../../common/types';
-import auth from '../../middleware/auth';
-import Post from '../../models/Post';
-import User from '../../models/User';
+import express from 'express'
+import { check, validationResult } from 'express-validator/check'
+import mongoose from 'mongoose'
+import { AuthRequest, CommentType } from '../../common/types'
+import auth from '../../middleware/auth'
+import Post from '../../models/Post'
+import User from '../../models/User'
 
 const router = express.Router()
 
@@ -63,10 +63,10 @@ router.get('/:post_id', auth, async (req, res) => {
   try {
     const post_id: string = req.params.post_id
     if (!mongoose.Types.ObjectId.isValid(post_id))
-      return res.status(404).json({ msg: 'post not Found' })
+      return res.status(404).json({ msg: 'Post not Found' })
 
     const post = await Post.findById(post_id)
-    if (!post) return res.status(404).json({ msg: 'post not Found' })
+    if (!post) return res.status(404).json({ msg: 'Post not Found' })
 
     return res.json(post)
   } catch (err) {
@@ -86,16 +86,16 @@ router.delete('/:post_id', auth, async (req: AuthRequest, res) => {
   try {
     // check post_id
     if (!mongoose.Types.ObjectId.isValid(post_id))
-      return res.status(404).json({ msg: 'post not Found' })
+      return res.status(404).json({ msg: 'Post not Found' })
 
     const post = await Post.findById(post_id)
     // check post and whether the post belong to this user
-    if (!post) return res.status(404).json({ msg: 'post not Found' })
+    if (!post) return res.status(404).json({ msg: 'Post not Found' })
 
     if (post.user.toString() !== user_id) return res.status(401).json({ msg: 'User Unauthorized' })
 
     await post.remove()
-    return res.json({ msg: 'post Deleted' })
+    return res.json({ msg: 'Post Deleted' })
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
@@ -113,12 +113,12 @@ router.put('/like/:post_id', auth, async (req: AuthRequest, res) => {
   try {
     // check post_id and post existence
     if (!mongoose.Types.ObjectId.isValid(post_id))
-      return res.status(404).json({ msg: 'post not Found' })
+      return res.status(404).json({ msg: 'Post not Found' })
     const post = await Post.findById(post_id)
-    if (!post) return res.status(404).json({ msg: 'post not Found' })
+    if (!post) return res.status(404).json({ msg: 'Post not Found' })
     // check if user already liked this post
     if (post.likes!.find(like => like.user.toString() === user_id))
-      return res.status(400).json({ msg: 'post Already Liked' })
+      return res.status(400).json({ msg: 'Post Already Liked' })
 
     post.likes!.unshift({ user: user_id })
     await post.save()
@@ -141,12 +141,12 @@ router.delete('/like/:post_id', auth, async (req: AuthRequest, res) => {
   try {
     // check post_id and post existence
     if (!mongoose.Types.ObjectId.isValid(post_id))
-      return res.status(404).json({ msg: 'post not Found' })
+      return res.status(404).json({ msg: 'Post not Found' })
     const post = await Post.findById(post_id)
-    if (!post) return res.status(404).json({ msg: 'post not Found' })
+    if (!post) return res.status(404).json({ msg: 'Post not Found' })
     // check if user has not liked this post
     if (!post.likes!.find(like => like.user.toString() === user_id))
-      return res.status(400).json({ msg: 'post has not been liked' })
+      return res.status(400).json({ msg: 'Post has not been liked' })
 
     post.likes = post.likes!.filter(like => like.user.toString() !== user_id)
     await post.save()
@@ -176,7 +176,7 @@ router.put(
     try {
       const user = await User.findById(user_id).select('-password')
       const post = await Post.findById(post_id)
-      if (!post) return res.status(404).json({ msg: 'post not Found' })
+      if (!post) return res.status(404).json({ msg: 'Post not Found' })
       const comment: CommentType = {
         text: req.body.text,
         name: user!.name,
@@ -204,14 +204,14 @@ router.delete('/comment/:post_id/:comment_id', auth, async (req: AuthRequest, re
   try {
     // check post_id
     if (!mongoose.Types.ObjectId.isValid(post_id))
-      return res.status(404).json({ msg: 'post not Found' })
+      return res.status(404).json({ msg: 'Post not Found' })
 
     // check post existence
     const post = await Post.findById(post_id)
-    if (!post) return res.status(404).json({ msg: 'post not Found' })
+    if (!post) return res.status(404).json({ msg: 'Post not Found' })
     // check comment existence
     const comment = post.comments!.find(comment => comment.id! === comment_id)
-    if (!comment) return res.status(404).json({ msg: 'comment not Found' })
+    if (!comment) return res.status(404).json({ msg: 'Comment not Found' })
     // check if the comment belongs to this user
     if (comment.user.toString() !== user_id)
       return res.status(401).json({ msg: 'User Unauthorized' })
