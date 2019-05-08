@@ -13,7 +13,9 @@ const PostItem: React.FC<PostItemProps> = ({
   showActions,
   post: { _id: post_id, text, name, avatar, user, likes, comments, date }
 }) => {
-  const [liked, setLiked] = useState<boolean>(false)
+  const [liked, setLiked] = useState<boolean>(
+    showActions && likes.find(like => like.user === auth.user!._id) ? true : false
+  )
 
   return (
     <div className='post bg-white p-1 my-1'>
