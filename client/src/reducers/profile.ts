@@ -45,7 +45,7 @@ export default function(
         ...state,
         profile: null,
         repos: [],
-        loading: false
+        loading: true
       }
     default:
       return state
