@@ -2,8 +2,9 @@ import { History } from 'history'
 import { RouteComponentProps, RouteProps, StaticContext } from 'react-router'
 import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
-import { AuthStatus, ProfileStatus, PostStatus } from '../src/actions/types'
+import { AuthStatus, PostStatus, ProfileStatus } from '../src/actions/types'
 
+// TODO narrow down payload state
 /**
  * * =======================
  * * | Action Payload Type |
@@ -15,18 +16,15 @@ export interface AuthPayload {
 }
 
 export interface ProfilePayload {
-  error?: { msg: string; status: number } | null
+  error?: TError | null
   profile?: ProfileType | null
   profiles?: ProfileType[]
   repos?: GithubRepo[]
 }
 
-export interface PostPayload {
-  post?: PostType | null
-  posts?: PostType[]
-  error?: { msg: string; status: number } | null
-}
+export type PostPayload = PostType | PostType[] | TError | UpdateLikes | string | CommentType[]
 
+// TODO Do not extends payload type
 /**
  * * ======================
  * * | Reducer State Type |
@@ -41,11 +39,11 @@ export interface ProfileState extends ProfilePayload {
   loading: boolean
 }
 
-export interface PostState extends PostPayload {
+export interface PostState {
   loading: boolean
   post: PostType | null
   posts: PostType[]
-  error: { msg: string; status: number } | null
+  error: TError | null
 }
 
 /**
@@ -150,7 +148,12 @@ export interface ProfileGithubProps {
   repos?: GithubRepo[]
 }
 
-// * Post
+export interface PostProps extends RouteComponentProps<{ id: string }, StaticContext, any> {
+  post: PostType | null
+  getPost: GetPostAction
+  loading: boolean
+}
+
 export interface PostsProps {
   getPosts: GetPostsAction
   posts: PostType[]
@@ -160,9 +163,30 @@ export interface PostsProps {
 export interface PostItemProps {
   post: PostType
   auth: AuthState
+  addLike: AddLikeAction
   showActions: boolean
+  removeLike: RemoveLikeAction
+  deletePost: DeletePostAction
 }
 
+export interface PostFormProps {
+  addPost: AddPostAction
+}
+
+export interface CommentFormProps {
+  addComment: AddCommentAction
+  post_id: string
+}
+
+export interface CommentItemProps {
+  deleteComment: DeleteCommentAction
+  comment: CommentType
+  post_id: string
+  auth: AuthState
+}
+
+// TODO try using generic type for all actions
+// type AppAction<A> = (...A) => ThunkAction<any, States, undefined, Actions>
 /**
  * * ========================
  * * | Action Function Type |
@@ -215,7 +239,27 @@ export type DeleteEducationAction = (id: string) => ThunkAction<any, States, und
 
 export type DeleteAccountAction = () => ThunkAction<any, States, undefined, Actions>
 
+export type GetPostAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+
 export type GetPostsAction = () => ThunkAction<any, States, undefined, Actions>
+
+export type AddLikeAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+
+export type RemoveLikeAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+
+export type DeletePostAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+
+export type AddPostAction = (formData: PostForm) => ThunkAction<any, States, undefined, Actions>
+
+export type AddCommentAction = (
+  post_id: string,
+  formData: CommentForm
+) => ThunkAction<any, States, undefined, Actions>
+
+export type DeleteCommentAction = (
+  post_id: string,
+  comment_id: string
+) => ThunkAction<any, States, undefined, Actions>
 
 /**
  * * ========================
@@ -237,14 +281,20 @@ export type Actions =
   | TAction<ProfileStatus, ProfilePayload>
   | TAction<PostStatus, PostPayload>
 
-export type States = AuthState | ProfileState | PostState
+export type States = StoreState
+// export type States = AuthState | ProfileState | PostState
 
 /**
  * * =================
  * * | App Data Type |
  * * =================
  */
-export interface ErrorRes {
+export interface ErrorMsg {
+  msg: string
+}
+
+export interface TError {
+  status: number
   msg: string
 }
 
@@ -350,16 +400,27 @@ export interface PostType {
   date: string
 }
 
-interface LikeType {
+export interface LikeType {
   id: string
   user: string
 }
 
 export interface CommentType {
-  id?: string
+  _id: string
   user: string
-  text?: string
-  name?: string
-  avatar?: string
-  date?: string
+  text: string
+  name: string
+  avatar: string
+  date: string
 }
+
+export interface UpdateLikes {
+  post_id: string
+  likes: LikeType[]
+}
+
+export interface PostForm {
+  text: string
+}
+
+export type CommentForm = PostForm
