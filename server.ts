@@ -23,10 +23,8 @@ app.use('/api/posts', posts)
 if (process.env.NODE_ENV === 'production') {
   // Set static path
   app.use(express.static('client/build'))
-  let url = path.resolve(__dirname, 'client', 'build', 'index.html')
-  if (!url.startsWith('/app/')) url = url.substring(1)
   app.get('/*', (_, res) => {
-    res.sendFile(url)
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html')
   })
 }
 
