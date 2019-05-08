@@ -1,6 +1,6 @@
 {
-  "root": "build/",
+  "root": "client/build/",
   "routes": {
-    "/**": "index.html"
+    "/**": "client/index.html"
   }
 }
