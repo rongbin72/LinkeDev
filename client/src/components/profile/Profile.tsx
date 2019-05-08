@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react'
-import { ProfileProps, StoreState } from '../../../common/types'
 import { connect } from 'react-redux'
-import { getProfileById } from '../../actions/profile'
-import Spinner from '../layout/Spinner'
 import { Link } from 'react-router-dom'
-import ProfileTop from './ProfileTop'
+import { ProfileProps, StoreState } from '../../../common/types'
+import { getProfileById } from '../../actions/profile'
+import { ProfileStatus } from '../../actions/types'
+import store from '../../store'
+import Spinner from '../layout/Spinner'
 import ProfileAbout from './ProfileAbout'
-import ProfileExperience from './ProfileExperience'
 import ProfileEducation from './ProfileEducation'
+import ProfileExperience from './ProfileExperience'
 import ProfileGithub from './ProfileGithub'
+import ProfileTop from './ProfileTop'
 
 const Profile: React.FC<ProfileProps> = ({ getProfileById, profile, auth, loading, match }) => {
   useEffect(() => {
     getProfileById(match.params.id)
+    return () => {
+      store.dispatch({ type: ProfileStatus.CLEAR_PROFILE })
+    }
   }, [getProfileById, match.params.id])
 
   return (
