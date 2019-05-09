@@ -196,70 +196,74 @@ export type RegisterAction = (
   name: string,
   email: string,
   password: string
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type LoadUserAction = () => ThunkAction<any, States, undefined, Actions>
+export type LoadUserAction = () => ThunkAction<any, StoreState, undefined, Actions>
 
 export type LoginAction = (
   email: string,
   password: string
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type LogoutAction = () => ThunkAction<any, States, undefined, Actions>
+export type LogoutAction = () => ThunkAction<any, StoreState, undefined, Actions>
 
-export type GetCurrentProfileAction = () => ThunkAction<any, States, undefined, Actions>
+export type GetCurrentProfileAction = () => ThunkAction<any, StoreState, undefined, Actions>
 
-export type GetProfilesAction = () => ThunkAction<any, States, undefined, Actions>
+export type GetProfilesAction = () => ThunkAction<any, StoreState, undefined, Actions>
 
-export type GetProfileByIdAction = (userId: string) => ThunkAction<any, States, undefined, Actions>
+export type GetProfileByIdAction = (
+  userId: string
+) => ThunkAction<any, StoreState, undefined, Actions>
 
 export type GetGithubReposAction = (
   username: string
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
 export type CreateProfileAction = (
   formData: ProfileForm,
   history: History,
   edit?: boolean
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
 export type AddExperienceAction = (
   formData: Experience,
   history: History
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
 export type AddEducationAction = (
   formData: Education,
   history: History
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type DeleteExperienceAction = (id: string) => ThunkAction<any, States, undefined, Actions>
+export type DeleteExperienceAction = (
+  id: string
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type DeleteEducationAction = (id: string) => ThunkAction<any, States, undefined, Actions>
+export type DeleteEducationAction = (id: string) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type DeleteAccountAction = () => ThunkAction<any, States, undefined, Actions>
+export type DeleteAccountAction = () => ThunkAction<any, StoreState, undefined, Actions>
 
-export type GetPostAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+export type GetPostAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type GetPostsAction = () => ThunkAction<any, States, undefined, Actions>
+export type GetPostsAction = () => ThunkAction<any, StoreState, undefined, Actions>
 
-export type AddLikeAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+export type AddLikeAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type RemoveLikeAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+export type RemoveLikeAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type DeletePostAction = (post_id: string) => ThunkAction<any, States, undefined, Actions>
+export type DeletePostAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type AddPostAction = (formData: PostForm) => ThunkAction<any, States, undefined, Actions>
+export type AddPostAction = (formData: PostForm) => ThunkAction<any, StoreState, undefined, Actions>
 
 export type AddCommentAction = (
   post_id: string,
   formData: CommentForm
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
 export type DeleteCommentAction = (
   post_id: string,
   comment_id: string
-) => ThunkAction<any, States, undefined, Actions>
+) => ThunkAction<any, StoreState, undefined, Actions>
 
 /**
  * * ========================
@@ -280,9 +284,6 @@ export type Actions =
   | TAction<AuthStatus, AuthPayload>
   | TAction<ProfileStatus, ProfilePayload>
   | TAction<PostStatus, PostPayload>
-
-export type States = StoreState
-// export type States = AuthState | ProfileState | PostState
 
 /**
  * * =================
