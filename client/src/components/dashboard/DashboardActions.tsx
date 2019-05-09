@@ -1,6 +1,4 @@
 import React from 'react'
-import { StoreState } from '../../../common/types'
-import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
 const DashboardActions: React.FC = () => {
@@ -21,6 +19,4 @@ const DashboardActions: React.FC = () => {
   )
 }
 
-const mapStateToProps = (state: StoreState) => ({})
-
-export default connect(mapStateToProps)(DashboardActions)
+export default DashboardActions
