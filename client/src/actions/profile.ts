@@ -31,7 +31,9 @@ export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch =
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -57,7 +59,9 @@ export const getProfiles: GetProfilesAction = () => async dispatch => {
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -78,7 +82,9 @@ export const getProfileById: GetProfileByIdAction = userId => async dispatch => 
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -99,7 +105,9 @@ export const getGithubRepos: GetGithubReposAction = username => async dispatch =
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -131,7 +139,9 @@ export const createProfile: CreateProfileAction = (
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -159,7 +169,9 @@ export const addExperience: AddExperienceAction = (formData, history) => async d
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -186,7 +198,9 @@ export const addEducation: AddEducationAction = (formData, history) => async dis
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -209,7 +223,9 @@ export const deleteExperience: DeleteExperienceAction = id => async dispatch => 
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -232,7 +248,9 @@ export const deleteEducation: DeleteEducationAction = id => async dispatch => {
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
         error: {
-          msg: (error.response.data.msg || error.response.statusText) as string,
+          msg: (error.response.data
+            ? error.response.data.msg
+            : error.response.statusText) as string,
           status: error.response.status as number
         }
       }
@@ -271,7 +289,9 @@ export const deleteAccount: DeleteAccountAction = () => async dispatch => {
           type: ProfileStatus.PROFILE_ERROR,
           payload: {
             error: {
-              msg: (error.response.data.msg || error.response.statusText) as string,
+              msg: (error.response.data
+                ? error.response.data.msg
+                : error.response.statusText) as string,
               status: error.response.status as number
             }
           }

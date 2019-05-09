@@ -27,7 +27,7 @@ export const getPosts: GetPostsAction = () => async dispatch => {
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
@@ -46,7 +46,7 @@ export const getPost: GetPostAction = post_id => async dispatch => {
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
@@ -66,7 +66,7 @@ export const addPost: AddPostAction = formData => async dispatch => {
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
@@ -86,7 +86,7 @@ export const deletePost: DeletePostAction = post_id => async dispatch => {
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
@@ -106,7 +106,7 @@ export const addLike: AddLikeAction = post_id => async dispatch => {
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
@@ -126,7 +126,7 @@ export const removeLike: RemoveLikeAction = post_id => async dispatch => {
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
@@ -149,7 +149,7 @@ export const addComment: AddCommentAction = (post_id, formData) => async dispatc
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
@@ -171,7 +171,7 @@ export const deleteComment: DeleteCommentAction = (post_id, comment_id) => async
     dispatch({
       type: PostStatus.POST_ERROR,
       payload: {
-        msg: (error.response.data.msg || error.response.statusText) as string,
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
         status: error.response.status as number
       }
     })
