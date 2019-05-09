@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { toast, Slide, Flip, Zoom } from 'react-toastify'
 import Swal from 'sweetalert2'
+import Spinner from './Spinner'
 
 const NotFound: React.FC = () => {
   useEffect(() => {
@@ -20,7 +21,7 @@ const NotFound: React.FC = () => {
         Swal.showLoading()
         timerInterval = setInterval(() => {
           ;(Swal.getContent().querySelector('strong')!.textContent as any) = Swal.getTimerLeft()
-        }, 500)
+        }, 50)
       },
       onClose: () => {
         clearInterval(timerInterval)
@@ -45,6 +46,7 @@ const NotFound: React.FC = () => {
         <i className='fas fa-skull-crossbones' /> Danger Zone
       </h1>
       <p className='large'>Dangerous, Go Back</p>
+      <Spinner />
     </>
   )
 }
