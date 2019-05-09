@@ -5,6 +5,7 @@ import auth from './routes/api/auth'
 import profiles from './routes/api/profiles'
 import posts from './routes/api/posts'
 import path from 'path'
+import forcehttps from './middleware/forcehttps'
 
 const app = express()
 
@@ -21,6 +22,8 @@ app.use('/api/posts', posts)
 
 // Serve static asset for production
 if (process.env.NODE_ENV === 'production') {
+  // force https
+  app.use(forcehttps)
   // Set static path
   app.use(express.static('client/build'))
   app.get('*', (_, res) => {
