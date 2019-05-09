@@ -89,6 +89,6 @@ export const logout: LogoutAction = () => dispatch => {
   })
   dispatch({
     type: ProfileStatus.CLEAR_PROFILE,
-    payload: {}
+    payload: null
   })
 }
