@@ -1,4 +1,11 @@
-import { TAction, ProfilePayload, ProfileState } from '../../common/types'
+import {
+  TAction,
+  ProfilePayload,
+  ProfileState,
+  ProfileType,
+  GithubRepo,
+  TError
+} from '../../common/types'
 import { ProfileStatus } from '../actions/types'
 
 const initialState: ProfileState = {
@@ -19,25 +26,25 @@ export default function(
     case ProfileStatus.UPDATE_PROFILE:
       return {
         ...state,
-        profile: payload.profile,
+        profile: payload as ProfileType,
         loading: false
       }
     case ProfileStatus.GET_PROFILES:
       return {
         ...state,
-        profiles: payload.profiles,
+        profiles: payload as ProfileType[],
         loading: false
       }
     case ProfileStatus.GET_REPOS:
       return {
         ...state,
-        repos: payload.repos,
+        repos: payload as GithubRepo[],
         loading: false
       }
     case ProfileStatus.PROFILE_ERROR:
       return {
         ...state,
-        error: payload.error,
+        error: payload as TError,
         loading: false
       }
     case ProfileStatus.CLEAR_PROFILE:

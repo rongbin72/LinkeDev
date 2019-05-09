@@ -1,4 +1,4 @@
-import { AuthPayload, AuthState, TAction } from '../../common/types'
+import { AuthPayload, AuthState, TAction, TUser } from '../../common/types'
 import { AuthStatus } from '../actions/types'
 
 const initialState: AuthState = {
@@ -16,14 +16,14 @@ export default function(state = initialState, action: TAction<AuthStatus, AuthPa
         ...state,
         isAuth: true,
         loading: false,
-        user: payload.user
+        user: payload as TUser
       }
     case AuthStatus.REGISTER_SUCCESS:
     case AuthStatus.LOGIN_SUCCESS:
-      localStorage.setItem('token', payload.token as string)
+      localStorage.setItem('token', payload as string)
       return {
         ...state,
-        ...payload,
+        token: payload as string,
         isAuth: true,
         loading: false
       }

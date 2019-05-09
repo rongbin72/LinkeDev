@@ -24,18 +24,14 @@ export const getCurrentProfile: GetCurrentProfileAction = () => async dispatch =
     const res = await axios.get<ProfileType>('/api/profiles/me')
     dispatch({
       type: ProfileStatus.GET_PROFILE,
-      payload: { profile: res.data }
+      payload: res.data
     })
   } catch (error) {
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -52,18 +48,14 @@ export const getProfiles: GetProfilesAction = () => async dispatch => {
     const res = await axios.get<ProfileType[]>('/api/profiles')
     dispatch({
       type: ProfileStatus.GET_PROFILES,
-      payload: { profiles: res.data }
+      payload: res.data
     })
   } catch (error) {
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -75,18 +67,14 @@ export const getProfileById: GetProfileByIdAction = userId => async dispatch => 
     const res = await axios.get<ProfileType>(`/api/profiles/user/${userId}`)
     dispatch({
       type: ProfileStatus.GET_PROFILE,
-      payload: { profile: res.data }
+      payload: res.data
     })
   } catch (error) {
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -98,18 +86,14 @@ export const getGithubRepos: GetGithubReposAction = username => async dispatch =
     const res = await axios.get<any[]>(`/api/profiles/github/${username}`)
     dispatch({
       type: ProfileStatus.GET_REPOS,
-      payload: { repos: res.data }
+      payload: res.data
     })
   } catch (error) {
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -125,7 +109,7 @@ export const createProfile: CreateProfileAction = (
     const res = await axios.post<ProfileType>('/api/profiles', formData)
     dispatch({
       type: ProfileStatus.GET_PROFILE,
-      payload: { profile: res.data }
+      payload: res.data
     })
 
     setAlert(edit ? 'Profile Updated' : 'Profile Created', toast.TYPE.SUCCESS)
@@ -138,12 +122,8 @@ export const createProfile: CreateProfileAction = (
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -155,7 +135,7 @@ export const addExperience: AddExperienceAction = (formData, history) => async d
     const res = await axios.put<ProfileType>('/api/profiles/experience', formData)
     dispatch({
       type: ProfileStatus.UPDATE_PROFILE,
-      payload: { profile: res.data }
+      payload: res.data
     })
 
     setAlert('Experience Added', toast.TYPE.SUCCESS)
@@ -168,12 +148,8 @@ export const addExperience: AddExperienceAction = (formData, history) => async d
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -185,7 +161,7 @@ export const addEducation: AddEducationAction = (formData, history) => async dis
     const res = await axios.put<ProfileType>('/api/profiles/education', formData)
     dispatch({
       type: ProfileStatus.UPDATE_PROFILE,
-      payload: { profile: res.data }
+      payload: res.data
     })
 
     setAlert('Education Added', toast.TYPE.SUCCESS)
@@ -197,12 +173,8 @@ export const addEducation: AddEducationAction = (formData, history) => async dis
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -214,7 +186,7 @@ export const deleteExperience: DeleteExperienceAction = id => async dispatch => 
     const res: AxiosResponse<ProfileType> = await axios.delete(`/api/profiles/experience/${id}`)
     dispatch({
       type: ProfileStatus.UPDATE_PROFILE,
-      payload: { profile: res.data }
+      payload: res.data
     })
 
     setAlert('Experience Removed', toast.TYPE.SUCCESS)
@@ -222,12 +194,8 @@ export const deleteExperience: DeleteExperienceAction = id => async dispatch => 
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -239,7 +207,7 @@ export const deleteEducation: DeleteEducationAction = id => async dispatch => {
     const res: AxiosResponse<ProfileType> = await axios.delete(`/api/profiles/education/${id}`)
     dispatch({
       type: ProfileStatus.UPDATE_PROFILE,
-      payload: { profile: res.data }
+      payload: res.data
     })
 
     setAlert('Education Removed', toast.TYPE.SUCCESS)
@@ -247,12 +215,8 @@ export const deleteEducation: DeleteEducationAction = id => async dispatch => {
     dispatch({
       type: ProfileStatus.PROFILE_ERROR,
       payload: {
-        error: {
-          msg: (error.response.data
-            ? error.response.data.msg
-            : error.response.statusText) as string,
-          status: error.response.status as number
-        }
+        msg: (error.response.data ? error.response.data.msg : error.response.statusText) as string,
+        status: error.response.status as number
       }
     })
   }
@@ -275,12 +239,12 @@ export const deleteAccount: DeleteAccountAction = () => async dispatch => {
 
         dispatch({
           type: ProfileStatus.CLEAR_PROFILE,
-          payload: {}
+          payload: null
         })
 
         dispatch({
           type: AuthStatus.ACCOUNT_DELETED,
-          payload: {}
+          payload: null
         })
 
         setAlert('Your account has been permanently deleted', toast.TYPE.INFO)
@@ -288,12 +252,10 @@ export const deleteAccount: DeleteAccountAction = () => async dispatch => {
         dispatch({
           type: ProfileStatus.PROFILE_ERROR,
           payload: {
-            error: {
-              msg: (error.response.data
-                ? error.response.data.msg
-                : error.response.statusText) as string,
-              status: error.response.status as number
-            }
+            msg: (error.response.data
+              ? error.response.data.msg
+              : error.response.statusText) as string,
+            status: error.response.status as number
           }
         })
       }

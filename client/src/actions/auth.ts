@@ -21,12 +21,12 @@ export const loadUser: LoadUserAction = () => async dispatch => {
 
     dispatch({
       type: AuthStatus.USER_LOADED,
-      payload: { user: res.data }
+      payload: res.data
     })
   } catch (error) {
     dispatch({
       type: AuthStatus.AUTH_ERROR,
-      payload: {}
+      payload: null
     })
   }
 }
@@ -43,7 +43,7 @@ export const register: RegisterAction = (name, email, password) => async dispatc
 
     dispatch({
       type: AuthStatus.REGISTER_SUCCESS,
-      payload: { token: res.data.token }
+      payload: res.data.token
     })
     dispatch(loadUser())
   } catch (error) {
@@ -52,7 +52,7 @@ export const register: RegisterAction = (name, email, password) => async dispatc
 
     dispatch({
       type: AuthStatus.REGISTER_FAIL,
-      payload: {}
+      payload: null
     })
   }
 }
@@ -67,7 +67,7 @@ export const login: LoginAction = (email, password) => async dispatch => {
 
     dispatch({
       type: AuthStatus.LOGIN_SUCCESS,
-      payload: { token: res.data.token }
+      payload: res.data.token
     })
     dispatch(loadUser())
   } catch (error) {
@@ -76,7 +76,7 @@ export const login: LoginAction = (email, password) => async dispatch => {
 
     dispatch({
       type: AuthStatus.LOGIN_FAIL,
-      payload: {}
+      payload: null
     })
   }
 }
@@ -85,7 +85,7 @@ export const login: LoginAction = (email, password) => async dispatch => {
 export const logout: LogoutAction = () => dispatch => {
   dispatch({
     type: AuthStatus.LOGOUT,
-    payload: {}
+    payload: null
   })
   dispatch({
     type: ProfileStatus.CLEAR_PROFILE,

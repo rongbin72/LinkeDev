@@ -4,23 +4,14 @@ import { Action } from 'redux'
 import { ThunkAction } from 'redux-thunk'
 import { AuthStatus, PostStatus, ProfileStatus } from '../src/actions/types'
 
-// TODO narrow down payload state
 /**
  * * =======================
  * * | Action Payload Type |
  * * =======================
  */
-export interface AuthPayload {
-  token?: string | null
-  user?: TUser | null
-}
+export type AuthPayload = string | TUser | null
 
-export interface ProfilePayload {
-  error?: TError | null
-  profile?: ProfileType | null
-  profiles?: ProfileType[]
-  repos?: GithubRepo[]
-}
+export type ProfilePayload = TError | ProfileType | ProfileType[] | GithubRepo[] | null
 
 export type PostPayload = PostType | PostType[] | TError | UpdateLikes | string | CommentType[]
 
@@ -30,13 +21,19 @@ export type PostPayload = PostType | PostType[] | TError | UpdateLikes | string 
  * * | Reducer State Type |
  * * ======================
  */
-export interface AuthState extends AuthPayload {
+export interface AuthState {
   isAuth: boolean
   loading: boolean
+  token: string | null
+  user: TUser | null
 }
 
-export interface ProfileState extends ProfilePayload {
+export interface ProfileState {
   loading: boolean
+  error: TError | null
+  profile: ProfileType | null
+  profiles: ProfileType[]
+  repos: GithubRepo[]
 }
 
 export interface PostState {
@@ -185,8 +182,6 @@ export interface CommentItemProps {
   auth: AuthState
 }
 
-// TODO try using generic type for all actions
-// type AppAction<A> = (...A) => ThunkAction<any, States, undefined, Actions>
 /**
  * * ========================
  * * | Action Function Type |
