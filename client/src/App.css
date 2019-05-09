@@ -560,6 +560,9 @@ button {
   .profile-about .skills {
     flex-direction: column;
   }
+  .profile-github .repo {
+    flex-direction: column;
+  }
 
   .dash-buttons a {
     display: block;
