@@ -1,16 +1,21 @@
 import React from 'react'
-export default () => (
+import { HashLoader } from 'react-spinners'
+import { css, SerializedStyles } from '@emotion/core'
+
+const override = css`
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`
+export const Spinner: React.FC = () => (
   <>
-    <div className='sk-cube-grid'>
-      <div className='sk-cube sk-cube1' />
-      <div className='sk-cube sk-cube2' />
-      <div className='sk-cube sk-cube3' />
-      <div className='sk-cube sk-cube4' />
-      <div className='sk-cube sk-cube5' />
-      <div className='sk-cube sk-cube6' />
-      <div className='sk-cube sk-cube7' />
-      <div className='sk-cube sk-cube8' />
-      <div className='sk-cube sk-cube9' />
-    </div>
+    <HashLoader
+      css={override as (SerializedStyles & string)}
+      sizeUnit={'px'}
+      size={100}
+      color={'#17a2b8'}
+    />
   </>
 )
+
+export default Spinner
