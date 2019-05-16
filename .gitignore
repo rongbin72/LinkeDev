@@ -26,3 +26,4 @@ yarn-error.log*
 /.vscode
 /_resources
 config/default.json
+config/production.json
