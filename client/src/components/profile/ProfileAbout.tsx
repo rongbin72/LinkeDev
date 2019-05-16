@@ -2,7 +2,7 @@ import React from 'react'
 import { ProfileAboutProps } from '../../../common/types'
 
 const ProfileAbout: React.FC<ProfileAboutProps> = ({ profile: { bio, skills } }) => (
-  <div className='profile-about bg-light p-2'>
+  <div className='profile-about card bg-light p-2'>
     {bio && (
       <>
         <h2 className='text-primary'>Bio</h2>

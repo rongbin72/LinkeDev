@@ -39,7 +39,7 @@ const Profile: React.FC<ProfileProps> = ({ getProfileById, profile, auth, loadin
           <div className='profile-grid my-1'>
             <ProfileTop profile={profile} />
             <ProfileAbout profile={profile} />
-            <div className='profile-exp bg-white p-2'>
+            <div className='profile-exp card bg-white p-2'>
               <h2 className='text-primary'>Experience</h2>
               {profile.experience.length > 0 ? (
                 <>
@@ -52,7 +52,7 @@ const Profile: React.FC<ProfileProps> = ({ getProfileById, profile, auth, loadin
               )}
             </div>
 
-            <div className='profile-edu bg-white p-2'>
+            <div className='profile-edu card bg-white p-2'>
               <h2 className='text-primary'>Education</h2>
               {profile.education.length > 0 ? (
                 <>
