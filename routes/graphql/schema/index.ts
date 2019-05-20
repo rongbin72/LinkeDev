@@ -7,7 +7,7 @@ export default buildSchema(`
   }
 
   type Comment {
-    _id?: ID!
+    _id: ID!
     user: String!
     text: String!
     name: String!
