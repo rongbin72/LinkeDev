@@ -1,6 +1,9 @@
-import { Request } from 'express';
-import { Document } from 'mongoose';
+import { Request } from 'express'
+import { Document } from 'mongoose'
 
+export interface AuthData {
+  token: string
+}
 export interface UserType extends Document {
   name: string
   email: string
