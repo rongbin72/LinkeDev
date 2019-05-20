@@ -159,7 +159,7 @@ export default buildSchema(`
     unlikePost(id: ID!): [Like!]!
     createComment(id: ID!, comment: CommentInput): [Comments!]!
     deleteComment(postID: ID!, commentID: ID!): [Comments!]!
-    createProfile(profileInput, ProfileInput): Profile!
+    createProfile(profile, ProfileInput): Profile!
     deleteProfile: Message!
     addExperience(exp: ExpInput): Profile!
     deleteExperience(id: ID!): Profile!
