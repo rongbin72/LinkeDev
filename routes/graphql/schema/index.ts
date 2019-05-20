@@ -160,7 +160,7 @@ export default buildSchema(`
     createComment(id: ID!, comment: CommentInput): [Comments!]!
     deleteComment(postID: ID!, commentID: ID!): [Comments!]!
     createProfile(profile, ProfileInput): Profile!
-    deleteProfile: Message!
+    deleteAccount: Message!
     addExperience(exp: ExpInput): Profile!
     deleteExperience(id: ID!): Profile!
     addEducation(edu: EduInput): Profile!
