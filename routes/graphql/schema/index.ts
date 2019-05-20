@@ -144,7 +144,7 @@ export default buildSchema(`
   type RootQuery {
     post(id: ID!): Post!
     posts: [Post!]!
-    userProfile: Profile!
+    myProfile: Profile!
     profile(id: ID!): Profile!
     profiles: [Profile!]!
     login(email: String!, password:String!): Auth!
