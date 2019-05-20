@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { Request } from 'express'
 import { AuthData } from '../../../common/types'
 
 const REST_ENDPOINT = 'http://localhost:5000/api/posts'
