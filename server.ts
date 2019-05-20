@@ -29,9 +29,6 @@ app.use(
   graphqlHTTP({
     schema: schema,
     rootValue: rootResolvers,
-    context: ({ req }: { req: Request }) => ({
-      token: req.header('x-auth-token')
-    }),
     graphiql: true
   })
 )
