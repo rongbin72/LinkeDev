@@ -147,11 +147,6 @@ export default buildSchema(`
     userProfile: Profile!
     profile(id: ID!): Profile!
     profiles: [Profile!]!
-    deleteProfile: Message!
-    addExperience(exp: ExpInput): Profile!
-    deleteExperience(id: ID!): Profile!
-    addEducation(edu: EduInput): Profile!
-    deleteEducation(id: ID!): Profile!
     login(email: String!, password:String!): Auth!
     user: User!
   }
@@ -165,6 +160,10 @@ export default buildSchema(`
     createComment(id: ID!, comment: CommentInput): [Comments!]!
     deleteComment(postID: ID!, commentID: ID!): [Comments!]!
     createProfile(profileInput, ProfileInput): Profile!
-
+    deleteProfile: Message!
+    addExperience(exp: ExpInput): Profile!
+    deleteExperience(id: ID!): Profile!
+    addEducation(edu: EduInput): Profile!
+    deleteEducation(id: ID!): Profile!
   }
 `)
