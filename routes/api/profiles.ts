@@ -3,7 +3,12 @@ import config from 'config'
 import express from 'express'
 import { check, validationResult } from 'express-validator/check'
 import mongoose from 'mongoose'
-import { AuthRequest, Education, Experience, ProfileType } from '../../common/types'
+import {
+  AuthRequest,
+  Education,
+  Experience,
+  ProfileType
+} from '../../common/types'
 import auth from '../../middleware/auth'
 import Profile from '../../models/Profile'
 import User from '../../models/User'
@@ -19,8 +24,12 @@ const router = express.Router()
 router.get('/me', auth, async (req: AuthRequest, res) => {
   try {
     const user = req.user!.id
-    const profile = await Profile.findOne({ user }).populate('user', ['name', 'avatar'])
-    if (!profile) return res.status(404).json({ msg: 'No profile for this user' })
+    const profile = await Profile.findOne({ user }).populate('user', [
+      'name',
+      'avatar'
+    ])
+    if (!profile)
+      return res.status(404).json({ msg: 'No profile for this user' })
     res.json(profile)
   } catch (err) {
     console.error(err.message)
@@ -70,7 +79,10 @@ router.post(
     if (bio) profileFields.bio = bio
     if (status) profileFields.status = status
     if (githubusername) profileFields.githubusername = githubusername
-    if (skills) profileFields.skills = skills.split(',').map((skill: string) => skill.trim())
+    if (skills)
+      profileFields.skills = skills
+        .split(',')
+        .map((skill: string) => skill.trim())
 
     // Fill social field
     profileFields.social = {}
@@ -84,7 +96,11 @@ router.post(
       let profile = await Profile.findOne({ user })
       if (profile) {
         // Update profile
-        profile = await Profile.findOneAndUpdate({ user }, { $set: profileFields }, { new: true })
+        profile = await Profile.findOneAndUpdate(
+          { user },
+          { $set: profileFields },
+          { new: true }
+        )
         return res.json(profile)
       }
 
@@ -126,9 +142,14 @@ router.get('/user/:user_id', async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(user))
       return res.status(400).json({ msg: 'Profile not Found' })
 
-    const profile = await Profile.findOne({ user }).populate('user', ['name', 'avatar'])
+    const profile = await Profile.findOne({ user }).populate('user', [
+      'name',
+      'avatar'
+    ])
 
-    return profile ? res.json(profile) : res.status(404).json({ msg: 'Profile not Found' })
+    return profile
+      ? res.json(profile)
+      : res.status(404).json({ msg: 'Profile not Found' })
   } catch (err) {
     console.error(err)
     return res.status(500).json('Server Error')
@@ -172,7 +193,8 @@ router.put(
   ],
   async (req: AuthRequest, res: express.Response) => {
     const errors = validationResult(req)
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() })
 
     const user = req.user!.id
     const exp: Experience = req.body
@@ -221,12 +243,15 @@ router.put(
   [
     check('school', 'School is Required').exists({ checkFalsy: true }),
     check('degree', 'Degree is Required').exists({ checkFalsy: true }),
-    check('fieldofstudy', 'Field of Study is Required').exists({ checkFalsy: true }),
+    check('fieldofstudy', 'Field of Study is Required').exists({
+      checkFalsy: true
+    }),
     check('from', 'from is Required').exists({ checkFalsy: true })
   ],
   async (req: AuthRequest, res: express.Response) => {
     const errors = validationResult(req)
-    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
+    if (!errors.isEmpty())
+      return res.status(400).json({ errors: errors.array() })
 
     const user = req.user!.id
     const edu: Education = req.body
@@ -276,8 +301,11 @@ router.get('/github/:username', async (req, res) => {
     'githubClientId'
   )}&client_secret=${config.get('githubSecret')}`
   try {
-    const response = await axios.get(url, { headers: { 'user-agent': 'node.js' } })
-    if (response.status != 200) return res.status(404).json({ msg: 'Github Profile not Found' })
+    const response = await axios.get(url, {
+      headers: { 'user-agent': 'node.js' }
+    })
+    if (response.status != 200)
+      return res.status(404).json({ msg: 'Github Profile not Found' })
 
     return res.json(response.data)
   } catch (err) {
