@@ -11,7 +11,7 @@ export default {
       )
       return res.data
     } catch (error) {
-      throw error
+      return new Error(error)
     }
   },
 
@@ -30,7 +30,7 @@ export default {
       )
       return res.data
     } catch (error) {
-      throw error
+      return new Error(error)
     }
   },
 
@@ -43,7 +43,7 @@ export default {
       })
       return res.data
     } catch (error) {
-      throw error
+      return new Error(error)
     }
   }
 }
