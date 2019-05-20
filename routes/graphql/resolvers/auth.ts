@@ -1,42 +1,37 @@
 import axios from 'axios'
 import { Request } from 'express'
-import { AuthData } from '../../../common/types'
 
 const REST_ROOT = 'http://localhost:5000'
 export default {
-  login: async (_: any, loginData: { email: string; password: string }) => {
+  login: async (loginData: { email: string; password: string }) => {
     try {
-      const res = await axios.post<AuthData>(`${REST_ROOT}/api/auth`, loginData)
+      const res = await axios.post(`${REST_ROOT}/api/auth`, loginData)
       return res.data
     } catch (error) {
-      return new Error(error)
+      const errors: { msg: string }[] = error.response.data.errors
+      return new Error(errors.map(e => e.msg).join('|'))
     }
   },
 
-  register: async (
-    _: any,
-    registerData: {
-      name: string
-      email: string
-      password: string
-    }
-  ) => {
+  register: async (registerData: {
+    name: string
+    email: string
+    password: string
+  }) => {
     try {
-      const res = await axios.post<AuthData>(
-        `${REST_ROOT}/api/auth`,
-        registerData
-      )
+      const res = await axios.post(`${REST_ROOT}/api/users`, registerData)
       return res.data
     } catch (error) {
-      return new Error(error)
+      const errors: { msg: string }[] = error.response.data.errors
+      return new Error(errors.map(e => e.msg).join('|'))
     }
   },
 
-  user: async (_: any, __: any, context: AuthData) => {
+  user: async (_: void, req: Request) => {
     try {
       const res = await axios.get(`${REST_ROOT}/api/auth`, {
         headers: {
-          'x-auth-token': context.token
+          'x-auth-token': req.header('x-auth-token')
         }
       })
       return res.data
