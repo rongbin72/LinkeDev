@@ -4,6 +4,6 @@ import auth from './auth'
 
 export default {
   ...posts,
-  profiles,
-  auth
+  ...profiles,
+  ...auth
 }

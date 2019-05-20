@@ -42,7 +42,7 @@ export default buildSchema(`
     twitter: String
     facebook: String
     linkedin: String
-    instagramL String
+    instagram: String
   }
   type Message {
     msg: String!
@@ -62,15 +62,15 @@ export default buildSchema(`
     date: String!
   }
 
-  type PostInput {
+  input PostInput {
     text: String!
   }
   
-  type CommentInput {
+  input CommentInput {
     text: String!
   }
 
-  type ProfileInput {
+  input ProfileInput {
     company: String
     website: String
     location: String
@@ -85,7 +85,7 @@ export default buildSchema(`
     linkedin: String
   }
 
-  type ExpInput {
+  input ExpInput {
     title: String!
     company: String!
     location: String
@@ -95,7 +95,7 @@ export default buildSchema(`
     description: String
   }
 
-  type EduInput {
+  input EduInput {
     school: String
     degree: String
     fieldofstudy: String
@@ -157,9 +157,9 @@ export default buildSchema(`
     deletePost(id: ID!): Message
     likePost(id: ID!): [Like!]!
     unlikePost(id: ID!): [Like!]!
-    createComment(id: ID!, comment: CommentInput): [Comments!]!
-    deleteComment(postID: ID!, commentID: ID!): [Comments!]!
-    createProfile(profile, ProfileInput): Profile!
+    createComment(id: ID!, comment: CommentInput): [Comment!]!
+    deleteComment(postID: ID!, commentID: ID!): [Comment!]!
+    createProfile(profile: ProfileInput): Profile!
     deleteAccount: Message!
     addExperience(exp: ExpInput): Profile!
     deleteExperience(id: ID!): Profile!
