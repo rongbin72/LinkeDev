@@ -1,5 +1,7 @@
-import { AuthData } from '../../../common/types'
 import axios from 'axios'
+import { IFieldResolver, IResolverObject } from 'graphql-tools'
+import { AuthData } from '.'
+import { UserInputError } from 'apollo-server-core'
 
 const REST_ENDPOINT = 'http://localhost:5000/api/profiles'
 
@@ -7,129 +9,166 @@ interface ProfileInput {
   [key: string]: string
 }
 
-export default {
-  myProfile: async (_: any, __: void, context: AuthData) => {
-    try {
-      const res = await axios.get(`${REST_ENDPOINT}/me`, {
-        headers: {
-          'x-auth-token': context.token
-        }
-      })
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
+interface IdQuery {
+  id: string
+}
 
-  createProfile: async (_: any, profile: ProfileInput, context: AuthData) => {
-    try {
-      const res = await axios.post(REST_ENDPOINT, profile, {
-        headers: {
-          'x-auth-token': context.token
-        }
-      })
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
-
-  profiles: async (_: any, __: void) => {
-    try {
-      const res = await axios.get(REST_ENDPOINT)
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
-
-  profile: async (_: any, { id }: { id: string }) => {
-    try {
-      const res = await axios.get(`${REST_ENDPOINT}/user/${id}`)
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
-
-  deleteAccount: async (_: any, __: void, context: AuthData) => {
-    try {
-      const res = await axios.delete(REST_ENDPOINT, {
-        headers: {
-          'x-auth-token': context.token
-        }
-      })
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
-
-  addExperience: async (
-    _: any,
-    { exp }: { exp: ProfileInput },
-    context: AuthData
-  ) => {
-    try {
-      const res = await axios.put(`${REST_ENDPOINT}/experience`, exp, {
-        headers: {
-          'x-auth-token': context.token
-        }
-      })
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
-
-  deleteExperience: async (
-    _: any,
-    { id }: { id: string },
-    context: AuthData
-  ) => {
-    try {
-      const res = await axios.delete(`${REST_ENDPOINT}/experience/${id}`, {
-        headers: {
-          'x-auth-token': context.token
-        }
-      })
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
-
-  addEducation: async (
-    _: any,
-    { edu }: { edu: ProfileInput },
-    context: AuthData
-  ) => {
-    try {
-      const res = await axios.put(`${REST_ENDPOINT}/education`, edu, {
-        headers: {
-          'x-auth-token': context.token
-        }
-      })
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
-  },
-
-  deleteEducation: async (
-    _: any,
-    { id }: { id: string },
-    context: AuthData
-  ) => {
-    try {
-      const res = await axios.delete(`${REST_ENDPOINT}/education/${id}`, {
-        headers: {
-          'x-auth-token': context.token
-        }
-      })
-      return res.data
-    } catch (error) {
-      return new Error(error)
-    }
+const myProfile: IFieldResolver<any, AuthData, null> = async (_, __, auth) => {
+  try {
+    const res = await axios.get(`${REST_ENDPOINT}/me`, {
+      headers: {
+        'x-auth-token': auth.token
+      }
+    })
+    return res.data
+  } catch (error) {
+    return new Error(error)
   }
 }
+
+const createProfile: IFieldResolver<any, AuthData, ProfileInput> = async (
+  _,
+  { profile },
+  auth
+) => {
+  try {
+    const res = await axios.post(REST_ENDPOINT, profile, {
+      headers: {
+        'x-auth-token': auth.token
+      }
+    })
+    return res.data
+  } catch (error) {
+    if ((error.response.status as number) === 400) {
+      const errors: { msg: string }[] = error.response.data.errors
+      return new UserInputError('Input Error', { details: errors })
+    }
+    return new Error(error)
+  }
+}
+
+const profiles: IFieldResolver<any, AuthData, null> = async () => {
+  try {
+    const res = await axios.get(REST_ENDPOINT)
+    return res.data
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+const profile: IFieldResolver<any, AuthData, IdQuery> = async (_, { id }) => {
+  try {
+    const res = await axios.get(`${REST_ENDPOINT}/user/${id}`)
+    return res.data
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+const deleteAccount: IFieldResolver<any, AuthData, null> = async (
+  _,
+  __,
+  auth
+) => {
+  try {
+    const res = await axios.delete(REST_ENDPOINT, {
+      headers: {
+        'x-auth-token': auth.token
+      }
+    })
+    return res.data
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+const addExperience: IFieldResolver<any, AuthData, ProfileInput> = async (
+  _,
+  { exp },
+  auth
+) => {
+  try {
+    const res = await axios.put(`${REST_ENDPOINT}/experience`, exp, {
+      headers: {
+        'x-auth-token': auth.token
+      }
+    })
+    return res.data
+  } catch (error) {
+    if ((error.response.status as number) === 400) {
+      const errors: { msg: string }[] = error.response.data.errors
+      return new UserInputError('Input Error', { details: errors })
+    }
+    return new Error(error)
+  }
+}
+
+const deleteExperience: IFieldResolver<any, AuthData, IdQuery> = async (
+  _,
+  { id },
+  auth
+) => {
+  try {
+    const res = await axios.delete(`${REST_ENDPOINT}/experience/${id}`, {
+      headers: {
+        'x-auth-token': auth.token
+      }
+    })
+    return res.data
+  } catch (error) {
+    if ((error.response.status as number) === 400) {
+      const errors: { msg: string }[] = error.response.data.errors
+      return new UserInputError('Input Error', { details: errors })
+    }
+    return new Error(error)
+  }
+}
+
+const addEducation: IFieldResolver<any, AuthData, ProfileInput> = async (
+  _,
+  { edu },
+  auth
+) => {
+  try {
+    const res = await axios.put(`${REST_ENDPOINT}/education`, edu, {
+      headers: {
+        'x-auth-token': auth.token
+      }
+    })
+    return res.data
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+const deleteEducation: IFieldResolver<any, AuthData, IdQuery> = async (
+  _,
+  { id },
+  auth
+) => {
+  try {
+    const res = await axios.delete(`${REST_ENDPOINT}/education/${id}`, {
+      headers: {
+        'x-auth-token': auth.token
+      }
+    })
+    return res.data
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
+const profileResolver: {
+  [key: string]: IResolverObject<any, AuthData, any>
+} = {
+  Query: { myProfile, profile, profiles },
+  Mutation: {
+    createProfile,
+    deleteAccount,
+    addExperience,
+    deleteExperience,
+    addEducation,
+    deleteEducation
+  }
+}
+export default profileResolver
