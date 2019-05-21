@@ -1,0 +1,31 @@
+# import Post, PostInput, from 'post.graphql'
+# import Profile, Like, Comment, ProfileInput, ExpInput, EduInput from 'profile.graphql'
+# import Auth, Message from 'util.graphql'
+# import User from 'user.graphql'
+# import Profile from 'Profile.graphql'
+
+type Query {
+  post(id: ID!): Post!
+  posts: [Post!]!
+  myProfile: Profile!
+  profile(id: ID!): Profile!
+  profiles: [Profile!]!
+  login(email: String!, password: String!): Auth!
+  user: User!
+}
+
+type Mutation {
+  register(name: String!, email: String!, password: String!): Auth!
+  createPost(post: PostInput): Post
+  deletePost(id: ID!): Message
+  likePost(id: ID!): [Like!]!
+  unlikePost(id: ID!): [Like!]!
+  createComment(id: ID!, comment: CommentInput): [Comment!]!
+  deleteComment(postID: ID!, commentID: ID!): [Comment!]!
+  createProfile(profile: ProfileInput): Profile!
+  deleteAccount: Message!
+  addExperience(exp: ExpInput): Profile!
+  deleteExperience(id: ID!): Profile!
+  addEducation(edu: EduInput): Profile!
+  deleteEducation(id: ID!): Profile!
+}

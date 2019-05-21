@@ -1,0 +1,80 @@
+type Profile {
+  _id: ID!
+  user: UserInfo
+  company: String
+  website: String
+  location: String
+  status: String!
+  skills: [String!]!
+  bio: String
+  githubusername: String
+  experience: [Experience!]!
+  education: [Education!]!
+  social: Social!
+  date: String!
+}
+
+input ProfileInput {
+  company: String
+  website: String
+  location: String
+  bio: String
+  status: String!
+  githubusername: String
+  skills: String!
+  youtube: String
+  facebook: String
+  twitter: String
+  instagram: String
+  linkedin: String
+}
+
+input ExpInput {
+  title: String!
+  company: String!
+  location: String
+  from: String!
+  current: Boolean
+  to: String
+  description: String
+}
+
+input EduInput {
+  school: String
+  degree: String
+  fieldofstudy: String
+  from: String!
+  to: String
+  current: Boolean
+  description: String
+}
+
+type Experience {
+  _id: ID!
+  title: String!
+  company: String!
+  location: String
+  from: String!
+  to: String
+  current: Boolean
+  description: String
+}
+
+type Education {
+  _id: ID!
+  school: String!
+  degree: String!
+  fieldofstudy: String!
+  from: String!
+  to: String
+  current: Boolean
+  description: String
+}
+
+type Social {
+  youtube: String
+  twitter: String
+  facebook: String
+  linkedin: String
+  instagram: String
+}

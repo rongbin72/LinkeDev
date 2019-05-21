@@ -1,0 +1,43 @@
+type Post {
+  _id: ID!
+  user: String!
+  text: String!
+  name: String!
+  avatar: String!
+  likes: [Like!]!
+  comments: [Comment!]!
+  date: String!
+}
+
+type Like {
+  _id: ID!
+  user: String!
+}
+
+type Comment {
+  _id: ID!
+  user: String!
+  text: String!
+  name: String!
+  avatar: String!
+  date: String!
+}
+
+type Post {
+  _id: ID!
+  user: String!
+  text: String!
+  name: String!
+  avatar: String!
+  likes: [Like!]!
+  comments: [Comment!]!
+  date: String!
+}
+
+input PostInput {
+  text: String!
+}
+
+input CommentInput {
+  text: String!
+}

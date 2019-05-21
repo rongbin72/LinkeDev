@@ -1,0 +1,7 @@
+type Message {
+  msg: String!
+}
+
+type Auth {
+  token: String!
+}

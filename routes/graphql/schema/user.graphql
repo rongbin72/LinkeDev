@@ -1,0 +1,13 @@
+type User {
+  _id: ID!
+  name: String!
+  email: String!
+  avatar: String!
+  date: String!
+}
+
+type UserInfo {
+  _id: ID!
+  name: String!
+  avatar: String!
+}
