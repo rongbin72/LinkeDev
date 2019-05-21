@@ -1,14 +1,14 @@
-import express, { Request } from 'express'
-import connectDB from './config/db'
-import users from './routes/api/users'
-import auth from './routes/api/auth'
-import profiles from './routes/api/profiles'
-import posts from './routes/api/posts'
+import { ApolloServer, makeExecutableSchema } from 'apollo-server-express'
+import express from 'express'
+import { importSchema } from 'graphql-import'
 import path from 'path'
+import connectDB from './config/db'
 import forcehttps from './middleware/forcehttps'
-import graphqlHTTP from 'express-graphql'
-import schema from './routes/graphql/schema'
-import rootResolvers from './routes/graphql/resolvers'
+import auth from './routes/api/auth'
+import posts from './routes/api/posts'
+import profiles from './routes/api/profiles'
+import users from './routes/api/users'
+import resolvers from './routes/graphql/resolvers'
 
 const app = express()
 
@@ -24,14 +24,13 @@ app.use('/api/profiles', profiles)
 app.use('/api/posts', posts)
 
 // GraphQL
-app.use(
-  '/graphql',
-  graphqlHTTP({
-    schema: schema,
-    rootValue: rootResolvers,
-    graphiql: true
-  })
-)
+const typeDefs = importSchema('./routes/graphql/schema/schema.graphql')
+const schema = makeExecutableSchema({ typeDefs, resolvers })
+const graphql = new ApolloServer({
+  schema,
+  context: ({ req }) => ({ token: req.header('x-auth-token') })
+})
+graphql.applyMiddleware({ app })
 
 // Serve static asset for production
 if (process.env.NODE_ENV === 'production') {
