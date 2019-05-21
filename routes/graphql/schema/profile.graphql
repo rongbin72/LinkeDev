@@ -40,9 +40,9 @@ input ExpInput {
 }
 
 input EduInput {
-  school: String
-  degree: String
-  fieldofstudy: String
+  school: String!
+  degree: String!
+  fieldofstudy: String!
   from: String!
   to: String
   current: Boolean
