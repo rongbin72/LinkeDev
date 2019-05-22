@@ -1,25 +1,26 @@
 import React from 'react'
-import { connect } from 'react-redux'
 import { Redirect, Route } from 'react-router-dom'
-import { PrivateRouteProps, StoreState } from '../../../common/types'
+import { PrivateRouteProps } from '../../../common/types'
+import { CURRENT_USER, UserResponse } from '../../graphql/queries/authQuery'
+import { Query } from 'react-apollo'
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  isAuth,
-  loading,
   component: PrivateComponent,
   ...rest
 }) => (
   <Route
     {...rest}
-    render={props =>
-      !loading && !isAuth ? <Redirect to='/login' /> : <PrivateComponent {...props} />
+    render={
+      props => (
+        <Query<UserResponse, null> query={CURRENT_USER}>
+          {({ loading, error, data }) => {
+            if (error || loading) return <Redirect to='/login' />
+            return <PrivateComponent {...props} />
+          }}
+        </Query>
+      )
     }
   />
 )
 
-const mapStateToProps = (state: StoreState) => ({
-  isAuth: state.auth!.isAuth,
-  loading: state.auth!.loading
-})
-
-export default connect(mapStateToProps)(PrivateRoute)
+export default PrivateRoute
