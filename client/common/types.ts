@@ -11,9 +11,20 @@ import { AuthStatus, PostStatus, ProfileStatus } from '../src/actions/types'
  */
 export type AuthPayload = string | TUser | null
 
-export type ProfilePayload = TError | ProfileType | ProfileType[] | GithubRepo[] | null
+export type ProfilePayload =
+  | TError
+  | ProfileType
+  | ProfileType[]
+  | GithubRepo[]
+  | null
 
-export type PostPayload = PostType | PostType[] | TError | UpdateLikes | string | CommentType[]
+export type PostPayload =
+  | PostType
+  | PostType[]
+  | TError
+  | UpdateLikes
+  | string
+  | CommentType[]
 
 // TODO Do not extends payload type
 /**
@@ -53,20 +64,7 @@ export interface RegisterProps {
   isAuth: boolean
 }
 
-export interface LoginProps {
-  login: LoginAction
-  isAuth: boolean
-}
-
-export interface NavbarProps {
-  isAuth: boolean
-  loading: boolean
-  logout: LogoutAction
-}
-
 export interface PrivateRouteProps extends RouteProps {
-  loading: boolean
-  isAuth: boolean
   component: React.ComponentType<any>
 }
 
@@ -78,22 +76,26 @@ export interface DashboardProps {
   loading: boolean
 }
 
-export interface CreateProfileProps extends RouteComponentProps<any, StaticContext, any> {
+export interface CreateProfileProps
+  extends RouteComponentProps<any, StaticContext, any> {
   createProfile: CreateProfileAction
 }
 
-export interface EditProfileProps extends RouteComponentProps<any, StaticContext, any> {
+export interface EditProfileProps
+  extends RouteComponentProps<any, StaticContext, any> {
   profile?: ProfileType | null
   loading: boolean
   createProfile: CreateProfileAction
   getCurrentProfile: GetCurrentProfileAction
 }
 
-export interface AddExperienceProps extends RouteComponentProps<any, StaticContext, any> {
+export interface AddExperienceProps
+  extends RouteComponentProps<any, StaticContext, any> {
   addExperience: AddExperienceAction
 }
 
-export interface AddEducationProps extends RouteComponentProps<any, StaticContext, any> {
+export interface AddEducationProps
+  extends RouteComponentProps<any, StaticContext, any> {
   addEducation: AddEducationAction
 }
 
@@ -117,7 +119,8 @@ export interface ProfileItemProps {
   profile: ProfileType
 }
 
-export interface ProfileProps extends RouteComponentProps<{ id: string }, StaticContext, any> {
+export interface ProfileProps
+  extends RouteComponentProps<{ id: string }, StaticContext, any> {
   getProfileById: GetProfileByIdAction
   profile?: ProfileType | null
   loading: boolean
@@ -145,7 +148,8 @@ export interface ProfileGithubProps {
   repos?: GithubRepo[]
 }
 
-export interface PostProps extends RouteComponentProps<{ id: string }, StaticContext, any> {
+export interface PostProps
+  extends RouteComponentProps<{ id: string }, StaticContext, any> {
   post: PostType | null
   getPost: GetPostAction
   loading: boolean
@@ -193,18 +197,38 @@ export type RegisterAction = (
   password: string
 ) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type LoadUserAction = () => ThunkAction<any, StoreState, undefined, Actions>
+export type LoadUserAction = () => ThunkAction<
+  any,
+  StoreState,
+  undefined,
+  Actions
+>
 
 export type LoginAction = (
   email: string,
   password: string
 ) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type LogoutAction = () => ThunkAction<any, StoreState, undefined, Actions>
+export type LogoutAction = () => ThunkAction<
+  any,
+  StoreState,
+  undefined,
+  Actions
+>
 
-export type GetCurrentProfileAction = () => ThunkAction<any, StoreState, undefined, Actions>
+export type GetCurrentProfileAction = () => ThunkAction<
+  any,
+  StoreState,
+  undefined,
+  Actions
+>
 
-export type GetProfilesAction = () => ThunkAction<any, StoreState, undefined, Actions>
+export type GetProfilesAction = () => ThunkAction<
+  any,
+  StoreState,
+  undefined,
+  Actions
+>
 
 export type GetProfileByIdAction = (
   userId: string
@@ -234,21 +258,43 @@ export type DeleteExperienceAction = (
   id: string
 ) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type DeleteEducationAction = (id: string) => ThunkAction<any, StoreState, undefined, Actions>
+export type DeleteEducationAction = (
+  id: string
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type DeleteAccountAction = () => ThunkAction<any, StoreState, undefined, Actions>
+export type DeleteAccountAction = () => ThunkAction<
+  any,
+  StoreState,
+  undefined,
+  Actions
+>
 
-export type GetPostAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
+export type GetPostAction = (
+  post_id: string
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type GetPostsAction = () => ThunkAction<any, StoreState, undefined, Actions>
+export type GetPostsAction = () => ThunkAction<
+  any,
+  StoreState,
+  undefined,
+  Actions
+>
 
-export type AddLikeAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
+export type AddLikeAction = (
+  post_id: string
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type RemoveLikeAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
+export type RemoveLikeAction = (
+  post_id: string
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type DeletePostAction = (post_id: string) => ThunkAction<any, StoreState, undefined, Actions>
+export type DeletePostAction = (
+  post_id: string
+) => ThunkAction<any, StoreState, undefined, Actions>
 
-export type AddPostAction = (formData: PostForm) => ThunkAction<any, StoreState, undefined, Actions>
+export type AddPostAction = (
+  formData: PostForm
+) => ThunkAction<any, StoreState, undefined, Actions>
 
 export type AddCommentAction = (
   post_id: string,
