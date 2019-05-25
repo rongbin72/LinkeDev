@@ -1,13 +1,22 @@
 import React, { useEffect } from 'react'
 import { toast, Slide, Flip, Zoom } from 'react-toastify'
 import Swal from 'sweetalert2'
-import Spinner from './Spinner'
+import Loading from './Loading'
 
 const NotFound: React.FC = () => {
   useEffect(() => {
-    toast.success('Not Found !', { position: toast.POSITION.BOTTOM_RIGHT, transition: Slide })
-    toast.error('Not Found !', { position: toast.POSITION.BOTTOM_LEFT, transition: Flip })
-    toast.info('Not Found !', { position: toast.POSITION.TOP_LEFT, transition: Zoom })
+    toast.success('Not Found !', {
+      position: toast.POSITION.BOTTOM_RIGHT,
+      transition: Slide
+    })
+    toast.error('Not Found !', {
+      position: toast.POSITION.BOTTOM_LEFT,
+      transition: Flip
+    })
+    toast.info('Not Found !', {
+      position: toast.POSITION.TOP_LEFT,
+      transition: Zoom
+    })
     toast('Not Found !', { position: toast.POSITION.TOP_CENTER })
     toast('Not Found !', { position: toast.POSITION.TOP_RIGHT })
     toast('Not Found !', { position: toast.POSITION.BOTTOM_CENTER })
@@ -20,7 +29,8 @@ const NotFound: React.FC = () => {
       onBeforeOpen: () => {
         Swal.showLoading()
         timerInterval = setInterval(() => {
-          ;(Swal.getContent().querySelector('strong')!.textContent as any) = Swal.getTimerLeft()
+          ;(Swal.getContent().querySelector('strong')!
+            .textContent as any) = Swal.getTimerLeft()
         }, 50)
       },
       onClose: () => {
@@ -46,7 +56,7 @@ const NotFound: React.FC = () => {
         <i className='fas fa-skull-crossbones' /> Danger Zone
       </h1>
       <p className='large'>Dangerous, Go Back</p>
-      <Spinner />
+      <Loading />
     </>
   )
 }
