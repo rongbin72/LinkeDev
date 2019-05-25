@@ -35,6 +35,7 @@ const resolvers = {
             }
           }
         })
+        localStorage.removeItem('token')
         console.error(error.message)
         return false
       }
