@@ -13,7 +13,7 @@ import {
   Register as TRegister,
   RegisterVariables
 } from '../../graphql/types'
-import setAlert from '../../utils/setAlert'
+import setAlert from '../../utils/showAlert'
 import { FetchResult } from 'apollo-boost'
 
 const Register: React.FC = () => {
