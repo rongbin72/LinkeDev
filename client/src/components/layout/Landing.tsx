@@ -7,7 +7,7 @@ import { AuthStatus } from '../../graphql/types'
 const Landing: React.FC = () => {
   const { data: auth } = useQuery<AuthStatus, null>(AUTH_STATUS)
 
-  return auth && auth.authStatus.isAuth ? (
+  return auth && auth.authStatus && auth.authStatus.isAuth ? (
     <Redirect to='/dashboard' />
   ) : (
     <section className='landing'>
