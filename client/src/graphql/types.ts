@@ -102,15 +102,28 @@ export interface UpdateAuthStatus {
 // GraphQL query operation: MyProfile
 // ====================================================
 
-export interface MyProfile_myProfile_user {
-  __typename: "UserInfo";
-  name: string;
+export interface MyProfile_myProfile_experience {
+  __typename: "Experience";
+  _id: string;
+  company: string;
+  title: string;
+  from: string;
+  to: string | null;
+}
+
+export interface MyProfile_myProfile_education {
+  __typename: "Education";
+  _id: string;
+  school: string;
+  degree: string;
+  from: string;
+  to: string | null;
 }
 
 export interface MyProfile_myProfile {
   __typename: "Profile";
-  _id: string;
-  user: MyProfile_myProfile_user | null;
+  experience: MyProfile_myProfile_experience[];
+  education: MyProfile_myProfile_education[];
 }
 
 export interface MyProfile {
@@ -132,6 +145,75 @@ export interface Profiles_profiles {
 
 export interface Profiles {
   profiles: Profiles_profiles[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteExperience
+// ====================================================
+
+export interface DeleteExperience_deleteExperience_experience {
+  __typename: "Experience";
+  _id: string;
+}
+
+export interface DeleteExperience_deleteExperience {
+  __typename: "Profile";
+  experience: DeleteExperience_deleteExperience_experience[];
+}
+
+export interface DeleteExperience {
+  deleteExperience: DeleteExperience_deleteExperience;
+}
+
+export interface DeleteExperienceVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteEducation
+// ====================================================
+
+export interface DeleteEducation_deleteEducation_education {
+  __typename: "Education";
+  _id: string;
+}
+
+export interface DeleteEducation_deleteEducation {
+  __typename: "Profile";
+  education: DeleteEducation_deleteEducation_education[];
+}
+
+export interface DeleteEducation {
+  deleteEducation: DeleteEducation_deleteEducation;
+}
+
+export interface DeleteEducationVariables {
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: DeleteAccount
+// ====================================================
+
+export interface DeleteAccount_deleteAccount {
+  __typename: "Message";
+  msg: string;
+}
+
+export interface DeleteAccount {
+  deleteAccount: DeleteAccount_deleteAccount;
 }
 
 /* tslint:disable */
