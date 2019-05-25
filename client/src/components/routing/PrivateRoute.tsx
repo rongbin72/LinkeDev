@@ -1,26 +1,21 @@
-import React from 'react'
-import { Redirect, Route } from 'react-router-dom'
-import { PrivateRouteProps } from '../../../common/types'
-import { CURRENT_USER, UserResponse } from '../../graphql/queries/authQuery'
-import { Query } from 'react-apollo'
+import React from 'react';
+import { useQuery } from 'react-apollo-hooks';
+import { Redirect, Route } from 'react-router';
+import { PrivateRouteProps } from '../../../common/types';
+import { AUTH_STATUS } from '../../graphql/gql/auth';
+import { AuthStatus } from '../../graphql/types';
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component: PrivateComponent,
   ...rest
-}) => (
-  <Route
-    {...rest}
-    render={
-      props => (
-        <Query<UserResponse, null> query={CURRENT_USER}>
-          {({ loading, error, data }) => {
-            if (error || loading) return <Redirect to='/login' />
-            return <PrivateComponent {...props} />
-          }}
-        </Query>
-      )
-    }
-  />
-)
+}) => {
+  const { data: auth } = useQuery<AuthStatus, null>(AUTH_STATUS)
+
+  return auth && auth.authStatus && auth.authStatus.isAuth ? (
+    <Route {...rest} render={props => <PrivateComponent {...props} />} />
+  ) : (
+    <Route {...rest} render={_ => <Redirect to='/login' />} />
+  )
+}
 
 export default PrivateRoute
