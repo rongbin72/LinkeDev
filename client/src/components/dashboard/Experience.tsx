@@ -1,10 +1,53 @@
 import React from 'react'
+import { useApolloClient } from 'react-apollo-hooks'
 import Moment from 'react-moment'
-import { ExperienceProps } from '../../../common/types'
-import { deleteExperience } from '../../actions/profile'
-import { connect } from 'react-redux'
+import { toast } from 'react-toastify'
+import { DELETE_EXPERIENCE, MY_PROFILE } from '../../graphql/gql/profile'
+import {
+  DeleteExperience,
+  DeleteExperienceVariables,
+  MyProfile,
+  MyProfile_myProfile_experience
+} from '../../graphql/types'
+import showAlert from '../../utils/showAlert'
 
-const Experience: React.FC<ExperienceProps> = ({ experience, deleteExperience }) => {
+interface ExperienceProps {
+  experience: MyProfile_myProfile_experience[]
+}
+
+const Experience: React.FC<ExperienceProps> = ({ experience }) => {
+  const client = useApolloClient()
+
+  /**
+   * Optimistic deletion
+   * UI will update (row deletion) immediately after button clicked
+   *
+   * @param id Experience id to be deleted
+   */
+  const deleteExperience = async (id: string) => {
+    try {
+      await client.mutate<DeleteExperience, DeleteExperienceVariables>({
+        mutation: DELETE_EXPERIENCE,
+        variables: {
+          id
+        },
+        update: proxy => {
+          const data = proxy.readQuery<MyProfile>({ query: MY_PROFILE })
+          if (data && data.myProfile) {
+            data.myProfile.experience = data.myProfile.experience.filter(
+              exp => exp._id !== id
+            )
+            proxy.writeQuery({ query: MY_PROFILE, data })
+          }
+        }
+      })
+      showAlert('Experience Deleted', toast.TYPE.SUCCESS)
+    } catch (error) {
+      showAlert('Something went wrong', toast.TYPE.ERROR)
+      console.error(error)
+    }
+  }
+
   const experiences = !experience ? (
     <></>
   ) : (
@@ -17,7 +60,9 @@ const Experience: React.FC<ExperienceProps> = ({ experience, deleteExperience })
           {exp.to ? <Moment format='YYYY/MM/DD'>{exp.to}</Moment> : 'Now'}
         </td>
         <td>
-          <button className='btn btn-danger' onClick={() => deleteExperience(exp._id!)}>
+          <button
+            className='btn btn-danger'
+            onClick={() => deleteExperience(exp._id)}>
             Delete
           </button>
         </td>
@@ -43,7 +88,4 @@ const Experience: React.FC<ExperienceProps> = ({ experience, deleteExperience })
   )
 }
 
-export default connect(
-  null,
-  { deleteExperience }
-)(Experience)
+export default Experience

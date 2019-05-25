@@ -1,10 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useApolloClient } from 'react-apollo-hooks'
 import Moment from 'react-moment'
-import { EducationProps } from '../../../common/types'
-import { connect } from 'react-redux'
-import { deleteEducation } from '../../actions/profile'
+import { toast } from 'react-toastify'
+import { DELETE_EDUCATION, MY_PROFILE } from '../../graphql/gql/profile'
+import { MyProfile, MyProfile_myProfile_education } from '../../graphql/types'
+import setAlert from '../../utils/showAlert'
 
-const Education: React.FC<EducationProps> = ({ education, deleteEducation }) => {
+interface EducationProps {
+  education: MyProfile_myProfile_education[]
+}
+
+const Education: React.FC<EducationProps> = ({ education }) => {
+  const client = useApolloClient()
+  /**
+   * Optimistic deletion
+   * UI will update (row deletion) immediately after button clicked
+   *
+   * @param id Education id to be deleted
+   */
+  const deleteEducation = async (id: string) => {
+    try {
+      await client.mutate({
+        mutation: DELETE_EDUCATION,
+        variables: {
+          id
+        },
+        update: proxy => {
+          const data = proxy.readQuery<MyProfile>({ query: MY_PROFILE })
+          if (data && data.myProfile) {
+            data.myProfile.education = data.myProfile.education.filter(
+              edu => edu._id !== id
+            )
+            proxy.writeQuery({ query: MY_PROFILE, data })
+          }
+        }
+      })
+      setAlert('Education Deleted', toast.TYPE.SUCCESS)
+    } catch (error) {
+      setAlert('Something went wrong', toast.TYPE.ERROR)
+      console.error(error)
+    }
+  }
+
   const educations = !education ? (
     <></>
   ) : (
@@ -17,7 +54,9 @@ const Education: React.FC<EducationProps> = ({ education, deleteEducation }) => 
           {edu.to ? <Moment format='YYYY/MM/DD'>{edu.to}</Moment> : 'Now'}
         </td>
         <td>
-          <button className='btn btn-danger' onClick={() => deleteEducation(edu._id!)}>
+          <button
+            className='btn btn-danger'
+            onClick={() => deleteEducation(edu._id)}>
             Delete
           </button>
         </td>
@@ -43,7 +82,4 @@ const Education: React.FC<EducationProps> = ({ education, deleteEducation }) => 
   )
 }
 
-export default connect(
-  null,
-  { deleteEducation }
-)(Education)
+export default Education
