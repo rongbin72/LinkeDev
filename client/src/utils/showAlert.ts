@@ -13,7 +13,10 @@ export default function(msg: string, type: string) {
       toast.error(msg, { autoClose: 2000, position: toast.POSITION.TOP_CENTER })
       break
     case toast.TYPE.INFO:
-      toast.error(msg, { autoClose: 2000, position: toast.POSITION.BOTTOM_RIGHT })
+      toast.info(msg, {
+        autoClose: 2000,
+        position: toast.POSITION.BOTTOM_RIGHT
+      })
       break
     default:
       toast(msg)
