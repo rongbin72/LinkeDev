@@ -1,10 +1,13 @@
 import React from 'react'
+import { useQuery } from 'react-apollo-hooks'
 import { Link, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { StoreState } from '../../../common/types'
+import { AUTH_STATUS } from '../../graphql/gql/auth'
+import { AuthStatus } from '../../graphql/types'
 
-const Landing: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
-  return isAuth ? (
+const Landing: React.FC = () => {
+  const { data: auth } = useQuery<AuthStatus, null>(AUTH_STATUS)
+
+  return auth && auth.authStatus.isAuth ? (
     <Redirect to='/dashboard' />
   ) : (
     <section className='landing'>
@@ -12,7 +15,8 @@ const Landing: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
         <div className='landing-inner'>
           <h1 className='x-large'>Developer Connector</h1>
           <p className='lead'>
-            Create a developer profile/portfolio, share posts and get help from other developers
+            Create a developer profile/portfolio, share posts and get help from
+            other developers
           </p>
           <div className='buttons'>
             <Link to='/register' className='btn btn-primary'>
@@ -28,8 +32,4 @@ const Landing: React.FC<{ isAuth: boolean }> = ({ isAuth }) => {
   )
 }
 
-const mapStateToProps = (state: StoreState) => ({
-  isAuth: state.auth!.isAuth
-})
-
-export default connect(mapStateToProps)(Landing)
+export default Landing

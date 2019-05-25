@@ -1,34 +1,25 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
-import { DashboardProps, StoreState } from '../../../common/types'
-import { getCurrentProfile, deleteAccount } from '../../actions/profile'
-import Spinner from '../layout/Spinner'
-import { Link } from 'react-router-dom'
-import DashboardActions from './DashboardActions'
-import Experience from './Experience'
-import Education from './Education'
+import React from 'react'
+import { useQuery } from 'react-apollo-hooks'
+import { AUTH_STATUS } from '../../graphql/gql/auth'
+import { MY_PROFILE } from '../../graphql/gql/profile'
+import { AuthStatus, MyProfile } from '../../graphql/types'
+import Loading from '../layout/Loading'
 
-const Dashboard: React.FC<DashboardProps> = ({
-  getCurrentProfile,
-  deleteAccount,
-  user,
-  profile,
-  loading
-}) => {
-  useEffect(() => {
-    getCurrentProfile()
-  }, [getCurrentProfile])
+const Dashboard: React.FC = () => {
+  const { error, data: auth } = useQuery<AuthStatus, null>(AUTH_STATUS)
+  const { loading, data: profile } = useQuery<MyProfile, null>(MY_PROFILE)
+
   return loading && !profile ? (
-    <Spinner />
+    <Loading />
   ) : (
     <>
       <h1 className='large text-primary'>Dashboard</h1>
       <p className='lead'>
         {' '}
-        <i className='fas fa-user' /> Welcome {user && user.name}{' '}
+        <i className='fas fa-user' /> Welcome {auth && auth.authStatus.name}{' '}
       </p>
 
-      {profile ? (
+      {/* {profile ? (
         <>
           <DashboardActions />
           <Experience experience={profile.experience} />
@@ -46,18 +37,9 @@ const Dashboard: React.FC<DashboardProps> = ({
             Create Profile
           </Link>
         </>
-      )}
+      )} */}
     </>
   )
 }
 
-const mapStateToProps = (state: StoreState) => ({
-  user: state.auth!.user!,
-  profile: state.profile!.profile!,
-  loading: state.profile!.loading
-})
-
-export default connect(
-  mapStateToProps,
-  { getCurrentProfile, deleteAccount }
-)(Dashboard)
+export default Dashboard
