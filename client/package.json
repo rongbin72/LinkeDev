@@ -13,6 +13,7 @@
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
+    "react-apollo-hooks": "^0.4.5",
     "react-dom": "^16.8.6",
     "react-moment": "^0.9.2",
     "react-redux": "^7.0.3",
@@ -30,7 +31,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "gentype": "apollo client:codegen --endpoint=http://localhost:5000/graphql --target=typescript --includes=src/graphql/**/*.ts --tagName=gql --outputFlat src/graphql/types.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
