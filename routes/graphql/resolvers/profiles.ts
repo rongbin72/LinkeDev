@@ -2,6 +2,7 @@ import axios from 'axios'
 import { IFieldResolver, IResolverObject } from 'graphql-tools'
 import { AuthData } from '.'
 import { UserInputError } from 'apollo-server-core'
+import config from 'config'
 
 const REST_ENDPOINT = 'http://localhost:5000/api/profiles'
 
@@ -158,10 +159,30 @@ const deleteEducation: IFieldResolver<any, AuthData, IdQuery> = async (
   }
 }
 
+const githubRepos: IFieldResolver<any, AuthData, { userName: string }> = async (
+  _,
+  { userName }
+) => {
+  const url = `https://api.github.com/users/${userName}/repos?per_page=5&sort=created:asc&client_id=${config.get(
+    'githubClientId'
+  )}&client_secret=${config.get('githubSecret')}`
+  try {
+    const res = await axios.get(url, {
+      headers: { 'user-agent': 'node.js' }
+    })
+
+    if (res.status != 200) return new Error('Github profile not found')
+
+    return res.data
+  } catch (error) {
+    return new Error(error)
+  }
+}
+
 const profileResolver: {
   [key: string]: IResolverObject<any, AuthData, any>
 } = {
-  Query: { myProfile, profile, profiles },
+  Query: { myProfile, profile, profiles, githubRepos },
   Mutation: {
     createProfile,
     deleteAccount,
