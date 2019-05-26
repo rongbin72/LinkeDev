@@ -21,6 +21,7 @@
     "react-scripts": "3.0.0",
     "react-spinners": "^0.5.4",
     "react-toastify": "^5.1.0",
+    "react-transition-group": "^4.0.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
@@ -53,6 +54,7 @@
   "devDependencies": {
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
+    "@types/react-transition-group": "^2.9.1",
     "@types/uuid": "^3.4.4"
   }
 }
