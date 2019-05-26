@@ -78,3 +78,13 @@ type Social {
   linkedin: String
   instagram: String
 }
+
+type GithubRepo {
+  id: String!
+  name: String!
+  html_url: String!
+  description: String
+  stargazers_count: Int!
+  watchers_count: Int!
+  forks_count: Int!
+}

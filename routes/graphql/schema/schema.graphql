@@ -1,5 +1,5 @@
 # import Post, PostInput, from 'post.graphql'
-# import Profile, Like, Comment, ProfileInput, ExpInput, EduInput from 'profile.graphql'
+# import Profile, Like, Comment, ProfileInput, ExpInput, EduInput, GithubRepo from 'profile.graphql'
 # import Auth, Message from 'util.graphql'
 # import User from 'user.graphql'
 # import Profile from 'Profile.graphql'
@@ -11,6 +11,7 @@ type Query {
   profile(id: ID!): Profile!
   profiles: [Profile!]!
   login(email: String!, password: String!): Auth!
+  githubRepos(userName: String!): [GithubRepo!]!
   user: User!
 }
 
