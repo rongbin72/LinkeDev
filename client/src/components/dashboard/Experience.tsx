@@ -1,3 +1,4 @@
+import Button from '@material-ui/core/Button'
 import React from 'react'
 import { useApolloClient } from 'react-apollo-hooks'
 import Moment from 'react-moment'
@@ -61,11 +62,13 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
           {exp.to ? <Moment format='YYYY/MM/DD'>{exp.to}</Moment> : 'Now'}
         </td>
         <td>
-          <button
-            className='btn btn-danger'
+          <Button
+            variant='contained'
+            color='secondary'
+            size='small'
             onClick={() => deleteExperience(exp._id)}>
             Delete
-          </button>
+          </Button>
         </td>
       </tr>
     ))

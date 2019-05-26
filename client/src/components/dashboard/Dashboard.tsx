@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core'
 import React from 'react'
 import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
@@ -52,6 +53,7 @@ const Dashboard: React.FC = () => {
     console.error(error)
     return null
   }
+
   return loading ? (
     <Loading />
   ) : (
@@ -69,9 +71,12 @@ const Dashboard: React.FC = () => {
           <Experience experience={profile.myProfile.experience} />
           <Education education={profile.myProfile.education} />
           <div className='my-2'>
-            <button className='btn btn-danger' onClick={() => deleteAccount()}>
+            <Button
+              variant='contained'
+              color='secondary'
+              onClick={() => deleteAccount()}>
               Delete My Account
-            </button>
+            </Button>
           </div>
         </>
       ) : (

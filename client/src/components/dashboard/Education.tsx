@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { Button } from '@material-ui/core'
+import React from 'react'
 import { useApolloClient } from 'react-apollo-hooks'
 import Moment from 'react-moment'
 import { toast } from 'react-toastify'
@@ -55,11 +56,13 @@ const Education: React.FC<EducationProps> = ({ education }) => {
           {edu.to ? <Moment format='YYYY/MM/DD'>{edu.to}</Moment> : 'Now'}
         </td>
         <td>
-          <button
-            className='btn btn-danger'
+          <Button
+            variant='contained'
+            color='secondary'
+            size='small'
             onClick={() => deleteEducation(edu._id)}>
             Delete
-          </button>
+          </Button>
         </td>
       </tr>
     ))
