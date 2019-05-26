@@ -41,6 +41,7 @@ const Dashboard: React.FC = () => {
         } catch (error) {
           console.error(error)
           showAlert('Something went wrong ?', toast.TYPE.ERROR)
+          window.location.reload()
         }
       }
     })
