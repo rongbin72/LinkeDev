@@ -21,10 +21,62 @@ export const MY_PROFILE = gql`
   }
 `
 
+export const PROFILE = gql`
+  query Profile($id: ID!) {
+    profile(id: $id) {
+      status
+      company
+      location
+      website
+      skills
+      bio
+      githubusername
+      social {
+        facebook
+        twitter
+        linkedin
+        youtube
+        instagram
+      }
+      user {
+        _id
+        name
+        avatar
+      }
+      experience {
+        _id
+        company
+        title
+        to
+        from
+        description
+      }
+      education {
+        _id
+        school
+        degree
+        fieldofstudy
+        from
+        to
+        description
+      }
+    }
+  }
+`
+
 export const PROFILES = gql`
   query Profiles {
     profiles {
       _id
+      user {
+        _id
+        name
+        avatar
+      }
+      status
+      company
+      location
+      skills
     }
   }
 `
