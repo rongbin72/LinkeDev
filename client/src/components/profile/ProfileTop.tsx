@@ -1,5 +1,9 @@
 import React from 'react'
-import { ProfileTopProps } from '../../../common/types'
+import { Profile_profile } from '../../graphql/types'
+
+interface ProfileTopProps {
+  profile: Profile_profile
+}
 
 const ProfileTop: React.FC<ProfileTopProps> = ({
   profile: {
@@ -54,7 +58,10 @@ const ProfileTop: React.FC<ProfileTopProps> = ({
             </a>
           )}
           {social && social.instagram && (
-            <a href={social.instagram} target='_blank' rel='noopener noreferrer'>
+            <a
+              href={social.instagram}
+              target='_blank'
+              rel='noopener noreferrer'>
               <i className='fab fa-instagram fa-2x' />
             </a>
           )}

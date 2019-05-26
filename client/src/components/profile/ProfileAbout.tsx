@@ -1,7 +1,13 @@
 import React from 'react'
-import { ProfileAboutProps } from '../../../common/types'
+import { Profile_profile } from '../../graphql/types'
 
-const ProfileAbout: React.FC<ProfileAboutProps> = ({ profile: { bio, skills } }) => (
+interface ProfileAboutProps {
+  profile: Profile_profile
+}
+
+const ProfileAbout: React.FC<ProfileAboutProps> = ({
+  profile: { bio, skills }
+}) => (
   <div className='profile-about card bg-light p-2'>
     {bio && (
       <>

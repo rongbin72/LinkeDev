@@ -1,6 +1,10 @@
 import React from 'react'
 import Moment from 'react-moment'
-import { ProfileEducationProps } from '../../../common/types'
+import { Profile_profile_education } from '../../graphql/types'
+
+interface ProfileEducationProps {
+  education: Profile_profile_education
+}
 
 const ProfileEducation: React.FC<ProfileEducationProps> = ({
   education: { school, degree, fieldofstudy, to, from, description }

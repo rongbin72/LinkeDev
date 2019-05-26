@@ -1,84 +1,81 @@
-import React, { useEffect } from 'react'
-import { connect } from 'react-redux'
+import React from 'react'
+import { useQuery } from 'react-apollo-hooks'
+import { match } from 'react-router'
 import { Link } from 'react-router-dom'
-import { ProfileProps, StoreState } from '../../../common/types'
-import { getProfileById } from '../../actions/profile'
-import { ProfileStatus } from '../../actions/types'
-import store from '../../store'
-import Spinner from '../layout/Spinner'
+import { toast } from 'react-toastify'
+import { AUTH_STATUS } from '../../graphql/gql/auth'
+import { PROFILE } from '../../graphql/gql/profile'
+import { AuthStatus, Profile as TProfile } from '../../graphql/types'
+import showAlert from '../../utils/showAlert'
+import Loading from '../layout/Loading'
 import ProfileAbout from './ProfileAbout'
 import ProfileEducation from './ProfileEducation'
 import ProfileExperience from './ProfileExperience'
 import ProfileGithub from './ProfileGithub'
 import ProfileTop from './ProfileTop'
 
-const Profile: React.FC<ProfileProps> = ({ getProfileById, profile, auth, loading, match }) => {
-  useEffect(() => {
-    getProfileById(match.params.id)
-    return () => {
-      store.dispatch({ type: ProfileStatus.CLEAR_PROFILE })
-    }
-  }, [getProfileById, match.params.id])
+const Profile: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
+  const { data: auth } = useQuery<AuthStatus>(AUTH_STATUS)
+  const { loading, error, data } = useQuery<TProfile>(PROFILE, {
+    variables: { id: match.params.id }
+  })
+
+  if (error) {
+    showAlert('Something went wrong', toast.TYPE.ERROR)
+    console.error(error)
+    return null
+  }
+
+  if (loading || !data) return <Loading />
+
+  const profile = data.profile
 
   return (
     <>
-      {!profile || loading ? (
-        <Spinner />
-      ) : (
-        <>
-          <Link to='/profiles' className='btn btn-light'>
-            {' '}
-            Back to Profiles
-          </Link>
-          {auth && auth.isAuth && !auth.loading && auth.user!._id === profile.user._id && (
-            <Link to='/edit_profile' className='btn btn-dark'>
-              Edit Profile
-            </Link>
-          )}
-
-          <div className='profile-grid my-1'>
-            <ProfileTop profile={profile} />
-            <ProfileAbout profile={profile} />
-            <div className='profile-exp card bg-white p-2'>
-              <h2 className='text-primary'>Experience</h2>
-              {profile.experience.length > 0 ? (
-                <>
-                  {profile.experience.map(exp => (
-                    <ProfileExperience key={exp._id} experience={exp} />
-                  ))}
-                </>
-              ) : (
-                <h4>No Experience Created</h4>
-              )}
-            </div>
-
-            <div className='profile-edu card bg-white p-2'>
-              <h2 className='text-primary'>Education</h2>
-              {profile.education.length > 0 ? (
-                <>
-                  {profile.education.map(edu => (
-                    <ProfileEducation key={edu._id} education={edu} />
-                  ))}
-                </>
-              ) : (
-                <h4>No Education Created</h4>
-              )}
-            </div>
-            {profile.githubusername && <ProfileGithub username={profile.githubusername} />}
-          </div>
-        </>
+      <Link to='/profiles' className='btn btn-light'>
+        {' '}
+        Back to Profiles
+      </Link>
+      {auth && auth.authStatus.id === profile.user._id && (
+        <Link to='/edit_profile' className='btn btn-dark'>
+          Edit Profile
+        </Link>
       )}
+
+      <div className='profile-grid my-1'>
+        <ProfileTop profile={profile} />
+        <ProfileAbout profile={profile} />
+        <div className='profile-exp card bg-white p-2'>
+          <h2 className='text-primary'>Experience</h2>
+          {profile.experience.length > 0 ? (
+            <>
+              {profile.experience.map(exp => (
+                <ProfileExperience key={exp._id} experience={exp} />
+              ))}
+            </>
+          ) : (
+            <h4>No Experience Created</h4>
+          )}
+        </div>
+
+        <div className='profile-edu card bg-white p-2'>
+          <h2 className='text-primary'>Education</h2>
+          {profile.education.length > 0 ? (
+            <>
+              {profile.education.map(edu => (
+                <ProfileEducation key={edu._id} education={edu} />
+              ))}
+            </>
+          ) : (
+            <h4>No Education Created</h4>
+          )}
+        </div>
+        {profile.githubusername && (
+          <ProfileGithub username={profile.githubusername} />
+        )}
+      </div>
     </>
   )
 }
 
-const mapStateToProps = (state: StoreState) => ({
-  profile: state.profile!.profile,
-  auth: state.auth,
-  loading: state.profile!.loading
-})
-
-export default connect(
-  mapStateToProps,
-  { getProfileById }
-)(Profile)
+export default Profile

@@ -1,6 +1,10 @@
 import React from 'react'
 import Moment from 'react-moment'
-import { ProfileExperienceProps } from '../../../common/types'
+import { Profile_profile_experience } from '../../graphql/types'
+
+interface ProfileExperienceProps {
+  experience: Profile_profile_experience
+}
 
 const ProfileExperience: React.FC<ProfileExperienceProps> = ({
   experience: { company, title, to, from, description }
