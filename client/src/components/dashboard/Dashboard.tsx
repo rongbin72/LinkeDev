@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
     MY_PROFILE
   )
 
-  const deleteAccount = async () => {
+  const deleteAccount = () => {
     Swal.fire({
       title: 'Are you sure?',
       text: 'This will permanently delete you account!',
@@ -38,16 +38,16 @@ const Dashboard: React.FC = () => {
             'Your account has been permanently deleted',
             toast.TYPE.INFO
           )
+          await client.clearStore()
           Swal.fire('Deleted!', 'Your account has been deleted.', 'success')
         } catch (error) {
           console.error(error)
+          await client.clearStore()
           showAlert('Something went wrong ?', toast.TYPE.ERROR)
-          window.location.reload()
         }
       }
     })
   }
-
   if (error) {
     showAlert('Something went wrong', toast.TYPE.ERROR)
     console.error(error)
