@@ -23,7 +23,7 @@ type Mutation {
   unlikePost(id: ID!): [Like!]!
   createComment(id: ID!, comment: CommentInput): [Comment!]!
   deleteComment(postID: ID!, commentID: ID!): [Comment!]!
-  createProfile(profile: ProfileInput): Profile!
+  updateProfile(profile: ProfileInput): Profile!
   deleteAccount: Message!
   addExperience(exp: ExpInput): Profile!
   deleteExperience(id: ID!): Profile!
