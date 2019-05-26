@@ -5,7 +5,11 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { AUTH_STATUS } from '../../graphql/gql/auth'
 import { PROFILE } from '../../graphql/gql/profile'
-import { AuthStatus, Profile as TProfile } from '../../graphql/types'
+import {
+  AuthStatus,
+  Profile as TProfile,
+  ProfileVariables
+} from '../../graphql/types'
 import showAlert from '../../utils/showAlert'
 import Loading from '../layout/Loading'
 import ProfileAbout from './ProfileAbout'
@@ -16,9 +20,12 @@ import ProfileTop from './ProfileTop'
 
 const Profile: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
   const { data: auth } = useQuery<AuthStatus>(AUTH_STATUS)
-  const { loading, error, data } = useQuery<TProfile>(PROFILE, {
-    variables: { id: match.params.id }
-  })
+  const { loading, error, data } = useQuery<TProfile, ProfileVariables>(
+    PROFILE,
+    {
+      variables: { id: match.params.id }
+    }
+  )
 
   if (error) {
     showAlert('Something went wrong', toast.TYPE.ERROR)
@@ -36,7 +43,7 @@ const Profile: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
         {' '}
         Back to Profiles
       </Link>
-      {auth && auth.authStatus.id === profile.user._id && (
+      {auth && auth.authStatus && auth.authStatus.id === profile.user._id && (
         <Link to='/edit_profile' className='btn btn-dark'>
           Edit Profile
         </Link>
@@ -71,7 +78,7 @@ const Profile: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
           )}
         </div>
         {profile.githubusername && (
-          <ProfileGithub username={profile.githubusername} />
+          <ProfileGithub userName={profile.githubusername} />
         )}
       </div>
     </>
