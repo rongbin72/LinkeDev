@@ -10,7 +10,7 @@ type Profile {
   githubusername: String
   experience: [Experience!]!
   education: [Education!]!
-  social: Social!
+  social: Social
   date: String!
 }
 
