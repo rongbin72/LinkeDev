@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
     return null
   }
 
-  return loading ? (
+  return loading || !profile ? (
     <Loading />
   ) : (
     <>
@@ -65,7 +65,7 @@ const Dashboard: React.FC = () => {
         {auth && auth.authStatus && auth.authStatus.name}{' '}
       </p>
 
-      {profile && profile.myProfile ? (
+      {profile.myProfile ? (
         <>
           <DashboardActions />
           <Experience experience={profile.myProfile.experience} />
