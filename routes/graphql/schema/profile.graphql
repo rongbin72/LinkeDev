@@ -1,6 +1,6 @@
 type Profile {
   _id: ID!
-  user: UserInfo
+  user: UserInfo!
   company: String
   website: String
   location: String
