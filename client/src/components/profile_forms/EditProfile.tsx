@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
+import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import { Link } from 'react-router-dom'
-import { EditProfileProps, ProfileForm, StoreState } from '../../../common/types'
-import { createProfile, getCurrentProfile } from '../../actions/profile'
+import { MY_PROFILE, UPDATE_PROFILE } from '../../graphql/gql/profile'
+import {
+  MyProfile,
+  ProfileInput,
+  UpdateProfile,
+  UpdateProfileVariables
+} from '../../graphql/types'
+import showAlert from '../../utils/showAlert'
+import { toast } from 'react-toastify'
 
-const EditProfile: React.FC<EditProfileProps> = ({
-  profile,
-  loading,
-  createProfile,
-  getCurrentProfile,
-  history
-}) => {
-  const [formData, setFormData] = useState<ProfileForm>({
+const EditProfile: React.FC = () => {
+  const [profile, setProfile] = useState<ProfileInput>({
     company: '',
     website: '',
     location: '',
@@ -29,25 +29,43 @@ const EditProfile: React.FC<EditProfileProps> = ({
 
   const [dispaySocialInputs, toggleSocialInputs] = useState<boolean>(false)
 
+  const { data } = useQuery<MyProfile>(MY_PROFILE)
+  const client = useApolloClient()
+
   useEffect(() => {
-    getCurrentProfile()
-    if (profile)
-      setFormData({
-        company: loading || !profile.company ? '' : profile.company,
-        website: loading || !profile.website ? '' : profile.website,
-        location: loading || !profile.location ? '' : profile.location,
-        status: loading || !profile.status ? '' : profile.status,
-        skills: loading || !profile.skills ? '' : profile.skills.join(','),
-        githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
-        bio: loading || !profile.bio ? '' : profile.bio,
-        twitter: loading || !profile.social ? '' : profile.social.twitter!,
-        facebook: loading || !profile.social ? '' : profile.social.facebook!,
-        linkedin: loading || !profile.social ? '' : profile.social.linkedin!,
-        youtube: loading || !profile.social ? '' : profile.social.youtube!,
-        instagram: loading || !profile.social ? '' : profile.social.instagram!
+    if (data && data.myProfile) {
+      const profile = data.myProfile
+      setProfile({
+        company: profile.company || '',
+        website: profile.website || '',
+        location: profile.location || '',
+        status: profile.status || '',
+        skills: profile.skills.join(','),
+        githubusername: profile.githubusername || '',
+        bio: profile.bio || '',
+        twitter:
+          profile.social && profile.social.twitter
+            ? profile.social.twitter
+            : '',
+        facebook:
+          profile.social && profile.social.facebook
+            ? profile.social.facebook
+            : '',
+        linkedin:
+          profile.social && profile.social.linkedin
+            ? profile.social.linkedin
+            : '',
+        youtube:
+          profile.social && profile.social.youtube
+            ? profile.social.youtube
+            : '',
+        instagram:
+          profile.social && profile.social.instagram
+            ? profile.social.instagram
+            : ''
       })
-    else console.error('profile not exist')
-  }, [loading, getCurrentProfile])
+    } else console.error('profile not exist')
+  }, [data])
 
   const {
     company,
@@ -62,38 +80,72 @@ const EditProfile: React.FC<EditProfileProps> = ({
     linkedin,
     youtube,
     instagram
-  } = formData
+  } = profile
 
   const onChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>
-  ) => setFormData({ ...formData, [e.target.name]: e.target.value })
+    e: React.ChangeEvent<
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+    >
+  ) => setProfile({ ...profile, [e.target.name]: e.target.value })
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    createProfile(formData, history, true)
-    // could keep editing, may keep state
-    // clear state
-    // setFormData({
-    //   company: '',
-    //   website: '',
-    //   location: '',
-    //   status: '',
-    //   skills: '',
-    //   githubusername: '',
-    //   bio: '',
-    //   twitter: '',
-    //   facebook: '',
-    //   linkedin: '',
-    //   youtube: '',
-    //   instagram: ''
-    // })
+    try {
+      const res = await client.mutate<UpdateProfile, UpdateProfileVariables>({
+        mutation: UPDATE_PROFILE,
+        variables: { profile },
+        errorPolicy: 'all',
+        update: proxy => {
+          const prevProfile = proxy.readQuery<MyProfile>({ query: MY_PROFILE })
+          if (prevProfile && prevProfile.myProfile) {
+            proxy.writeQuery<MyProfile>({
+              query: MY_PROFILE,
+              data: {
+                myProfile: {
+                  ...prevProfile.myProfile,
+                  status,
+                  company: company!,
+                  location: location!,
+                  website: website!,
+                  skills: skills.split(','),
+                  bio: bio!,
+                  githubusername: githubusername!,
+                  social:
+                    youtube || linkedin || twitter || instagram
+                      ? {
+                          __typename: 'Social',
+                          facebook: facebook!,
+                          twitter: twitter!,
+                          linkedin: linkedin!,
+                          youtube: youtube!,
+                          instagram: instagram!
+                        }
+                      : null
+                }
+              }
+            })
+          }
+        }
+      })
+      if (res.errors) {
+        const error = res.errors[0]
+        error.extensions.exception.details.forEach((err: any) =>
+          showAlert(err.msg, toast.TYPE.ERROR)
+        )
+      } else {
+        showAlert('Profile Updated', toast.TYPE.SUCCESS)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <>
       <h1 className='large text-primary'>Edit Your Profile</h1>
       <p className='lead'>
-        <i className='fas fa-user' /> Let's get some information to make your profile stand out
+        <i className='fas fa-user' /> Let's get some information to make your
+        profile stand out
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={e => onSubmit(e)}>
@@ -109,14 +161,16 @@ const EditProfile: React.FC<EditProfileProps> = ({
             <option value='Intern'>Intern</option>
             <option value='Other'>Other</option>
           </select>
-          <small className='form-text'>Give us an idea of your current status</small>
+          <small className='form-text'>
+            Give us an idea of your current status
+          </small>
         </div>
         <div className='form-group'>
           <input
             type='text'
             placeholder='Company'
             name='company'
-            value={company}
+            value={company!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>Could be your company or school</small>
@@ -126,17 +180,19 @@ const EditProfile: React.FC<EditProfileProps> = ({
             type='text'
             placeholder='Website'
             name='website'
-            value={website}
+            value={website!}
             onChange={e => onChange(e)}
           />
-          <small className='form-text'>Could be your own or a company website</small>
+          <small className='form-text'>
+            Could be your own or a company website
+          </small>
         </div>
         <div className='form-group'>
           <input
             type='text'
             placeholder='Location'
             name='location'
-            value={location}
+            value={location!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>City & state (eg. Buffalo, NY)</small>
@@ -158,18 +214,19 @@ const EditProfile: React.FC<EditProfileProps> = ({
             type='text'
             placeholder='Github Username'
             name='githubusername'
-            value={githubusername}
+            value={githubusername!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>
-            If you want your latest repos and a Github link, include your username
+            If you want your latest repos and a Github link, include your
+            username
           </small>
         </div>
         <div className='form-group'>
           <textarea
             placeholder='A short bio of yourself'
             name='bio'
-            value={bio}
+            value={bio!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>Tell us a little about yourself</small>
@@ -180,7 +237,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
             onClick={() => toggleSocialInputs(!dispaySocialInputs)}
             type='button'
             className='btn btn-light'>
-            Add Social Network Links
+            Edit Social Network Links
           </button>
           <span>Optional</span>
         </div>
@@ -193,7 +250,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
                 type='text'
                 placeholder='Twitter URL'
                 name='twitter'
-                value={twitter}
+                value={twitter!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -204,7 +261,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
                 type='text'
                 placeholder='Facebook URL'
                 name='facebook'
-                value={facebook}
+                value={facebook!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -215,7 +272,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
                 type='text'
                 placeholder='YouTube URL'
                 name='youtube'
-                value={youtube}
+                value={youtube!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -226,7 +283,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
                 type='text'
                 placeholder='Linkedin URL'
                 name='linkedin'
-                value={linkedin}
+                value={linkedin!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -237,7 +294,7 @@ const EditProfile: React.FC<EditProfileProps> = ({
                 type='text'
                 placeholder='Instagram URL'
                 name='instagram'
-                value={instagram}
+                value={instagram!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -253,12 +310,4 @@ const EditProfile: React.FC<EditProfileProps> = ({
   )
 }
 
-const mapStateToProps = (state: StoreState) => ({
-  profile: state.profile!.profile,
-  loading: state.profile!.loading
-})
-
-export default connect(
-  mapStateToProps,
-  { createProfile, getCurrentProfile }
-)(withRouter(EditProfile))
+export default EditProfile
