@@ -56,7 +56,7 @@ const Register: React.FC = () => {
           client.mutate({ mutation: UPDATE_AUTH_STATUS })
         }
       } catch (error) {
-        // console.log(error)
+        console.log(error)
       }
     }
     // clear after submission
