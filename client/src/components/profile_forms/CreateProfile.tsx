@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
+import { useApolloClient } from 'react-apollo-hooks'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
-import { CreateProfileProps, ProfileForm } from '../../../common/types'
-import { createProfile } from '../../actions/profile'
+import { UPDATE_PROFILE, MY_PROFILE } from '../../graphql/gql/profile'
+import {
+  ProfileInput,
+  UpdateProfile,
+  UpdateProfileVariables,
+  MyProfile
+} from '../../graphql/types'
+import { History } from 'history'
+import showAlert from '../../utils/showAlert'
+import { toast } from 'react-toastify'
 
-const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history }) => {
-  const [formData, setFormData] = useState<ProfileForm>({
+const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
+  const [profile, setProfile] = useState<ProfileInput>({
     company: '',
     website: '',
     location: '',
@@ -23,6 +31,8 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
 
   const [dispaySocialInputs, toggleSocialInputs] = useState<boolean>(false)
 
+  const client = useApolloClient()
+
   const {
     company,
     website,
@@ -36,37 +46,55 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
     linkedin,
     youtube,
     instagram
-  } = formData
+  } = profile
 
   const onChange = (
-    e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>
-  ) => setFormData({ ...formData, [e.target.name]: e.target.value })
+    e: React.ChangeEvent<
+      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+    >
+  ) => setProfile({ ...profile, [e.target.name]: e.target.value })
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    createProfile(formData, history)
-    // clear state
-    setFormData({
-      company: '',
-      website: '',
-      location: '',
-      status: '',
-      skills: '',
-      githubusername: '',
-      bio: '',
-      twitter: '',
-      facebook: '',
-      linkedin: '',
-      youtube: '',
-      instagram: ''
-    })
+    try {
+      const res = await client.mutate<UpdateProfile, UpdateProfileVariables>({
+        mutation: UPDATE_PROFILE,
+        variables: { profile },
+        errorPolicy: 'all',
+        update: proxy => {
+          proxy.writeQuery<MyProfile>({
+            query: MY_PROFILE,
+            data: {
+              myProfile: {
+                __typename: 'Profile',
+                experience: [],
+                education: []
+              }
+            }
+          })
+        }
+      })
+
+      if (res.errors) {
+        const error = res.errors[0]
+        error.extensions.exception.details.forEach((err: any) =>
+          showAlert(err.msg, toast.TYPE.ERROR)
+        )
+      } else {
+        history.push('/dashboard')
+        showAlert('Profile Created', toast.TYPE.SUCCESS)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
     <>
       <h1 className='large text-primary'>Create Your Profile</h1>
       <p className='lead'>
-        <i className='fas fa-user' /> Let's get some information to make your profile stand out
+        <i className='fas fa-user' /> Let's get some information to make your
+        profile stand out
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={e => onSubmit(e)}>
@@ -82,14 +110,16 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
             <option value='Intern'>Intern</option>
             <option value='Other'>Other</option>
           </select>
-          <small className='form-text'>Give us an idea of your current status</small>
+          <small className='form-text'>
+            Give us an idea of your current status
+          </small>
         </div>
         <div className='form-group'>
           <input
             type='text'
             placeholder='Company or School'
             name='company'
-            value={company}
+            value={company!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>Could be your company or school</small>
@@ -99,17 +129,19 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
             type='text'
             placeholder='Website'
             name='website'
-            value={website}
+            value={website!}
             onChange={e => onChange(e)}
           />
-          <small className='form-text'>Could be your own or a company website</small>
+          <small className='form-text'>
+            Could be your own or a company website
+          </small>
         </div>
         <div className='form-group'>
           <input
             type='text'
             placeholder='Location'
             name='location'
-            value={location}
+            value={location!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>City & state (eg. Buffalo, NY)</small>
@@ -131,18 +163,19 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
             type='text'
             placeholder='Github Username'
             name='githubusername'
-            value={githubusername}
+            value={githubusername!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>
-            If you want your latest repos and a Github link, include your username
+            If you want your latest repos and a Github link, include your
+            username
           </small>
         </div>
         <div className='form-group'>
           <textarea
             placeholder='A short bio of yourself'
             name='bio'
-            value={bio}
+            value={bio!}
             onChange={e => onChange(e)}
           />
           <small className='form-text'>Tell us a little about yourself</small>
@@ -166,7 +199,7 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
                 type='text'
                 placeholder='Twitter URL'
                 name='twitter'
-                value={twitter}
+                value={twitter!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -177,7 +210,7 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
                 type='text'
                 placeholder='Facebook URL'
                 name='facebook'
-                value={facebook}
+                value={facebook!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -188,7 +221,7 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
                 type='text'
                 placeholder='YouTube URL'
                 name='youtube'
-                value={youtube}
+                value={youtube!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -199,7 +232,7 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
                 type='text'
                 placeholder='Linkedin URL'
                 name='linkedin'
-                value={linkedin}
+                value={linkedin!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -210,7 +243,7 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
                 type='text'
                 placeholder='Instagram URL'
                 name='instagram'
-                value={instagram}
+                value={instagram!}
                 onChange={e => onChange(e)}
               />
             </div>
@@ -226,7 +259,4 @@ const CreateProfile: React.FC<CreateProfileProps> = ({ createProfile, history })
   )
 }
 
-export default connect(
-  null,
-  { createProfile }
-)(withRouter(CreateProfile))
+export default withRouter(CreateProfile)
