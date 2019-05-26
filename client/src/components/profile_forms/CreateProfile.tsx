@@ -67,6 +67,14 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
             data: {
               myProfile: {
                 __typename: 'Profile',
+                status: '',
+                skills: [],
+                company: null,
+                location: null,
+                website: null,
+                bio: null,
+                githubusername: null,
+                social: null,
                 experience: [],
                 education: []
               }
