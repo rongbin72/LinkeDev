@@ -11,7 +11,8 @@ const Navbar: React.FC = () => {
   const logout = async () => {
     localStorage.removeItem('token')
     try {
-      client.mutate({ mutation: UPDATE_AUTH_STATUS })
+      await client.mutate({ mutation: UPDATE_AUTH_STATUS })
+      client.clearStore()
     } catch (error) {
       console.error(error.message)
     }
