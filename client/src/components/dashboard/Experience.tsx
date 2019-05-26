@@ -45,6 +45,7 @@ const Experience: React.FC<ExperienceProps> = ({ experience }) => {
     } catch (error) {
       showAlert('Something went wrong', toast.TYPE.ERROR)
       console.error(error)
+      window.location.reload()
     }
   }
 

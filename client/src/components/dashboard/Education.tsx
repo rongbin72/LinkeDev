@@ -39,6 +39,7 @@ const Education: React.FC<EducationProps> = ({ education }) => {
     } catch (error) {
       setAlert('Something went wrong', toast.TYPE.ERROR)
       console.error(error)
+      window.location.reload()
     }
   }
 
