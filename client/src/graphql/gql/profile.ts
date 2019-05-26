@@ -108,3 +108,17 @@ export const DELETE_ACCOUNT = gql`
     }
   }
 `
+
+export const GITHUB_REPOS = gql`
+  query GithubRepos($userName: String!) {
+    githubRepos(userName: $userName) {
+      id
+      name
+      html_url
+      description
+      stargazers_count
+      watchers_count
+      forks_count
+    }
+  }
+`
