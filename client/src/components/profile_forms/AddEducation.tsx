@@ -1,12 +1,19 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { AddEducationProps, Education } from '../../../common/types'
-import { addEducation } from '../../actions/profile'
 import { Link } from 'react-router-dom'
+import { History } from 'history'
+import {
+  EduInput,
+  AddEducation as TAddEducation,
+  MyProfile
+} from '../../graphql/types'
+import { useApolloClient } from 'react-apollo-hooks'
+import { ADD_EDUCATION, MY_PROFILE } from '../../graphql/gql/profile'
+import showAlert from '../../utils/showAlert'
+import { toast } from 'react-toastify'
 
-const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) => {
-  const [formData, setFormData] = useState<Education>({
+const AddEducation: React.FC<{ history: History<any> }> = ({ history }) => {
+  const [edu, setEdu] = useState<EduInput>({
     school: '',
     degree: '',
     fieldofstudy: '',
@@ -18,21 +25,70 @@ const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) =>
 
   const [toDateDisabled, toggleDisabled] = useState(false)
 
-  const { school, degree, fieldofstudy, from, to, current, description } = formData
+  const client = useApolloClient()
+
+  const { school, degree, fieldofstudy, from, to, current, description } = edu
 
   const onChange = (
-    e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>
-  ) => setFormData({ ...formData, [e.target.name]: e.target.value })
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => setEdu({ ...edu, [e.target.name]: e.target.value })
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    addEducation(formData, history)
+    try {
+      const res = await client.mutate<TAddEducation>({
+        mutation: ADD_EDUCATION,
+        variables: { edu },
+        errorPolicy: 'all',
+        update: proxy => {
+          const prevData = proxy.readQuery<MyProfile>({ query: MY_PROFILE })
+          if (prevData && prevData.myProfile) {
+            proxy.writeQuery<MyProfile>({
+              query: MY_PROFILE,
+              data: {
+                myProfile: {
+                  ...prevData.myProfile,
+                  education: [
+                    {
+                      __typename: 'Education',
+                      _id: 'id',
+                      school: school!,
+                      degree: degree!,
+                      from: from!,
+                      to: to!,
+                      current: current!,
+                      description: description!
+                    },
+                    ...prevData.myProfile.education
+                  ]
+                }
+              }
+            })
+          }
+        }
+      })
+      if (res.errors) {
+        const error = res.errors[0]
+        error.extensions.exception.details.forEach((err: any) =>
+          showAlert(err.msg, toast.TYPE.ERROR)
+        )
+      } else {
+        history.push('/dashboard')
+        showAlert('Profile Updated', toast.TYPE.SUCCESS)
+      }
+    } catch (error) {
+      showAlert('Something went wrong, try reload the page', toast.TYPE.ERROR)
+      console.error(error)
+    }
   }
   return (
     <>
       <h1 className='large text-primary'>Add Your Education</h1>
       <p className='lead'>
-        <i className='fas fa-code-branch' /> Add any school or bootcamp that you have attended
+        <i className='fas fa-code-branch' /> Add any school or bootcamp that you
+        have attended
       </p>
       <small>* = required field</small>
       <form className='form' onSubmit={e => onSubmit(e)}>
@@ -63,20 +119,27 @@ const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) =>
             name='fieldofstudy'
             value={fieldofstudy}
             onChange={e => onChange(e)}
+            required
           />
         </div>
         <div className='form-group'>
           <h4>* From Date</h4>
-          <input type='date' name='from' value={from} onChange={e => onChange(e)} />
+          <input
+            type='date'
+            name='from'
+            value={from}
+            onChange={e => onChange(e)}
+            required
+          />
         </div>
         <div className='form-group'>
           <p>
             <input
               type='checkbox'
               name='current'
-              checked={current}
+              checked={current!}
               onChange={e => {
-                setFormData({ ...formData, current: !current })
+                setEdu({ ...edu, current: !current })
                 toggleDisabled(!toDateDisabled)
               }}
             />{' '}
@@ -88,7 +151,7 @@ const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) =>
           <input
             type='date'
             name='to'
-            value={to}
+            value={to!}
             onChange={e => onChange(e)}
             disabled={toDateDisabled}
           />
@@ -99,7 +162,7 @@ const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) =>
             cols={30}
             rows={5}
             placeholder='Program Description'
-            value={description}
+            value={description!}
             onChange={e => onChange(e)}
           />
         </div>
@@ -112,7 +175,4 @@ const AddEducation: React.FC<AddEducationProps> = ({ addEducation, history }) =>
   )
 }
 
-export default connect(
-  null,
-  { addEducation }
-)(withRouter(AddEducation))
+export default withRouter(AddEducation)
