@@ -12,7 +12,6 @@ const Navbar: React.FC = () => {
     localStorage.removeItem('token')
     try {
       await client.mutate({ mutation: UPDATE_AUTH_STATUS })
-      client.clearStore()
     } catch (error) {
       console.error(error.message)
     }
