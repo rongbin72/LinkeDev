@@ -3,12 +3,28 @@ import { gql } from 'apollo-boost'
 export const MY_PROFILE = gql`
   query MyProfile {
     myProfile {
+      status
+      company
+      location
+      website
+      skills
+      bio
+      githubusername
+      social {
+        facebook
+        twitter
+        linkedin
+        youtube
+        instagram
+      }
       experience {
         _id
         company
         title
         from
         to
+        current
+        description
       }
       education {
         _id
@@ -16,6 +32,8 @@ export const MY_PROFILE = gql`
         degree
         from
         to
+        current
+        description
       }
     }
   }
@@ -49,6 +67,7 @@ export const PROFILE = gql`
         title
         to
         from
+        current
         description
       }
       education {
@@ -58,6 +77,7 @@ export const PROFILE = gql`
         fieldofstudy
         from
         to
+        current
         description
       }
     }
@@ -119,6 +139,30 @@ export const GITHUB_REPOS = gql`
       stargazers_count
       watchers_count
       forks_count
+    }
+  }
+`
+
+export const UPDATE_PROFILE = gql`
+  mutation UpdateProfile($profile: ProfileInput) {
+    updateProfile(profile: $profile) {
+      _id
+    }
+  }
+`
+
+export const ADD_EDUCATION = gql`
+  mutation AddEducation($edu: EduInput) {
+    addEducation(edu: $edu) {
+      _id
+    }
+  }
+`
+
+export const ADD_EXPERIENCE = gql`
+  mutation AddExperience($exp: ExpInput) {
+    addExperience(exp: $exp) {
+      _id
     }
   }
 `
