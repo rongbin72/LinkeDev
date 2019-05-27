@@ -27,7 +27,7 @@ const myProfile: IFieldResolver<any, AuthData, null> = async (_, __, auth) => {
   }
 }
 
-const createProfile: IFieldResolver<any, AuthData, ProfileInput> = async (
+const updateProfile: IFieldResolver<any, AuthData, ProfileInput> = async (
   _,
   { profile },
   auth
@@ -117,10 +117,6 @@ const deleteExperience: IFieldResolver<any, AuthData, IdQuery> = async (
     })
     return res.data
   } catch (error) {
-    if ((error.response.status as number) === 400) {
-      const errors: { msg: string }[] = error.response.data.errors
-      return new UserInputError('Input Error', { details: errors })
-    }
     return new Error(error)
   }
 }
@@ -138,6 +134,10 @@ const addEducation: IFieldResolver<any, AuthData, ProfileInput> = async (
     })
     return res.data
   } catch (error) {
+    if ((error.response.status as number) === 400) {
+      const errors: { msg: string }[] = error.response.data.errors
+      return new UserInputError('Input Error', { details: errors })
+    }
     return new Error(error)
   }
 }
@@ -184,7 +184,7 @@ const profileResolver: {
 } = {
   Query: { myProfile, profile, profiles, githubRepos },
   Mutation: {
-    createProfile,
+    updateProfile,
     deleteAccount,
     addExperience,
     deleteExperience,
