@@ -96,13 +96,13 @@ const EditProfile: React.FC = () => {
         variables: { profile },
         errorPolicy: 'all',
         update: proxy => {
-          const prevProfile = proxy.readQuery<MyProfile>({ query: MY_PROFILE })
-          if (prevProfile && prevProfile.myProfile) {
+          const prevData = proxy.readQuery<MyProfile>({ query: MY_PROFILE })
+          if (prevData && prevData.myProfile) {
             proxy.writeQuery<MyProfile>({
               query: MY_PROFILE,
               data: {
                 myProfile: {
-                  ...prevProfile.myProfile,
+                  ...prevData.myProfile,
                   status,
                   company: company!,
                   location: location!,
@@ -136,6 +136,7 @@ const EditProfile: React.FC = () => {
         showAlert('Profile Updated', toast.TYPE.SUCCESS)
       }
     } catch (error) {
+      showAlert('Something went wrong, try reload the page', toast.TYPE.ERROR)
       console.error(error)
     }
   }

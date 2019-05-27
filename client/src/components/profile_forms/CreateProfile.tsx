@@ -93,6 +93,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
         showAlert('Profile Created', toast.TYPE.SUCCESS)
       }
     } catch (error) {
+      showAlert('Something went wrong, try reload the page', toast.TYPE.ERROR)
       console.error(error)
     }
   }
