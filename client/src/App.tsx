@@ -1,16 +1,16 @@
-import ApolloClient from 'apollo-boost';
-import React, { useEffect } from 'react';
-import { ApolloProvider } from 'react-apollo-hooks';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
-import Landing from './components/layout/Landing';
-import Navbar from './components/layout/Navbar';
-import Routes from './components/routing/Routes';
-import { UPDATE_AUTH_STATUS } from './graphql/gql/auth';
-import resolvers from './graphql/resolvers/resolvers';
-import typeDefs from './graphql/schema/schema';
-import store from './store';
+import ApolloClient from 'apollo-boost'
+import React, { useEffect } from 'react'
+import { ApolloProvider } from 'react-apollo-hooks'
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import './App.css'
+import Landing from './components/layout/Landing'
+import Navbar from './components/layout/Navbar'
+import Routes from './components/routing/Routes'
+import { UPDATE_AUTH_STATUS } from './graphql/gql/auth'
+import resolvers from './graphql/resolvers/resolvers'
+import typeDefs from './graphql/schema/schema'
+import store from './store'
 
 const client = new ApolloClient({
   uri: '/graphql',
@@ -32,13 +32,11 @@ const App: React.FC = () => {
     <ApolloProvider client={client}>
       <Provider store={store}>
         <Router>
-          <>
-            <Navbar />
-            <Switch>
-              <Route exact path='/' component={Landing} />
-              <Route component={Routes} />
-            </Switch>
-          </>
+          <Navbar />
+          <Switch>
+            <Route exact path='/' component={Landing} />
+            <Route component={Routes} />
+          </Switch>
         </Router>
       </Provider>
     </ApolloProvider>
