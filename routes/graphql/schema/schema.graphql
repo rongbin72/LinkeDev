@@ -17,16 +17,16 @@ type Query {
 
 type Mutation {
   register(name: String!, email: String!, password: String!): Auth!
-  createPost(post: PostInput): Post
+  createPost(post: PostInput!): Post
   deletePost(id: ID!): Message
   likePost(id: ID!): [Like!]!
   unlikePost(id: ID!): [Like!]!
-  createComment(id: ID!, comment: CommentInput): [Comment!]!
+  createComment(id: ID!, comment: CommentInput!): [Comment!]!
   deleteComment(postID: ID!, commentID: ID!): [Comment!]!
-  updateProfile(profile: ProfileInput): Profile!
+  updateProfile(profile: ProfileInput!): Profile!
   deleteAccount: Message!
-  addExperience(exp: ExpInput): Profile!
+  addExperience(exp: ExpInput!): Profile!
   deleteExperience(id: ID!): Profile!
-  addEducation(edu: EduInput): Profile!
+  addEducation(edu: EduInput!): Profile!
   deleteEducation(id: ID!): Profile!
 }
