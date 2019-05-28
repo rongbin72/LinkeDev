@@ -144,7 +144,7 @@ export const GITHUB_REPOS = gql`
 `
 
 export const UPDATE_PROFILE = gql`
-  mutation UpdateProfile($profile: ProfileInput) {
+  mutation UpdateProfile($profile: ProfileInput!) {
     updateProfile(profile: $profile) {
       _id
     }
@@ -152,7 +152,7 @@ export const UPDATE_PROFILE = gql`
 `
 
 export const ADD_EDUCATION = gql`
-  mutation AddEducation($edu: EduInput) {
+  mutation AddEducation($edu: EduInput!) {
     addEducation(edu: $edu) {
       _id
     }
@@ -160,7 +160,7 @@ export const ADD_EDUCATION = gql`
 `
 
 export const ADD_EXPERIENCE = gql`
-  mutation AddExperience($exp: ExpInput) {
+  mutation AddExperience($exp: ExpInput!) {
     addExperience(exp: $exp) {
       _id
     }
