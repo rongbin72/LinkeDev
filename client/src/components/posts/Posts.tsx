@@ -20,22 +20,22 @@ const Posts: React.FC = () => {
     console.error(error)
   }
 
-  return loading || !data || !auth ? (
-    <Loading />
-  ) : (
+  if (loading || !data || !auth) return <Loading />
+
+  const currentUser = {
+    id: auth.authStatus.id,
+    name: auth.authStatus.name,
+    avatar: auth.authStatus.avatar
+  }
+
+  return (
     <>
       {' '}
       <h1 className='large text-primary'>Posts</h1>
       <p className='lead'>
         <i className='fas fa-user' /> Welcome to the community
       </p>
-      <PostForm
-        currentUser={{
-          id: auth.authStatus.id,
-          name: auth.authStatus.name,
-          avatar: auth.authStatus.avatar
-        }}
-      />
+      <PostForm currentUser={currentUser} />
       <div className='posts'>
         {data.posts.map(post => (
           <PostItem key={post._id} userID={auth.authStatus.id} post={post} />

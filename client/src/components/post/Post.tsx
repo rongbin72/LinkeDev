@@ -24,22 +24,21 @@ const Post: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
   }
 
   if (loading || !data || !auth) return <Loading />
+
   const post = data.post
-  const authStatus = auth.authStatus
+  const currentUser = {
+    id: auth.authStatus.id,
+    name: auth.authStatus.name,
+    avatar: auth.authStatus.avatar
+  }
+
   return (
     <>
       <Link to='/posts' className='btn'>
         Back To Posts
       </Link>
       <PostItem post={post} userID={null} />
-      <CommentForm
-        postID={post._id}
-        currentUser={{
-          id: authStatus.id,
-          name: authStatus.name,
-          avatar: authStatus.avatar
-        }}
-      />
+      <CommentForm postID={post._id} currentUser={currentUser} />
       {data.post.comments.length ? (
         <h2 className='text-primary'>Comments</h2>
       ) : (
@@ -51,7 +50,7 @@ const Post: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
             key={comment._id}
             comment={comment}
             postID={data.post._id}
-            userID={auth.authStatus.id}
+            userID={currentUser.id}
           />
         ))}
       </div>
