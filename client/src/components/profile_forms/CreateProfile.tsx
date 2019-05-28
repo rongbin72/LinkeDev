@@ -85,7 +85,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
 
       if (res.errors) {
         const error = res.errors[0]
-        error.extensions.exception.details.forEach((err: any) =>
+        error.extensions!.exception.details.forEach((err: any) =>
           showAlert(err.msg, toast.TYPE.ERROR)
         )
       } else {
