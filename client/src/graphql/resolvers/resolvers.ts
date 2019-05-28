@@ -1,4 +1,4 @@
-import { CURRENT_USER } from '../gql/auth'
+import { CURRENT_USER, AUTH_STATUS } from '../gql/auth'
 import { CurrentUser, AuthStatus } from '../types'
 import { ApolloClient } from 'apollo-boost'
 
@@ -11,7 +11,8 @@ const resolvers = {
           query: CURRENT_USER,
           fetchPolicy: 'network-only'
         })
-        client.writeData<AuthStatus>({
+        client.writeQuery<AuthStatus>({
+          query: AUTH_STATUS,
           data: {
             authStatus: {
               __typename: 'AuthStatus',
@@ -24,7 +25,8 @@ const resolvers = {
         })
         return true
       } catch (error) {
-        client.writeData<AuthStatus>({
+        client.writeQuery<AuthStatus>({
+          query: AUTH_STATUS,
           data: {
             authStatus: {
               __typename: 'AuthStatus',
