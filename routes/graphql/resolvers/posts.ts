@@ -20,7 +20,8 @@ interface DelCommentInput {
   postID: string
   commentID: string
 }
-const REST_ENDPOINT = 'http://localhost:5000/api/posts'
+const REST_ENDPOINT = `http://localhost:${process.env.PORT || 5000}/api/posts`
+
 const createPost: IFieldResolver<any, AuthData, PostInput> = async (
   _,
   { post },
