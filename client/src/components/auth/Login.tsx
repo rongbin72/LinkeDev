@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import { Link, Redirect } from 'react-router-dom'
-import { LoginForm } from '../../../common/types'
 import { AUTH_STATUS, LOGIN, UPDATE_AUTH_STATUS } from '../../graphql/gql/auth'
 import {
   AuthStatus,
@@ -12,7 +11,7 @@ import {
 import Loading from '../layout/Loading'
 
 const Login: React.FC = () => {
-  const [formData, setFormData] = useState<LoginForm>({
+  const [formData, setFormData] = useState<LoginVariables>({
     email: '',
     password: ''
   })
