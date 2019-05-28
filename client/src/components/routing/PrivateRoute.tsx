@@ -1,9 +1,12 @@
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { Redirect, Route } from 'react-router'
-import { PrivateRouteProps } from '../../../common/types'
+import { Redirect, Route, RouteProps } from 'react-router'
 import { AUTH_STATUS } from '../../graphql/gql/auth'
 import { AuthStatus } from '../../graphql/types'
+
+interface PrivateRouteProps extends RouteProps {
+  component: React.ComponentType<any>
+}
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({
   component: PrivateComponent,

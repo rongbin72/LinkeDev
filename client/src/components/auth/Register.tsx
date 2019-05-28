@@ -1,8 +1,8 @@
+import { FetchResult } from 'apollo-boost'
 import React, { useState } from 'react'
 import { useApolloClient, useQuery } from 'react-apollo-hooks'
 import { Link, Redirect } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { RegisterForm } from '../../../common/types'
 import {
   AUTH_STATUS,
   REGISTER,
@@ -14,10 +14,11 @@ import {
   RegisterVariables
 } from '../../graphql/types'
 import setAlert from '../../utils/showAlert'
-import { FetchResult } from 'apollo-boost'
 
 const Register: React.FC = () => {
-  const [formData, setFormData] = useState<RegisterForm>({
+  const [formData, setFormData] = useState<
+    RegisterVariables & { password2: string }
+  >({
     name: '',
     email: '',
     password: '',
