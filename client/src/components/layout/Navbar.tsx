@@ -7,11 +7,13 @@ import { AuthStatus } from '../../graphql/types'
 const Navbar: React.FC = () => {
   const { data: auth } = useQuery<AuthStatus, null>(AUTH_STATUS)
   const client = useApolloClient()
-
   const logout = async () => {
-    localStorage.removeItem('token')
     try {
-      await client.mutate({ mutation: UPDATE_AUTH_STATUS })
+      localStorage.removeItem('token')
+      await client.mutate({
+        mutation: UPDATE_AUTH_STATUS
+      })
+      await client.resetStore()
     } catch (error) {
       console.error(error.message)
     }
