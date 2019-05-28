@@ -106,9 +106,9 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <form className='form' onSubmit={onSubmit}>
         <div className='form-group'>
-          <select name='status' value={status} onChange={e => onChange(e)}>
+          <select name='status' value={status} onChange={onChange}>
             <option value='0'>* Select Professional Status</option>
             <option value='Developer'>Developer</option>
             <option value='Junior Developer'>Junior Developer</option>
@@ -129,7 +129,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='Company or School'
             name='company'
             value={company!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>Could be your company or school</small>
         </div>
@@ -139,7 +139,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='Website'
             name='website'
             value={website!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>
             Could be your own or a company website
@@ -151,7 +151,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='Location'
             name='location'
             value={location!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>City & state (eg. Buffalo, NY)</small>
         </div>
@@ -161,7 +161,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='* Skills'
             name='skills'
             value={skills}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>
             Please use comma separated values (eg. Typescript, React, NodeJS)
@@ -173,7 +173,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='Github Username'
             name='githubusername'
             value={githubusername!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>
             If you want your latest repos and a Github link, include your
@@ -185,7 +185,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='A short bio of yourself'
             name='bio'
             value={bio!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>Tell us a little about yourself</small>
         </div>
@@ -209,7 +209,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
                 placeholder='Twitter URL'
                 name='twitter'
                 value={twitter!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -220,7 +220,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
                 placeholder='Facebook URL'
                 name='facebook'
                 value={facebook!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -231,7 +231,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
                 placeholder='YouTube URL'
                 name='youtube'
                 value={youtube!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -242,7 +242,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
                 placeholder='Linkedin URL'
                 name='linkedin'
                 value={linkedin!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -253,7 +253,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
                 placeholder='Instagram URL'
                 name='instagram'
                 value={instagram!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
           </>

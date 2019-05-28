@@ -149,9 +149,9 @@ const EditProfile: React.FC = () => {
         profile stand out
       </p>
       <small>* = required field</small>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <form className='form' onSubmit={onSubmit}>
         <div className='form-group'>
-          <select name='status' value={status} onChange={e => onChange(e)}>
+          <select name='status' value={status} onChange={onChange}>
             <option value='0'>* Select Professional Status</option>
             <option value='Developer'>Developer</option>
             <option value='Junior Developer'>Junior Developer</option>
@@ -172,7 +172,7 @@ const EditProfile: React.FC = () => {
             placeholder='Company'
             name='company'
             value={company!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>Could be your company or school</small>
         </div>
@@ -182,7 +182,7 @@ const EditProfile: React.FC = () => {
             placeholder='Website'
             name='website'
             value={website!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>
             Could be your own or a company website
@@ -194,7 +194,7 @@ const EditProfile: React.FC = () => {
             placeholder='Location'
             name='location'
             value={location!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>City & state (eg. Buffalo, NY)</small>
         </div>
@@ -204,7 +204,7 @@ const EditProfile: React.FC = () => {
             placeholder='* Skills'
             name='skills'
             value={skills}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>
             Please use comma separated values (eg. Typescript, React, NodeJS)
@@ -216,7 +216,7 @@ const EditProfile: React.FC = () => {
             placeholder='Github Username'
             name='githubusername'
             value={githubusername!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>
             If you want your latest repos and a Github link, include your
@@ -228,7 +228,7 @@ const EditProfile: React.FC = () => {
             placeholder='A short bio of yourself'
             name='bio'
             value={bio!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
           <small className='form-text'>Tell us a little about yourself</small>
         </div>
@@ -252,7 +252,7 @@ const EditProfile: React.FC = () => {
                 placeholder='Twitter URL'
                 name='twitter'
                 value={twitter!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -263,7 +263,7 @@ const EditProfile: React.FC = () => {
                 placeholder='Facebook URL'
                 name='facebook'
                 value={facebook!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -274,7 +274,7 @@ const EditProfile: React.FC = () => {
                 placeholder='YouTube URL'
                 name='youtube'
                 value={youtube!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -285,7 +285,7 @@ const EditProfile: React.FC = () => {
                 placeholder='Linkedin URL'
                 name='linkedin'
                 value={linkedin!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
 
@@ -296,7 +296,7 @@ const EditProfile: React.FC = () => {
                 placeholder='Instagram URL'
                 name='instagram'
                 value={instagram!}
-                onChange={e => onChange(e)}
+                onChange={onChange}
               />
             </div>
           </>

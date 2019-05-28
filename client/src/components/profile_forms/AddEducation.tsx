@@ -91,14 +91,14 @@ const AddEducation: React.FC<{ history: History<any> }> = ({ history }) => {
         have attended
       </p>
       <small>* = required field</small>
-      <form className='form' onSubmit={e => onSubmit(e)}>
+      <form className='form' onSubmit={onSubmit}>
         <div className='form-group'>
           <input
             type='text'
             placeholder='* School or Bootcamp'
             name='school'
             value={school}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -108,7 +108,7 @@ const AddEducation: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='* Degree or Certificate'
             name='degree'
             value={degree}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -118,7 +118,7 @@ const AddEducation: React.FC<{ history: History<any> }> = ({ history }) => {
             placeholder='* Field of Study'
             name='fieldofstudy'
             value={fieldofstudy}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -128,7 +128,7 @@ const AddEducation: React.FC<{ history: History<any> }> = ({ history }) => {
             type='date'
             name='from'
             value={from}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             required
           />
         </div>
@@ -152,7 +152,7 @@ const AddEducation: React.FC<{ history: History<any> }> = ({ history }) => {
             type='date'
             name='to'
             value={to!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
             disabled={toDateDisabled}
           />
         </div>
@@ -163,7 +163,7 @@ const AddEducation: React.FC<{ history: History<any> }> = ({ history }) => {
             rows={5}
             placeholder='Program Description'
             value={description!}
-            onChange={e => onChange(e)}
+            onChange={onChange}
           />
         </div>
         <input type='submit' className='btn btn-primary my-1' />
