@@ -17,8 +17,7 @@ const Dashboard: React.FC = () => {
   const client = useApolloClient()
   const { data: auth } = useQuery<AuthStatus, null>(AUTH_STATUS)
   const { loading, error, data: profile } = useQuery<MyProfile, null>(
-    MY_PROFILE,
-    { fetchPolicy: 'cache-and-network' }
+    MY_PROFILE
   )
 
   const deleteAccount = () => {
