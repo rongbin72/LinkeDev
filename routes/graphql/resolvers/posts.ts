@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { IFieldResolver, IResolverObject } from 'graphql-tools'
 import { AuthData } from '.'
+import { UserInputError } from 'apollo-server-core'
 
 interface PostInput {
   post: { text: string }
@@ -97,6 +98,10 @@ const likePost: IFieldResolver<any, AuthData, IdQuery> = async (
     })
     return res.data
   } catch (error) {
+    if ((error.response.status as number) === 400) {
+      const errorMsg = error.response.data.msg as string
+      return new UserInputError(errorMsg)
+    }
     return new Error(error)
   }
 }
@@ -114,6 +119,10 @@ const unlikePost: IFieldResolver<any, AuthData, IdQuery> = async (
     })
     return res.data
   } catch (error) {
+    if ((error.response.status as number) === 400) {
+      const errorMsg = error.response.data.msg as string
+      return new UserInputError(errorMsg)
+    }
     return new Error(error)
   }
 }
@@ -131,6 +140,10 @@ const createComment: IFieldResolver<any, AuthData, CommentInput> = async (
     })
     return res.data
   } catch (error) {
+    if ((error.response.status as number) === 400) {
+      const errors: { msg: string }[] = error.response.data.errors
+      return new UserInputError('Input Error', { details: errors })
+    }
     return new Error(error)
   }
 }
