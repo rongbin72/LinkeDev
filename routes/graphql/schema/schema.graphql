@@ -2,7 +2,6 @@
 # import Profile, Like, Comment, ProfileInput, ExpInput, EduInput, GithubRepo from 'profile.graphql'
 # import Auth, Message from 'util.graphql'
 # import User from 'user.graphql'
-# import Profile from 'Profile.graphql'
 
 type Query {
   post(id: ID!): Post!
