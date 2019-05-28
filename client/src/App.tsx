@@ -11,7 +11,6 @@ import resolvers from './graphql/resolvers/resolvers'
 import typeDefs from './graphql/schema/schema'
 
 const client = new ApolloClient({
-  uri: '/graphql',
   typeDefs,
   resolvers,
   request: async op => {
