@@ -53,7 +53,7 @@ const PostForm: React.FC<{
       <div className='bg-primary p'>
         <h3>What do you have to say ?</h3>
       </div>
-      <form className='form my-1' onSubmit={e => onSubmit(e)}>
+      <form className='form my-1' onSubmit={onSubmit}>
         <textarea
           name='text'
           cols={30}

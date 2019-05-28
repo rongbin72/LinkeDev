@@ -67,7 +67,7 @@ const CommentForm: React.FC<{
       <div className='bg-primary p'>
         <h3>Leave a comment</h3>
       </div>
-      <form className='form my-1' onSubmit={e => createComment(e)}>
+      <form className='form my-1' onSubmit={createComment}>
         <textarea
           name='text'
           cols={30}
