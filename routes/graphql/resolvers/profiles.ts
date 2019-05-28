@@ -50,7 +50,7 @@ const updateProfile: IFieldResolver<any, AuthData, ProfileInput> = async (
 
 const profiles: IFieldResolver<any, AuthData, null> = async () => {
   try {
-    const res = await axios.get(REST_ENDPOINT)
+    const res = await axios.get('/api/profiles')
     return res.data
   } catch (error) {
     return new Error(error)

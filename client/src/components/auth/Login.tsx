@@ -32,7 +32,6 @@ const Login: React.FC = () => {
         variables: { email, password }
       })
       // set token, update AuthStatus
-      console.log(res)
       res && localStorage.setItem('token', res.data.login.token)
       client.mutate<UpdateAuthStatus, null>({ mutation: UPDATE_AUTH_STATUS })
     } catch (error) {

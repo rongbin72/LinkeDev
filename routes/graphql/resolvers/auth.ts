@@ -12,14 +12,12 @@ interface RegisterInput extends LoginInput {
   name: string
 }
 
-const REST_ROOT = 'http://localhost:5000'
-
 const login: IFieldResolver<any, AuthData, LoginInput> = async (
   _,
   loginInput
 ) => {
   try {
-    const res = await axios.post(`${REST_ROOT}/api/auth`, loginInput)
+    const res = await axios.post(`/api/auth`, loginInput)
     return res.data
   } catch (error) {
     const errors: { msg: string }[] = error.response.data.errors
@@ -32,7 +30,7 @@ const register: IFieldResolver<any, AuthData, RegisterInput> = async (
   registerInput
 ) => {
   try {
-    const res = await axios.post(`${REST_ROOT}/api/users`, registerInput)
+    const res = await axios.post(`/api/users`, registerInput)
     return res.data
   } catch (error) {
     const errors: { msg: string }[] = error.response.data.errors
@@ -42,7 +40,7 @@ const register: IFieldResolver<any, AuthData, RegisterInput> = async (
 
 const user: IFieldResolver<any, AuthData, null> = async (_, __, auth) => {
   try {
-    const res = await axios.get(`${REST_ROOT}/api/auth`, {
+    const res = await axios.get(`/api/auth`, {
       headers: {
         'x-auth-token': auth.token
       }
