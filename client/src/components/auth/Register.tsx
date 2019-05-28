@@ -49,11 +49,11 @@ const Register: React.FC = () => {
         // console.log(res)
         if (res.errors) {
           const error = res.errors[0]
-          error.extensions.exception.details.forEach((err: any) =>
+          error.extensions!.exception.details.forEach((err: any) =>
             setAlert(err.msg, toast.TYPE.ERROR)
           )
         } else {
-          localStorage.setItem('token', res.data.register.token)
+          res.data && localStorage.setItem('token', res.data.register.token)
           client.mutate({ mutation: UPDATE_AUTH_STATUS })
         }
       } catch (error) {
