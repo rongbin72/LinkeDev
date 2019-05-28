@@ -1,14 +1,51 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { PostFormProps } from '../../../common/types'
-import { addPost } from '../../actions/post'
+import { useApolloClient } from 'react-apollo-hooks'
+import { toast } from 'react-toastify'
+import { CREATE_POST, POSTS } from '../../graphql/gql/post'
+import { CreatePost, CreatePostVariables, Posts } from '../../graphql/types'
+import showAlert from '../../utils/showAlert'
+import moment from 'moment'
 
-const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
+const PostForm: React.FC<{
+  currentUser: { id: string; name: string; avatar: string }
+}> = ({ currentUser }) => {
   const [text, setText] = useState('')
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const client = useApolloClient()
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    addPost({ text })
-    setText('')
+    try {
+      await client.mutate<CreatePost, CreatePostVariables>({
+        mutation: CREATE_POST,
+        variables: { post: { text } },
+        update: proxy => {
+          const prevData = proxy.readQuery<Posts>({ query: POSTS })
+          prevData &&
+            proxy.writeQuery({
+              query: POSTS,
+              data: {
+                posts: [
+                  {
+                    __typename: 'Post',
+                    _id: 'id',
+                    user: currentUser.id,
+                    name: currentUser.name,
+                    avatar: currentUser.avatar,
+                    date: moment().toJSON(),
+                    text,
+                    likes: [],
+                    comments: []
+                  },
+                  ...prevData.posts
+                ]
+              }
+            })
+        }
+      })
+      showAlert('Post Created', toast.TYPE.SUCCESS)
+      setText('')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -32,7 +69,4 @@ const PostForm: React.FC<PostFormProps> = ({ addPost }) => {
   )
 }
 
-export default connect(
-  null,
-  { addPost }
-)(PostForm)
+export default PostForm
