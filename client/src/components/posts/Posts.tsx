@@ -18,6 +18,7 @@ const Posts: React.FC = () => {
   if (error) {
     showAlert('smt wrong', toast.TYPE.ERROR)
     console.error(error)
+    return null
   }
 
   if (loading || !data || !auth) return <Loading />
