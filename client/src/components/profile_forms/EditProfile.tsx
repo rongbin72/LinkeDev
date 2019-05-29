@@ -88,8 +88,9 @@ const EditProfile: React.FC = () => {
               query: MY_PROFILE,
               data: {
                 myProfile: {
-                  ...prevData.myProfile,
-                  ...buildProfile(profile)
+                  ...buildProfile(profile),
+                  experience: prevData.myProfile.experience,
+                  education: prevData.myProfile.education
                 }
               }
             })
