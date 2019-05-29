@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { match } from 'react-router'
+import { match, Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { AUTH_STATUS } from '../../graphql/gql/auth'
@@ -28,6 +28,7 @@ const Profile: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
   )
 
   if (error) {
+    if (error.message.includes('404')) return <Redirect to='/404' />
     showAlert('Something went wrong', toast.TYPE.ERROR)
     console.error(error)
     return null

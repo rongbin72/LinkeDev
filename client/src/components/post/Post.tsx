@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery } from 'react-apollo-hooks'
-import { Link, match } from 'react-router-dom'
+import { Link, match, Redirect } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { AUTH_STATUS } from '../../graphql/gql/auth'
 import { POST } from '../../graphql/gql/post'
@@ -19,8 +19,10 @@ const Post: React.FC<{ match: match<{ id: string }> }> = ({ match }) => {
   const { data: auth } = useQuery<AuthStatus>(AUTH_STATUS)
 
   if (error) {
+    if (error.message.includes('404')) return <Redirect to='/404' />
     showAlert('smt went wrong', toast.TYPE.ERROR)
     console.error(error)
+    return null
   }
 
   if (loading || !data || !auth) return <Loading />
