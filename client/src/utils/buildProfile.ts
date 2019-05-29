@@ -3,7 +3,7 @@ import { MyProfile_myProfile, ProfileInput } from '../graphql/types'
 export default function(profile: ProfileInput): MyProfile_myProfile {
   return {
     __typename: 'Profile',
-    status,
+    status: profile.status,
     skills: profile.skills.split(','),
     company: profile.company || null,
     location: profile.location || null,
