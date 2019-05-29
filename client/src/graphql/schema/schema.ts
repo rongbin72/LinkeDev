@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost'
 
 const typeDefs = gql`
   type AuthStatus {
-    id: String!
+    id: ID!
     name: String!
     isAuth: Boolean!
     avatar: String!
