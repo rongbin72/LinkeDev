@@ -12,6 +12,7 @@ import {
 import { History } from 'history'
 import showAlert from '../../utils/showAlert'
 import { toast } from 'react-toastify'
+import buildProfile from '../../utils/buildProfile'
 
 const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
   const [profile, setProfile] = useState<ProfileInput>({
@@ -65,19 +66,7 @@ const CreateProfile: React.FC<{ history: History<any> }> = ({ history }) => {
           proxy.writeQuery<MyProfile>({
             query: MY_PROFILE,
             data: {
-              myProfile: {
-                __typename: 'Profile',
-                status: '',
-                skills: [],
-                company: null,
-                location: null,
-                website: null,
-                bio: null,
-                githubusername: null,
-                social: null,
-                experience: [],
-                education: []
-              }
+              myProfile: buildProfile(profile)
             }
           })
         }

@@ -10,6 +10,7 @@ import {
 } from '../../graphql/types'
 import showAlert from '../../utils/showAlert'
 import { toast } from 'react-toastify'
+import buildProfile from '../../utils/buildProfile'
 
 const EditProfile: React.FC = () => {
   const [profile, setProfile] = useState<ProfileInput>({
@@ -39,30 +40,15 @@ const EditProfile: React.FC = () => {
         company: profile.company || '',
         website: profile.website || '',
         location: profile.location || '',
-        status: profile.status || '',
+        status: profile.status,
         skills: profile.skills.join(','),
         githubusername: profile.githubusername || '',
         bio: profile.bio || '',
-        twitter:
-          profile.social && profile.social.twitter
-            ? profile.social.twitter
-            : '',
-        facebook:
-          profile.social && profile.social.facebook
-            ? profile.social.facebook
-            : '',
-        linkedin:
-          profile.social && profile.social.linkedin
-            ? profile.social.linkedin
-            : '',
-        youtube:
-          profile.social && profile.social.youtube
-            ? profile.social.youtube
-            : '',
-        instagram:
-          profile.social && profile.social.instagram
-            ? profile.social.instagram
-            : ''
+        twitter: profile.social && profile.social.twitter,
+        facebook: profile.social && profile.social.facebook,
+        linkedin: profile.social && profile.social.linkedin,
+        youtube: profile.social && profile.social.youtube,
+        instagram: profile.social && profile.social.instagram
       })
     } else console.error('profile not exist')
   }, [data])
@@ -103,24 +89,7 @@ const EditProfile: React.FC = () => {
               data: {
                 myProfile: {
                   ...prevData.myProfile,
-                  status,
-                  company: company!,
-                  location: location!,
-                  website: website!,
-                  skills: skills.split(','),
-                  bio: bio!,
-                  githubusername: githubusername!,
-                  social:
-                    youtube || linkedin || twitter || instagram
-                      ? {
-                          __typename: 'Social',
-                          facebook: facebook!,
-                          twitter: twitter!,
-                          linkedin: linkedin!,
-                          youtube: youtube!,
-                          instagram: instagram!
-                        }
-                      : null
+                  ...buildProfile(profile)
                 }
               }
             })
