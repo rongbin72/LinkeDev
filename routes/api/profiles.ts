@@ -140,7 +140,7 @@ router.get('/user/:user_id', async (req, res) => {
     const user: string = req.params.user_id
     // check is the input id is valid
     if (!mongoose.Types.ObjectId.isValid(user))
-      return res.status(400).json({ msg: 'Profile not Found' })
+      return res.status(404).json({ msg: 'Profile not Found' })
 
     const profile = await Profile.findOne({ user }).populate('user', [
       'name',
