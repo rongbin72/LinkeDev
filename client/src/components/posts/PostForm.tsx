@@ -19,6 +19,7 @@ const PostForm: React.FC<{
         variables: { post: { text } },
         update: proxy => {
           const prevData = proxy.readQuery<Posts>({ query: POSTS })
+          const currentTime = moment().toJSON()
           prevData &&
             proxy.writeQuery({
               query: POSTS,
@@ -26,11 +27,11 @@ const PostForm: React.FC<{
                 posts: [
                   {
                     __typename: 'Post',
-                    _id: 'id',
+                    _id: currentTime, // temproily fake id, will be updated after server response
                     user: currentUser.id,
                     name: currentUser.name,
                     avatar: currentUser.avatar,
-                    date: moment().toJSON(),
+                    date: currentTime,
                     text,
                     likes: [],
                     comments: []
