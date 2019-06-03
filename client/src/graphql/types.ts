@@ -464,6 +464,11 @@ export interface Profiles {
   profiles: Profiles_profiles[];
 }
 
+export interface ProfilesVariables {
+  offset: number;
+  limit: number;
+}
+
 /* tslint:disable */
 /* eslint-disable */
 // This file was automatically generated and should not be edited.
