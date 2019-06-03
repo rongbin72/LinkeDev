@@ -38,9 +38,10 @@ const Posts: React.FC = () => {
       </p>
       <PostForm currentUser={currentUser} />
       <div className='posts'>
-        {data.posts.map(post => (
-          <PostItem key={post._id} userID={auth.authStatus.id} post={post} />
-        ))}
+        {data.posts &&
+          data.posts.map(post => (
+            <PostItem key={post._id} userID={auth.authStatus.id} post={post} />
+          ))}
       </div>
     </>
   )
