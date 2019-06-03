@@ -8,7 +8,7 @@ type Query {
   posts: [Post!]!
   myProfile: Profile
   profile(id: ID!): Profile!
-  profiles: [Profile!]!
+  profiles(offset: Int!, limit: Int!): [Profile!]!
   login(email: String!, password: String!): Auth!
   githubRepos(userName: String!): [GithubRepo!]!
   user: User!
