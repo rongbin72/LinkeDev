@@ -3,6 +3,7 @@ import { IFieldResolver, IResolverObject } from 'graphql-tools'
 import { AuthData } from '.'
 import { UserInputError } from 'apollo-server-core'
 import config from 'config'
+import Profile from '../../../models/Profile'
 
 const REST_ENDPOINT = `http://localhost:${process.env.PORT ||
   5000}/api/profiles`
@@ -49,10 +50,18 @@ const updateProfile: IFieldResolver<any, AuthData, ProfileInput> = async (
   }
 }
 
-const profiles: IFieldResolver<any, AuthData, null> = async () => {
+const profiles: IFieldResolver<
+  any,
+  AuthData,
+  { offset: number; limit: number }
+> = async (_, { offset, limit }) => {
   try {
-    const res = await axios.get(REST_ENDPOINT)
-    return res.data
+    const res = await Profile.find()
+      .populate('user', ['name', 'avatar'])
+      .skip(offset)
+      .limit(limit)
+
+    return res
   } catch (error) {
     return new Error(error)
   }
