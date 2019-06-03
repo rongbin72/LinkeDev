@@ -102,7 +102,7 @@ const PostItem: React.FC<{ post: Posts_posts; userID: string | null }> = ({
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>
 
-        {userID && postID != date && (
+        {userID && postID !== date && (
           <>
             <button
               onClick={_ => addLike(postID)}
