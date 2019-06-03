@@ -102,12 +102,13 @@ const PostItem: React.FC<{ post: Posts_posts; userID: string | null }> = ({
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>
 
-        {userID && (
+        {userID && postID != date && (
           <>
             <button
               onClick={_ => addLike(postID)}
               type='button'
-              className='btn btn-light'>
+              className='btn btn-light'
+            >
               {liked ? (
                 <i className='fas fa-thumbs-up' />
               ) : (
@@ -118,7 +119,8 @@ const PostItem: React.FC<{ post: Posts_posts; userID: string | null }> = ({
             <button
               onClick={_ => removeLike(postID)}
               type='button'
-              className='btn btn-light'>
+              className='btn btn-light'
+            >
               <i className='far fa-thumbs-down' />
             </button>
             <Link to={`/post/${postID}`} className='btn btn-primary'>
@@ -131,7 +133,8 @@ const PostItem: React.FC<{ post: Posts_posts; userID: string | null }> = ({
               <button
                 onClick={_ => deletePost(postID)}
                 type='button'
-                className='btn btn-danger'>
+                className='btn btn-danger'
+              >
                 <i className='fas fa-times' />
               </button>
             )}
