@@ -85,8 +85,8 @@ export const PROFILE = gql`
 `
 
 export const PROFILES = gql`
-  query Profiles {
-    profiles {
+  query Profiles($offset: Int!, $limit: Int!) {
+    profiles(offset: $offset, limit: $limit) {
       _id
       user {
         _id
