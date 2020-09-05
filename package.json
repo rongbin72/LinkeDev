@@ -14,7 +14,7 @@
   "author": "Bin Rong",
   "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.1.0",
     "express": "^4.16.4",
